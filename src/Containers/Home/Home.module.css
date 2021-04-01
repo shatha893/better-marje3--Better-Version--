@@ -1,0 +1,35 @@
+.FiltersDiv{
+    background-color: white;
+    padding:0;
+    
+}
+
+.PageTitle{
+    margin-bottom:0px;
+    position:relative;
+    left:350px;
+    top:30px;
+    font-size:23px;
+    color: #591CA8;
+}
+
+.FiltersDiv p{
+    text-align: center;
+    font-size: large;
+    color: #591CA8;
+}
+
+.FiltersDiv{
+    min-height: 100vh;
+}
+
+
+
+.Container{
+    background-color: #F1F2F2 !important;
+    margin:0;
+}
+
+.content{
+    min-height: 100vh;
+}

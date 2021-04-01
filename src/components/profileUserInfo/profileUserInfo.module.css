@@ -1,0 +1,46 @@
+.UserInfo{
+    background-color: white;
+}
+
+.UserInfo p{
+    text-align: center;
+    padding-top:4%;
+    color:#591CA8;
+}
+
+.UserInfo span{
+    font-size: 15px;
+    color:#591CA8;
+    float:left;
+    padding-left:5%;
+}
+
+.ProfilePic{
+    width:90%;
+    height:90%;
+    padding-left:10%;
+    padding-top:5%;
+}
+
+.TextField{
+   position:relative;
+   float:right;
+   right:10%;
+}
+
+.Button{
+    background-color: #591CA8 !important;
+    border-color:#591CA8 !important;
+    padding:8px 20px 8px 20px !important;
+    margin-left:70% !important;
+    margin-bottom:7% !important;
+    margin-top:5% !important;
+}
+
+.DivHide{
+    visibility:hidden;
+}
+
+.TextField ::placeholder{
+    color:#8D69BA !important
+}

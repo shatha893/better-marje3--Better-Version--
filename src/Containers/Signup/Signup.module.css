@@ -1,0 +1,55 @@
+
+/* Modal Header and it's text styles */
+.ModalHeader{
+    border-bottom:transparent !important;
+    font-weight: 400px;
+}
+
+.ModalTitle{
+    padding:20px 10px 10px 320px !important;
+    font-weight: normal !important;
+}
+
+/* Modal Content and it's styles  */
+.ModalContainer{
+    padding:40px !important;
+}
+
+.Titles{
+    font-weight:300px !important;
+}
+
+.Titles, .ModalTitle,.ProfileAvatar{
+    color:#591CA8;
+}
+
+.inputs:focus{
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(119, 86, 163, 0.6) !important;
+    border-color:#73569781 !important;
+}
+
+.inputs{
+    border-color:#c4b0ddfd !important;
+    border-radius: 50px !important;
+    font-size: 14px !important;
+}
+
+.ProfileAvatar{
+    margin-top:30px;
+}
+
+/* Modal Footer and it's contents' styles */
+
+.ModalFooter{
+    border-top:transparent !important;
+}
+
+.SubmitButton{
+    background-color: #591CA8 !important;
+    border-color:#591CA8 !important;
+    padding:8px 90px 8px 90px !important;
+    margin-right:10% !important;
+    margin-bottom:8% !important;
+    border-radius: 50px !important;
+}
+

@@ -1,0 +1,20 @@
+.Footer{
+    font-size:small;
+    height:80px;
+    width:100%;
+    position:relative;
+    bottom:0;
+    left:zero;
+    background-color:#591CA8;
+    display:flex;
+    padding: 0 20px;
+    box-sizing: border-box;
+    /* z-index: 90;
+    margin:auto; */
+    color:white;
+}
+
+.Footer p{
+   color:white;
+   margin:auto;
+}

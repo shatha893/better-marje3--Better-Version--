@@ -1,0 +1,15 @@
+.Container{
+    background-color: #F1F2F2 !important;
+}
+
+.PageTitle{
+    margin-left:13%;
+    margin-top:3%;
+    margin-bottom:2%;
+    font-size:18px;
+    color: #591CA8;
+}
+
+.ProfileInfo{
+    margin-bottom:3%;
+}

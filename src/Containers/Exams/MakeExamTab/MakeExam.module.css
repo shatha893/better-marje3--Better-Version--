@@ -1,0 +1,95 @@
+.form{
+    padding:100px;
+}
+
+.label, .form p{
+    font-size:large;
+    color:#591CA8 !important;
+}
+
+.button{
+    background-color: #591CA8 !important;
+    border-color:#591CA8 !important;
+    padding:8px 20px 8px 20px !important;
+}
+
+.jumbotron{
+    color:#591CA8;
+    background-color:#9c85b81f ;
+    height:min-content !important;
+    padding:0%;
+}
+.jumbotron p{
+    font-size:13px !important;
+    color:black !important;
+ 
+    font-weight:100px;
+}
+
+.jumbWeight{
+    float:right;
+    margin-bottom:90px;
+}
+
+.jumbRow{
+    margin-bottom:100px;
+}
+
+.savedQuestion{
+    background-color:#9c85b81f !important;
+}
+
+.spanBody{
+    font-size:13px !important;
+    color:black !important;
+ 
+    font-weight:100px;
+}
+
+.spanTitle{
+    font-size:13px !important;
+    color:#591CA8 !important;
+}
+
+.spanGroup2{
+   margin:auto;
+   /* display:; */
+}
+
+.title{
+    color:#591CA8 !important;  
+    padding:0px;
+}
+
+.totalWeight{
+    float:right;
+    
+}
+
+.containerDiv{
+    background-color:#d5cedd60;
+    margin-bottom:20px;
+}
+
+.badge{
+    background-color: #591CA8 !important;
+}
+
+.cardHeader, .card{
+    background-color: white !important;
+    border-color:white !important;
+    color:#591CA8;
+}
+
+.accordion{
+    margin-top:30px !important;
+    border:white !important; 
+    font-size:large;
+    /* margin-top:10px !important; */
+}
+
+.cardHeader 
+:hover{
+   color:#8D69BA !important;
+   cursor: pointer;
+}

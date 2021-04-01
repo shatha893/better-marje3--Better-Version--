@@ -1,0 +1,12 @@
+.Card{
+    background-color:white;
+}
+
+.CardHeader{
+    background-color: #9e67e62d;
+    color:#591CA8;
+}
+
+.Card,.CardHeader{
+}
+

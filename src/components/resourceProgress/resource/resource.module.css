@@ -1,0 +1,19 @@
+.RemoveBtn{
+    float:right;
+    position: relative;
+    right:5%;
+    bottom:9%;
+    border:none;
+    background-color: white;
+    color:red;
+}
+
+.Container{
+    border: 1px solid #8d69ba57;
+    font-size: 15px;
+    margin-left:7%;
+    margin-bottom:2%;
+    width:80%;
+    padding:2%;
+    
+}

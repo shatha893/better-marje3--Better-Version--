@@ -1,0 +1,13 @@
+.Toolbar{ background-color:#591CA8; }
+
+.root{ box-shadow:none; }
+
+.profilePic{
+    width:40px !important;
+    height:40px !important;
+    margin-right:1%;
+}
+.profile{
+    color:white !important;
+}
+

@@ -1,0 +1,652 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "Aaron Warner",
+      "uniEmail": "Aar2000119@psut.edu.jo",
+      "password": "shatha",
+      "major": "Electric Engineering",
+      "studyPlan": "2015",
+      "phoneNum": "0783457123",
+      "profilePic": ""
+    },
+    {
+      "id": 2,
+      "username": "Jonothan Roy",
+      "uniEmail": "jon2017198235@std.psut.edu.jo",
+      "password": "abcdefg",
+      "major": "Computer Science",
+      "studyPlan": "2015",
+      "phoneNum": "0791283452",
+      "profilePic": "blob:http://localhost:3001/d1a15fe8-c55c-462a-91a3-a2b4066185fa"
+    }
+  ],
+  "courses": [
+    {
+      "id": 1,
+      "name": "Object Oriented Programming"
+    },
+    {
+      "id": 2,
+      "name": "Computer Architecture"
+    },
+    {
+      "id": 3,
+      "name": "Discrete Mathmatics"
+    },
+    {
+      "id": 4,
+      "name": "Data Structures and Algorithms"
+    },
+    {
+      "id": 5,
+      "name": "Visual Programming"
+    },
+    {
+      "id": 6,
+      "name": "Database"
+    }
+  ],
+  "exams":[
+    {
+      "name": "Allegra",
+      "year": "2000",
+      "isApproved": "1",
+      "course": "Fermentum Arcu Vestibulum PC"
+    },
+    {
+      "name": "Judith",
+      "year": "2000",
+      "isApproved": "1",
+      "course": "Nec Urna Suscipit Corp."
+    },
+    {
+      "name": "Meredith",
+      "year": "2000",
+      "isApproved": "1",
+      "course": "Dui Ltd"
+    },
+    {
+      "name": "Quynn",
+      "year": "2000",
+      "isApproved": "0",
+      "course": "Et Foundation"
+    },
+    {
+      "name": "Kerry",
+      "year": "2000",
+      "isApproved": "1",
+      "course": "Elementum Purus Accumsan Associates"
+    },
+    {
+      "name": "Charde",
+      "year": "2000",
+      "isApproved": "0",
+      "course": "Sodales Purus Inc."
+    },
+    {
+      "name": "Kathleen",
+      "year": "2000",
+      "isApproved": "0",
+      "course": "Magnis Company"
+    },
+    {
+      "name": "Martena",
+      "year": "2000",
+      "isApproved": "1",
+      "course": "Mauris Inc."
+    },
+    {
+      "name": "Patricia",
+      "year": "2000",
+      "isApproved": "0",
+      "course": "Tincidunt Nibh Corp."
+    },
+    {
+      "name": "Kameko",
+      "year": "2000",
+      "isApproved": "1",
+      "course": "Massa Rutrum Foundation"
+    },
+    {
+      "name": "Lynn",
+      "year": "2001",
+      "isApproved": "0",
+      "course": "Consequat Lectus Corporation"
+    },
+    {
+      "name": "Anjolie",
+      "year": "2001",
+      "isApproved": "0",
+      "course": "Mauris LLC"
+    },
+    {
+      "name": "Tamekah",
+      "year": "2001",
+      "isApproved": "0",
+      "course": "Vestibulum LLP"
+    },
+    {
+      "name": "Jolie",
+      "year": "2001",
+      "isApproved": "1",
+      "course": "Placerat Velit PC"
+    },
+    {
+      "name": "Karen",
+      "year": "2001",
+      "isApproved": "1",
+      "course": "Proin Ultrices LLC"
+    },
+    {
+      "name": "Isabelle",
+      "year": "2001",
+      "isApproved": "0",
+      "course": "Ipsum Primis Consulting"
+    },
+    {
+      "name": "Geraldine",
+      "year": "2001",
+      "isApproved": "0",
+      "course": "Pellentesque PC"
+    },
+    {
+      "name": "Melinda",
+      "year": "2001",
+      "isApproved": "1",
+      "course": "Nonummy Fusce Fermentum PC"
+    },
+    {
+      "name": "Medge",
+      "year": "2001",
+      "isApproved": "0",
+      "course": "Urna Ltd"
+    },
+    {
+      "name": "Alea",
+      "year": "2001",
+      "isApproved": "0",
+      "course": "Dictum Ultricies Ligula Inc."
+    },
+    {
+      "name": "Lavinia",
+      "year": "2002",
+      "isApproved": "1",
+      "course": "Ultrices Mauris Ipsum LLP"
+    },
+    {
+      "name": "Dana",
+      "year": "2002",
+      "isApproved": "1",
+      "course": "Aliquet Libero Integer LLP"
+    },
+    {
+      "name": "Ila",
+      "year": "2002",
+      "isApproved": "1",
+      "course": "Nunc Pulvinar Arcu LLP"
+    },
+    {
+      "name": "Aurelia",
+      "year": "2002",
+      "isApproved": "0",
+      "course": "Sagittis Augue Eu Institute"
+    },
+    {
+      "name": "Wyoming",
+      "year": "2002",
+      "isApproved": "0",
+      "course": "Ac Mi Eleifend LLC"
+    },
+    {
+      "name": "Hedy",
+      "year": "2002",
+      "isApproved": "1",
+      "course": "Integer Id Magna PC"
+    },
+    {
+      "name": "Mechelle",
+      "year": "2002",
+      "isApproved": "0",
+      "course": "Eu Tellus Eu Company"
+    },
+    {
+      "name": "Brenna",
+      "year": "2002",
+      "isApproved": "0",
+      "course": "Non Lobortis Corp."
+    },
+    {
+      "name": "Lee",
+      "year": "2002",
+      "isApproved": "0",
+      "course": "Mauris Rhoncus Inc."
+    },
+    {
+      "name": "Jessamine",
+      "year": "2002",
+      "isApproved": "0",
+      "course": "Vulputate Posuere Vulputate Industries"
+    },
+    {
+      "name": "Hayfa",
+      "year": "2000",
+      "isApproved": "1",
+      "course": "Ridiculus Mus LLP"
+    },
+    {
+      "name": "Cora",
+      "year": "2000",
+      "isApproved": "0",
+      "course": "Nunc Quis Company"
+    },
+    {
+      "name": "Indigo",
+      "year": "2000",
+      "isApproved": "1",
+      "course": "Mus Proin LLC"
+    },
+    {
+      "name": "Melodie",
+      "year": "2000",
+      "isApproved": "0",
+      "course": "Sit LLP"
+    },
+    {
+      "name": "Regan",
+      "year": "2000",
+      "isApproved": "0",
+      "course": "Vehicula Et Rutrum LLC"
+    },
+    {
+      "name": "Cecilia",
+      "year": "2000",
+      "isApproved": "1",
+      "course": "Erat Corporation"
+    },
+    {
+      "name": "Rhoda",
+      "year": "2000",
+      "isApproved": "1",
+      "course": "Tristique Associates"
+    },
+    {
+      "name": "Molly",
+      "year": "2000",
+      "isApproved": "1",
+      "course": "Aliquam Arcu Aliquam Inc."
+    },
+    {
+      "name": "Yoshi",
+      "year": "2000",
+      "isApproved": "0",
+      "course": "Ac Libero Industries"
+    },
+    {
+      "name": "Leslie",
+      "year": "2000",
+      "isApproved": "0",
+      "course": "Lobortis Institute"
+    },
+    {
+      "name": "Hanae",
+      "year": "2001",
+      "isApproved": "1",
+      "course": "Mollis Vitae Posuere LLP"
+    },
+    {
+      "name": "Lesley",
+      "year": "2001",
+      "isApproved": "1",
+      "course": "Sagittis Foundation"
+    },
+    {
+      "name": "Yen",
+      "year": "2001",
+      "isApproved": "1",
+      "course": "Maecenas Foundation"
+    },
+    {
+      "name": "Gay",
+      "year": "2001",
+      "isApproved": "0",
+      "course": "Donec Porttitor Ltd"
+    },
+    {
+      "name": "Brenna",
+      "year": "2001",
+      "isApproved": "1",
+      "course": "Dui Fusce Aliquam Incorporated"
+    },
+    {
+      "name": "Willow",
+      "year": "2001",
+      "isApproved": "1",
+      "course": "Dolor Tempus Limited"
+    },
+    {
+      "name": "Cecilia",
+      "year": "2001",
+      "isApproved": "0",
+      "course": "Dolor Quisque Inc."
+    },
+    {
+      "name": "Evelyn",
+      "year": "2001",
+      "isApproved": "1",
+      "course": "Lectus Corporation"
+    },
+    {
+      "name": "Anjolie",
+      "year": "2001",
+      "isApproved": "1",
+      "course": "At Foundation"
+    },
+    {
+      "name": "Naomi",
+      "year": "2001",
+      "isApproved": "0",
+      "course": "Ut Industries"
+    },
+    {
+      "name": "Cheyenne",
+      "year": "2002",
+      "isApproved": "0",
+      "course": "Convallis Erat Corp."
+    },
+    {
+      "name": "Autumn",
+      "year": "2002",
+      "isApproved": "0",
+      "course": "Eget Laoreet Posuere Inc."
+    },
+    {
+      "name": "Rhea",
+      "year": "2002",
+      "isApproved": "1",
+      "course": "Et Foundation"
+    },
+    {
+      "name": "Justina",
+      "year": "2002",
+      "isApproved": "0",
+      "course": "Ipsum LLP"
+    },
+    {
+      "name": "Marny",
+      "year": "2002",
+      "isApproved": "0",
+      "course": "Interdum Curabitur LLC"
+    },
+    {
+      "name": "Winifred",
+      "year": "2002",
+      "isApproved": "1",
+      "course": "Aenean Eget Incorporated"
+    },
+    {
+      "name": "Pamela",
+      "year": "2002",
+      "isApproved": "0",
+      "course": "Nullam Industries"
+    },
+    {
+      "name": "Ora",
+      "year": "2002",
+      "isApproved": "1",
+      "course": "Enim Gravida Sit Company"
+    },
+    {
+      "name": "Indigo",
+      "year": "2002",
+      "isApproved": "0",
+      "course": "Mattis Semper LLP"
+    },
+    {
+      "name": "Abra",
+      "year": "2002",
+      "isApproved": "0",
+      "course": "Eget Magna PC"
+    },
+    {
+      "name": "Joelle",
+      "year": "2000",
+      "isApproved": "1",
+      "course": "Pellentesque Corp."
+    },
+    {
+      "name": "Samantha",
+      "year": "2000",
+      "isApproved": "1",
+      "course": "Vestibulum Corp."
+    },
+    {
+      "name": "Shannon",
+      "year": "2000",
+      "isApproved": "1",
+      "course": "Vel Turpis Corporation"
+    },
+    {
+      "name": "Serina",
+      "year": "2000",
+      "isApproved": "0",
+      "course": "Purus Duis Foundation"
+    },
+    {
+      "name": "Jillian",
+      "year": "2000",
+      "isApproved": "0",
+      "course": "Aliquet LLC"
+    },
+    {
+      "name": "Anika",
+      "year": "2000",
+      "isApproved": "1",
+      "course": "Facilisis Vitae Associates"
+    },
+    {
+      "name": "Lilah",
+      "year": "2000",
+      "isApproved": "1",
+      "course": "Ac Libero LLC"
+    },
+    {
+      "name": "Doris",
+      "year": "2000",
+      "isApproved": "0",
+      "course": "Nullam Suscipit Est Ltd"
+    },
+    {
+      "name": "Whitney",
+      "year": "2000",
+      "isApproved": "0",
+      "course": "Sem Incorporated"
+    },
+    {
+      "name": "Jordan",
+      "year": "2000",
+      "isApproved": "0",
+      "course": "Posuere Vulputate Lacus Ltd"
+    },
+    {
+      "name": "Hedy",
+      "year": "2001",
+      "isApproved": "0",
+      "course": "At Pede Company"
+    },
+    {
+      "name": "Sierra",
+      "year": "2001",
+      "isApproved": "0",
+      "course": "Sed Ltd"
+    },
+    {
+      "name": "Vivian",
+      "year": "2001",
+      "isApproved": "1",
+      "course": "Quis Lectus LLC"
+    },
+    {
+      "name": "TaShya",
+      "year": "2001",
+      "isApproved": "1",
+      "course": "Ullamcorper Corporation"
+    },
+    {
+      "name": "Dakota",
+      "year": "2001",
+      "isApproved": "1",
+      "course": "Sed Leo Cras Company"
+    },
+    {
+      "name": "Sarah",
+      "year": "2001",
+      "isApproved": "0",
+      "course": "Praesent Luctus Curabitur Institute"
+    },
+    {
+      "name": "Olga",
+      "year": "2001",
+      "isApproved": "1",
+      "course": "Sodales PC"
+    },
+    {
+      "name": "Donna",
+      "year": "2001",
+      "isApproved": "0",
+      "course": "Nullam Lobortis Incorporated"
+    },
+    {
+      "name": "Leah",
+      "year": "2001",
+      "isApproved": "0",
+      "course": "Mi Aliquam Gravida Consulting"
+    },
+    {
+      "name": "McKenzie",
+      "year": "2001",
+      "isApproved": "0",
+      "course": "Nunc Consulting"
+    },
+    {
+      "name": "Miranda",
+      "year": "2002",
+      "isApproved": "1",
+      "course": "Pellentesque Consulting"
+    },
+    {
+      "name": "Zoe",
+      "year": "2002",
+      "isApproved": "1",
+      "course": "Enim Diam Vel PC"
+    },
+    {
+      "name": "Daryl",
+      "year": "2002",
+      "isApproved": "0",
+      "course": "Mauris Sagittis Placerat Incorporated"
+    },
+    {
+      "name": "Urielle",
+      "year": "2002",
+      "isApproved": "0",
+      "course": "Per Inceptos Corporation"
+    },
+    {
+      "name": "Riley",
+      "year": "2002",
+      "isApproved": "0",
+      "course": "Aliquet Incorporated"
+    },
+    {
+      "name": "Libby",
+      "year": "2002",
+      "isApproved": "0",
+      "course": "Pellentesque Ut Ipsum Company"
+    },
+    {
+      "name": "Amena",
+      "year": "2002",
+      "isApproved": "0",
+      "course": "Duis Consulting"
+    },
+    {
+      "name": "Kai",
+      "year": "2002",
+      "isApproved": "0",
+      "course": "Id Erat PC"
+    },
+    {
+      "name": "Zia",
+      "year": "2002",
+      "isApproved": "1",
+      "course": "Et Lacinia Vitae Industries"
+    },
+    {
+      "name": "Quyn",
+      "year": "2002",
+      "isApproved": "1",
+      "course": "Euismod Corporation"
+    },
+    {
+      "name": "Hollee",
+      "year": "2000",
+      "isApproved": "0",
+      "course": "A Tortor Foundation"
+    },
+    {
+      "name": "Sigourney",
+      "year": "2000",
+      "isApproved": "1",
+      "course": "Sodales Purus Consulting"
+    },
+    {
+      "name": "Aileen",
+      "year": "2000",
+      "isApproved": "1",
+      "course": "Amet Consectetuer Institute"
+    },
+    {
+      "name": "Haviva",
+      "year": "2000",
+      "isApproved": "1",
+      "course": "Et Malesuada Fames Corporation"
+    },
+    {
+      "name": "Desiree",
+      "year": "2000",
+      "isApproved": "0",
+      "course": "Non Vestibulum Nec Associates"
+    },
+    {
+      "name": "Nyssa",
+      "year": "2000",
+      "isApproved": "1",
+      "course": "Erat Company"
+    },
+    {
+      "name": "Inez",
+      "year": "2000",
+      "isApproved": "1",
+      "course": "Consectetuer Adipiscing Elit Institute"
+    },
+    {
+      "name": "Gloria",
+      "year": "2000",
+      "isApproved": "0",
+      "course": "Sed Dictum PC"
+    },
+    {
+      "name": "Bryar",
+      "year": "2000",
+      "isApproved": "0",
+      "course": "Semper Tellus LLP"
+    },
+    {
+      "name": "Justine",
+      "year": "2000",
+      "isApproved": "1",
+      "course": "Sagittis PC"
+    }
+  ]
+}

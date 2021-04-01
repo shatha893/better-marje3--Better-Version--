@@ -1,0 +1,69 @@
+.root{
+    flex-grow: 1;
+    margin-left:-50px;
+    
+}
+
+.paperBtn 
+:hover
+:active{
+    filter:grayscale(0%);
+}
+
+.paperBtn{
+    border:none;
+    background-color:white;
+}
+
+.paperNotClicked{
+    height: 100px;
+    width: 100px;
+    cursor:pointer;
+    filter:grayscale(100%);
+}
+
+.paperClicked{
+    height: 100px;
+    width: 100px;
+    cursor:pointer;
+}
+
+.qIcon{
+    height:60px;
+    width:60px;
+    margin-left:20px;
+    margin-top:5px;
+}
+
+
+.paperText{
+    font-size:small;
+    margin-left:4px;
+}
+
+
+.hidden{
+    display:none;
+}
+
+
+.radioBtn{
+    margin-top:20px;
+    margin-left:20px;
+}
+
+
+
+.checkbox{
+    margin-left:20px !important;
+}
+
+.checkOp{
+    font-weight:5000px !important;
+    font-size:medium !important;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.formGroup{
+    margin-top:50px;
+ }
