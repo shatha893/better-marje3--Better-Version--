@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import TabsBar from '../../components/UI/TabsBar/TabsBar';
+import ExamsTabs from './ExamsTabs/ExamsTabs';
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import Container from 'react-bootstrap/Container';
@@ -16,11 +16,11 @@ class Exams extends Component{
                     <Header pageType={"exams"} />
                 </Row>
                 <Row className={classes.container}>
-                    <TabsBar className={classes.TabsBar}/>
+                    <ExamsTabs/>
                 </Row>
 
                 <Row>
-                    <Footer className={classes.footer}></Footer>
+                    <Footer></Footer>
                 </Row>
             </Container>
         );

@@ -19,3 +19,7 @@
 .badge{
    background-color: #591CA8 !important;
 }
+
+.hidden{
+   display:none;
+}

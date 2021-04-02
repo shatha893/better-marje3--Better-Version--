@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import classes from './TabsBar.module.css';
-import TakeExamTab from '../../../Containers/Exams/TakeExamTab/TakeExamTab';
+import classes from './ExamsTabs.module.css';
+import TakeExamTab from './TakeExamTab/TakeExamTab';
 import Axios from 'axios';
-import Spinner from '../spinner/spinner';
-import MakeExamTab from '../../../Containers/Exams/MakeExamTab/MakeExam';
-import Questions from '../../../Containers/Exams/QuestionsTab/Questions';
+import Spinner from '../../../components/UI/spinner/spinner';
+import MakeExamTab from './MakeExamTab/MakeExam';
+import Questions from './QuestionsTab/Questions';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -41,7 +39,8 @@ return {
 }
   
 
-class TabsBar extends Component{
+class ExamsTabs extends Component{
+
     state = {
         value:0,
         toBeTakenExams:null,
@@ -58,11 +57,11 @@ class TabsBar extends Component{
         {
             this.setState({loading:true});
             Axios.get("http://localhost:3000/exams").then(response=>{
-                
                 let tempArr = [];
                 for(let i in response.data)
                 {
                     tempArr.push({
+                        id:i,
                         name:response.data[i].name,
                         date:response.data[i].year
                     })
@@ -77,18 +76,14 @@ class TabsBar extends Component{
         }
         else if (val == 1)
         {
-          
             this.setState({
                 value:val
             })
-
-        }
-        
-        
+        }  
     }
 
     render(){
-   
+
     return (
         <div className={classes.root}>
             <Spinner loading={this.state.loading}/>
@@ -104,7 +99,7 @@ class TabsBar extends Component{
             </Tabs>
             </AppBar>
             <TabPanel value={this.state.value} index={0} > 
-                <TakeExamTab examsData={this.state.toBeTakenExams}/>
+                <TakeExamTab examsData={this.state.toBeTakenExams == null?undefined:this.state.toBeTakenExams}/>
             </TabPanel>
             <TabPanel value={this.state.value} index={1}>
                 <MakeExamTab />
@@ -116,4 +111,4 @@ class TabsBar extends Component{
             );
     }
 }
-export default TabsBar;
+export default ExamsTabs;

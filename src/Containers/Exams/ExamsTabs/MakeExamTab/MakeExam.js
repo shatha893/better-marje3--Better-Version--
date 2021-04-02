@@ -10,7 +10,7 @@ import Button from 'react-bootstrap/Button';
 import classes from './MakeExam.module.css';
 import AddIcon from '@material-ui/icons/Add';
 import Divider from '@material-ui/core/Divider';
-import MakeQuestion from '../../../components/MakeQuestion/MakeQuestion';
+import MakeQuestion from '../../../../components/MakeQuestion/MakeQuestion';
 
 class MakeExam extends Component{
 

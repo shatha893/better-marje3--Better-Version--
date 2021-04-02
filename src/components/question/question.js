@@ -3,13 +3,13 @@ import Form from 'react-bootstrap/Form';
 import Divider from '@material-ui/core/Divider';
 import Button from 'react-bootstrap/Button';
 import Badge from 'react-bootstrap/Badge';
+import classes from './question.module.css';
+import Col from 'react-bootstrap/Col';
 
 const question = (props) =>(
-      <div 
-      // className={this.state.TFClicked?null:classes.hidden}
-      >
+      <div className={props.hide?null:classes.hidden}>
       <Form className={classes.form} >
-          <Form.Group controlId="exampleForm.ControlInput1">
+          <Form.Group controlId="questionInput">
               <Form.Label> Question </Form.Label>
               <Form.Control 
               as="textarea" 
@@ -17,7 +17,7 @@ const question = (props) =>(
               onChange={(event)=>props.handleChange("body",event)}/>
           </Form.Group>
 
-          {/* {props.children} */}
+          {props.children}
 
           <Form.Group controlId="questionWeight" className={classes.formGroup}>
               <Form.Label> Question Weight </Form.Label>
@@ -28,7 +28,7 @@ const question = (props) =>(
               </Col>
           </Form.Group>
          
-          <Form.Group controlId="exampleForm.ControlInput1">
+          <Form.Group controlId="TagsInput">
               <Form.Label>
                   Tags &nbsp;
                   {props.tags.map(tag=>{

@@ -99,8 +99,7 @@ class Home extends Component{
                     <Header pageType={"Home"} userName={this.state.userName} avatar={this.state.avatar}/> 
                 </Row>
                 <Row className={classes.content}>
-                    <Spinner loading={this.state.loading}/>
-                    {this.state.loading?null: pageContent}
+                    {this.state.loading?<Spinner loading={this.state.loading}/>: pageContent}
                 </Row>
                
                 <Row>
