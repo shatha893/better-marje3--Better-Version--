@@ -8,8 +8,10 @@ import Filters from '../../../../components/UI/Filters/Filters';
 class TakeExamTab extends Component{
     
     state={ 
-        examsData:[],
-        loading:false
+        originalData:[],
+        dataPerPage:[],
+        loading:false,
+        filters:[]
     }
 
     componentDidMount(){
@@ -26,7 +28,7 @@ class TakeExamTab extends Component{
                 })
             }
             this.setState({
-                examsData:[...tempArr],
+                originalData:[...tempArr],
                 loading:false
             })
 
@@ -34,12 +36,12 @@ class TakeExamTab extends Component{
     }
 
     handleData = (newData)=>{
-        this.setState({examsData:[...newData]});
+        this.setState({dataPerPage:[...newData]});
     }
 
     render(){
         
-        const dataList = this.state.examsData.map(exam => 
+        const dataList = this.state.dataPerPage.map(exam => 
             <ListGroup.Item 
             key={exam.id}
             action 
@@ -61,7 +63,8 @@ class TakeExamTab extends Component{
             { this.state.loading?null:
             <Filters
             handleData={this.handleData}
-            data={this.state.examsData == null?undefined:this.state.examsData}>    
+            data={this.state.originalData == null?undefined:this.state.originalData}
+            filters={this.state.filters}>    
                 <p className={classes.resultsTitle}> Available Exams </p>
                 <ListGroup className={classes.list}>
                     {dataList}

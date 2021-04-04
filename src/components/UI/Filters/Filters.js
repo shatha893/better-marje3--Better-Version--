@@ -19,20 +19,22 @@ class Filters extends Component{
       pageCount:0,
 
       //For the filters checkboxes
-      filters:[
-          {
-              title:"course",
-              checkboxes:[] 
-          },
-          {
-              label:"Tag",
-              checked:false
-          },
-          {
-              label:"Semester"
-          }
-      ]
+//       filters:[
+//           {
+//               title:"course",
+//               checkboxes:[] 
+//           },
+//           {
+//               label:"Tag",
+//               checked:false
+//           },
+//           {
+//               label:"Semester"
+//           }
+//       ]
   }
+
+  filters =[...this.props.filters];
   
   recievedData =()=>{
 
@@ -59,12 +61,11 @@ class Filters extends Component{
 };
 
    componentDidMount(){
-      this.recievedData();
+        this.recievedData();
    }
 
    render()
    {
-      console.log(this.props.data);
       return(
          <Container fluid={+true}>
                 <Row>
@@ -80,7 +81,7 @@ class Filters extends Component{
                             <FormControl
                             className={classes.formControl}
                             placeholder="Search"
-                            aria-label="Username"
+                            aria-label="search"
                             aria-describedby="basic-addon1"/>
                         </InputGroup>
                         
