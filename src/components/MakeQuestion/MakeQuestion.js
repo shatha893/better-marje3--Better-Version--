@@ -272,54 +272,16 @@ class MakeQuestion extends Component{
                 spanText:" Fill in Blank",
                 questionInput:<>
                                 <fieldset className={classes.formGroup}>
-                                <span> Answers </span>
-                                <Form.Text id="rightAnsSen" muted>
-                                    Please choose the right answer
-                                </Form.Text>
                                 <Form.Group as={Row} >
                                 <Col>
                                     <Form.Group controlId="exampleForm.ControlInput1">
-                                        <span className={classes.checkOp}>(D)</span>
-                                        <Form.Label
-                                        className={classes.checkbox}>
-                                            <Form.Check
-                                    type="radio"
-                                    label=""
-                                    name="formHorizontalRadios"
-                                    id="choice#1"
-                                    className={classes.radioBtn}
-                                    onChange={(event)=>this.handleChange("radioTrue",event)}/>
+                                        <Form.Label>
+                                           Answer
                                         </Form.Label>
                                         <Form.Control 
-                                        as="textarea" 
-                                        rows={3}
-                                        onChange={(event)=>this.handleChange("body",event)}/>
+                                         type="text" 
+                                        onChange={()=>this.handleChange()}/>
                                     </Form.Group>
-                                    
-
-                                    <Form.Check
-                                    type="radio"
-                                    label="False"
-                                    name="formHorizontalRadios"
-                                    id="choice#2"
-                                    className={classes.radioBtn}
-                                    onChange={(event)=>this.handleChange("radioFalse",event)}/>
-
-                                     <Form.Check
-                                    type="radio"
-                                    label="False"
-                                    name="formHorizontalRadios"
-                                    id="choice#3"
-                                    className={classes.radioBtn}
-                                    onChange={(event)=>this.handleChange("radioFalse",event)}/>
-
-                                     <Form.Check
-                                    type="radio"
-                                    label="False"
-                                    name="formHorizontalRadios"
-                                    id="choice#4"
-                                    className={classes.radioBtn}
-                                    onChange={(event)=>this.handleChange("radioFalse",event)}/>
                                 </Col>
                                 </Form.Group>
                               </fieldset>

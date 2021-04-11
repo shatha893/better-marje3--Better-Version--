@@ -63,8 +63,7 @@ class TakeExamTab extends Component{
             { this.state.loading?null:
             <Filters
             handleData={this.handleData}
-            data={this.state.originalData == null?undefined:this.state.originalData}
-            filters={this.state.filters}>    
+            data={this.state.originalData == null?undefined:this.state.originalData}>    
                 <p className={classes.resultsTitle}> Available Exams </p>
                 <ListGroup className={classes.list}>
                     {dataList}

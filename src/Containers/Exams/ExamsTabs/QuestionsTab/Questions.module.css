@@ -1,0 +1,29 @@
+.subContent{
+   float:right;
+   color:rgba(163, 162, 162, 0.651);
+}
+
+.resultsTitle{
+ margin-left:60px;
+}
+
+.resultsTitle{
+ font-size:larger;
+ color:#591CA8 !important;
+}
+
+.content{
+   margin:auto;
+}
+
+.listItem{
+   padding-right:100px;
+   padding-left:40px;
+   background-color: #f9f4fe !important;
+}
+
+.list 
+:hover{
+   background-color: #f3eafc !important;
+}
+

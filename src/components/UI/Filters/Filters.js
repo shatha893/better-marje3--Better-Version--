@@ -34,7 +34,6 @@ class Filters extends Component{
 //       ]
   }
 
-  filters =[...this.props.filters];
   
   recievedData =()=>{
 

@@ -1,124 +1,76 @@
 import React,{ Component } from 'react';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
 import classes from './Questions.module.css';
-import Pagination from 'react-paginate';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-import SearchIcon from '@material-ui/icons/Search';
-import InputGroup from 'react-bootstrap/InputGroup';
-import FormControl from 'react-bootstrap/FormControl'
+import Axios from 'axios';
+import Spinner from '../../../../components/UI/spinner/spinner';
+import Filters from '../../../../components/UI/Filters/Filters';
 
 class Questions extends Component{
     
-    state={
-        //For the pagination
-        offset: 0,
-        data: [],
-        perPage: 10,
-        currentPage: 0,
-        pageCount:0,
+   state = {
+        originalData:[],
+        dataPerPage:[],
+        loading:false
+   }
 
-        //For the filters checkboxes
-        filters:{
-            course:{
-                label:"course",
-                checked:false
+   handleData = (newData)=>{
+    this.setState({dataPerPage:[...newData]});
+}
+
+    componentDidMount(){
+        this.setState({loading:true});
+        //questions data instead which is supposed to be consisting of ( Question, Question tags)
+        Axios.get("http://localhost:3000/exams").then(response=>{
+            let tempArr = [];
+            console.log(response);
+            for(let i in response.data)
+            {
+                tempArr.push({
+                    id:i,
+                    name:response.data[i].name,
+                    date:response.data[i].year
+                })
             }
-        }
+            this.setState({
+                originalData:[...tempArr],
+                loading:false
+            })
+
+        })
     }
-    
-    recievedData =()=>
-    {
-        console.log(this.props.examsData);
-        // const data = [...this.props.examsData];
-        const slice = this.props.examsData.slice(this.state.offset, this.state.offset + this.state.perPage)
-        const postData = slice.map(exam => 
+
+    render(){
+         
+        const dataList = this.state.dataPerPage.map(question => 
             <ListGroup.Item 
-            key={this.state.name}
+            key={question.id}
             action 
             href="/" 
             className={classes.listItem}> 
                 <p className={classes.content}> 
-                    {exam.name} 
+                    What is C++? 
                     <span 
                     className={classes.subContent}>
-                        {/* {exam.date}  */} &nbsp;
-                        Date Created: {exam.date}{/* {exam.duration}   */}
+                        Date Created: {question.date} <br/>
+                        Created By: {question.name} 
                     </span> 
                 </p>
-            </ListGroup.Item>)
+            </ListGroup.Item>);
 
-        this.setState({
-            pageCount: Math.ceil(this.props.examsData.length / this.state.perPage),
-            data:[...postData]
-        })
-    }
-
-    handlePageClick = (e) => {
-        const selectedPage = e.selected;
-        const offset = selectedPage * this.state.perPage;
-
-        this.setState({
-            currentPage: selectedPage,
-            offset: offset
-        },
-        ()=>this.recievedData());
-
-        
-    };
-    
-    componentDidMount(){
-        this.setState(()=>this.recievedData());
-    }
-
-    render(){
-        
         return(
-            <Container fluid={+true}>
-                <Row>
-                    <Col sm={2} className={classes.filterCol}>
-                        <p className={classes.filtersTitle}>Refine By</p>
-                        <div>
-                            <InputGroup className="mb-3">
-                                <InputGroup.Prepend>
-                                    <InputGroup.Text id="basic-addon1">
-                                        <SearchIcon className={classes.searchIcon}/>
-                                    </InputGroup.Text>
-                                </InputGroup.Prepend>
-                                <FormControl
-                                className={classes.formControl}
-                                placeholder="Search"
-                                aria-label="Username"
-                                aria-describedby="basic-addon1"
-                                />
-                            </InputGroup>
-                            
-                        </div>
-                    </Col>
-                    <Col>
-                        <p className={classes.resultsTitle}>Available Exams</p>
-                        <ListGroup className={classes.list}>
-                            {this.state.data}
-                        </ListGroup>
-                        
-                        <Pagination
-                            containerClassName={classes.pagination}
-                            activeClassName={classes.active}
-                            previousLabel={<ArrowBackIcon/>}
-                            nextLabel={<ArrowForwardIcon/>}
-                            breakLabel={"..."}
-                            breakClassName={"break-me"}
-                            pageCount={this.state.pageCount}
-                            marginPagesDisplayed={2}
-                            pageRangeDisplayed={5}
-                            onPageChange={this.handlePageClick}/>
-                    </Col>
-                </Row>
-            </Container>
-        );
+            <>
+            <Spinner loading={this.state.loading}/>
+            { this.state.loading?null:
+            <Filters
+            handleData={this.handleData}
+            data={this.state.originalData == null?undefined:this.state.originalData}>    
+                <p className={classes.resultsTitle}> Available Questions </p>
+                <ListGroup className={classes.list}>
+                    {dataList}
+                </ListGroup>
+            </Filters> }
+            </>
+            );
     }
     
 }
