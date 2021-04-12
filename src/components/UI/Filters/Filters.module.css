@@ -16,8 +16,9 @@
  }
 
  .pagination {
-   margin-top:15px;
-   margin-left:30%;
+   /* margin-top:15px;
+   margin-left:30%; */
+   font-size:inherit;
    display: flex;
    list-style: none;
    outline: none;

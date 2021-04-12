@@ -9,8 +9,10 @@ import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import classes from './MakeExam.module.css';
 import AddIcon from '@material-ui/icons/Add';
-import Divider from '@material-ui/core/Divider';
 import MakeQuestion from '../../../../components/MakeQuestion/MakeQuestion';
+import CheckboxList from '../../../../components/UI/CheckboxList/CheckboxList';
+import Axios from 'axios';
+import Spinner from '../../../../components/UI/spinner/spinner';
 
 class MakeExam extends Component{
 
@@ -18,7 +20,9 @@ class MakeExam extends Component{
         addQuestionClicked:false,
         savedQuestions:[],
         totalWeight:0,
-        totalTags:[]
+        totalTags:[],
+        existingQuestions:[],
+        loading:false
     }
 
     handleAddQues = () =>{
@@ -32,6 +36,32 @@ class MakeExam extends Component{
         this.setState({savedQuestions:[...this.state.savedQuestions,questionObj],
                 totalWeight:tempWeight,
                 totalTags:[...tempTags]});
+    }
+
+    handleExistingQuestionsSave = (questionArr) =>{
+
+    }
+
+    handleExistingQuestion = () =>{
+        this.setState({loading:true});
+        //questions data instead which is supposed to be consisting of ( Question, Question tags)
+        Axios.get("http://localhost:3000/exams").then(response=>{
+            let tempArr = [];
+            console.log(response);
+            for(let i in response.data)
+            {
+                tempArr.push({
+                    id:i,
+                    name:response.data[i].name,
+                    date:response.data[i].year
+                })
+            }
+            this.setState({
+                existingQuestions:[...tempArr],
+                loading:false
+            })
+
+        })
     }
 
     render()
@@ -128,12 +158,17 @@ class MakeExam extends Component{
                         <Accordion.Toggle 
                         className={classes.cardHeader} 
                         as={Card.Header} 
-                        eventKey="1">
+                        eventKey="1"
+                        onClick={this.handleExistingQuestion}>
                             <p> Use already created Questions </p>
                         </Accordion.Toggle>
                         <Accordion.Collapse eventKey="1">
                         <Card.Body>
-                            {/* -something- */}
+                            <Spinner loading={this.state.loading}/>
+                            {this.state.loading?null:
+                            <CheckboxList 
+                            itemList={this.state.existingQuestions}
+                            handleSave={(obj)=>this.handleSave(obj)}/>}
                         </Card.Body>
                         </Accordion.Collapse>
                     </Card>
