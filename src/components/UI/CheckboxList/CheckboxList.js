@@ -12,14 +12,7 @@ import Button from 'react-bootstrap/Button';
 import classes from './CheckboxList.module.css';
 import Filters from '../Filters/Filters';
 import VisibilityIcon from '@material-ui/icons/Visibility';
-
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     width: '100%',
-//     maxWidth: 360,
-//     backgroundColor: theme.palette.background.paper,
-//   },
-// }));
+import QuestionModal from '../QuestionModal/QuestionModal';
 
 class CheckboxList extends Component{
 
@@ -27,7 +20,9 @@ class CheckboxList extends Component{
       checked:[],
       dataPerPage:[],
       loading:false,
-      filters:[]
+      filters:[],
+      showModal:false,
+      modalContent:null
    }
 
    handleToggle = (value) =>{
@@ -58,16 +53,32 @@ class CheckboxList extends Component{
       console.log(this.state.checked);
   }
 
+  handleViewQuestion = (item)=>{
+    //dataPerPage[index].name ... etc
+    this.setState({
+      showModal:true,
+      modalContent:<>
+          <p>{item.name}</p>
+          <p>Answer: TRUE</p>
+          <p>Points: 100</p>
+      </>
+    });
+
+  }
+
+  handleHideQuestion = () =>{
+    this.setState({showModal:false});
+  }
+
   render()
   {
     const dataPerPage = this.state.dataPerPage == null
       ?null
-      :this.state.dataPerPage.map(item => {
-        const labelId = `checkbox-list-label-${item}`;
-
+      :this.state.dataPerPage.map((item,index) => {
+       
         return (
           <ListItem 
-          key={item.year} 
+          key={index} 
           role={undefined} 
           dense 
           button 
@@ -79,14 +90,15 @@ class CheckboxList extends Component{
                 checked={this.state.checked.indexOf(item) !== -1}
                 tabIndex={-1}
                 disableRipple
-                inputProps={{ 'aria-labelledby': labelId }}
+                inputProps={{ 'aria-labelledby': index }}
               />
             </ListItemIcon>
             {/* In the text of the list item the question body should be there */}
-            <ListItemText id={labelId} primary={item.name} />
+            <ListItemText id={index} primary={item.name} />
             <ListItemSecondaryAction>
               <IconButton edge="end" aria-label="comments">
-                <VisibilityIcon />
+                <VisibilityIcon 
+                onClick={()=>this.handleViewQuestion(item)}/>
               </IconButton>
             </ListItemSecondaryAction>
           </ListItem>
@@ -94,21 +106,26 @@ class CheckboxList extends Component{
       });
 
   return (<>
-  <Filters
-  handleData = {(arr)=>this.handleData(arr)}
-  data={this.props.itemList}> 
-    <List className={classes.root}>
-      {dataPerPage}
-    </List>
-   </Filters>
-   <Button 
-      className={classes.button}
-      onClick={()=>this.handleSave()}>
-         Save
-      </Button>
-  </>  
-  );
-   }
+    <Filters
+    handleData = {(arr)=>this.handleData(arr)}
+    data={this.props.itemList}> 
+      <List className={classes.root}>
+        {dataPerPage}
+      </List>
+    </Filters>
+    <Button 
+    className={classes.button}
+    onClick={()=>this.handleSave()}>
+      Save
+    </Button>
+    <QuestionModal
+    show={this.state.showModal}
+    closeModal={this.handleHideQuestion}>
+      {this.state.modalContent}
+    </QuestionModal>
+  </>); 
+  }
+
 }
 
 export default CheckboxList;

@@ -11,6 +11,7 @@ import Form from 'react-bootstrap/Form';
 import FB from '../../Assets/FiB_2.svg';
 import Question from '../question/question';
 
+//___I've only written the proper states for the true false questions!!!___
 class MakeQuestion extends Component{
 
     state = {
@@ -23,6 +24,13 @@ class MakeQuestion extends Component{
         tags:[]
      },
       MCClicked:false,
+      MCformData:{
+        body:"",
+        selectedOption:"",
+        weight:0,
+        type:"Multiple Choice",
+        tags:[]
+     },
       PClicked:false,
       FBClicked:false
     }
@@ -116,8 +124,17 @@ class MakeQuestion extends Component{
     }
 
     handleSave = () =>{
-       this.props.handleSave(this.state.TFformData);
+        this.props.handleSave(this.state.TFformData);
+        document.getElementById("question-form").reset();
+        this.setState(prevState =>{
+            return{
+                TFformData:{
+                    ...prevState.TFformData,
+                    tags:[]
+                  }}
+            });
     }
+
 
 
     render(){

@@ -27,16 +27,17 @@
 }
 
 .jumbWeight{
-    float:right;
-    margin-bottom:90px;
+   
 }
 
 .jumbRow{
-    margin-bottom:100px;
+    padding-top:20px;
+    padding-bottom:-20px;
+    background-color:#9c85b81f !important;
 }
 
 .savedQuestion{
-    background-color:#9c85b81f !important;
+   
 }
 
 .spanBody{
@@ -47,13 +48,23 @@
 }
 
 .spanTitle{
-    font-size:13px !important;
+    
     color:#591CA8 !important;
 }
 
 .spanGroup2{
    margin:auto;
-   /* display:; */
+}
+
+.submitExam{
+    background-color: #591CA8 !important;
+    border-color:#591CA8 !important;
+    padding:8px 20px 8px 20px !important;
+    margin-left:85%;
+}
+
+.hideSubmitExam{
+    display:none;
 }
 
 .title{
@@ -68,7 +79,14 @@
 
 .containerDiv{
     background-color:#d5cedd60;
-    margin-bottom:20px;
+    font-size:15px !important;
+    padding-left:70px;
+    padding-top:10px;
+    padding-bottom:10px;
+    margin:auto;
+    margin-top:10px;
+    margin-bottom:10px;
+    min-width:50%;
 }
 
 .badge{

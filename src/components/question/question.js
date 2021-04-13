@@ -6,9 +6,9 @@ import Badge from 'react-bootstrap/Badge';
 import classes from './question.module.css';
 import Col from 'react-bootstrap/Col';
 
-const question = (props) =>(
-      <div className={props.hide?null:classes.hidden}>
-      <Form className={classes.form} >
+const question = (props) =>{
+    return(<div className={props.hide?null:classes.hidden}>
+      <Form id="question-form" className={classes.form} >
           <Form.Group controlId="questionInput">
               <Form.Label> Question </Form.Label>
               <Form.Control 
@@ -21,10 +21,10 @@ const question = (props) =>(
 
           <Form.Group controlId="questionWeight" className={classes.formGroup}>
               <Form.Label> Question Weight </Form.Label>
-              <Col sm={1}>
+              <Col sm={2}>
                   <Form.Control 
                   type="number" 
-                  onChange={(event)=>this.handleChange("weight",event)}/>
+                  onChange={(event)=>props.handleChange("weight",event)}/>
               </Col>
           </Form.Group>
          
@@ -56,5 +56,6 @@ const question = (props) =>(
       <Divider/>
       </div>
    );
+}
 
 export default question;
