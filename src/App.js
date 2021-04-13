@@ -1,12 +1,14 @@
 import React,{Component} from 'react';
 import { Route, Switch } from 'react-router-dom';
 import './App.css';
-import Guest from './Containers/Guest/Guest';
+import Guest from './Containers/StudentPages/Guest/Guest';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Home from './Containers/Home/Home';
-import InfoProfile from './Containers/Profile/InfoProfile/InfoProfile';
-import EditProfile from './Containers/Profile/EditProfile/EditProfile';
-import Exams from './Containers/Exams/Exams';
+import Home from './Containers/StudentPages/Home/Home';
+import InfoProfile from './Containers/StudentPages/Profile/InfoProfile/InfoProfile';
+import EditProfile from './Containers/StudentPages/Profile/EditProfile/EditProfile';
+import Exams from './Containers/StudentPages/Exams/Exams';
+import ExamEntrée from './Containers/StudentPages/ExamEntrée/ExamEntrée';
+import Exam from './Containers/StudentPages/Exam/Exam';
 
 class App extends Component {
 
@@ -24,6 +26,12 @@ class App extends Component {
     return (
       <div>
         <Switch>
+          <Route
+          path="/Exam"
+          render={()=><Exam userEmail={this.state.userEmail}/>}/>
+          <Route
+          path="/ExamEntrée"
+          render={()=><ExamEntrée userEmail={this.state.userEmail}/>}/>
           <Route
           path="/MainExams"
           render={()=><Exams userEmail={this.state.userEmail}/>}/>

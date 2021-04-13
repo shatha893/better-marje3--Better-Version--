@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Image from 'react-bootstrap/Image';
 import cssClasses from './header.module.css';
-import Drawer from '../UI/Drawer/Drawer';
+import Drawer from '../StudentComponents/UI/Drawer/Drawer';
 import Logo from '../logo/logo';
 import { withRouter } from 'react-router-dom';
 
