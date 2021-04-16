@@ -30,18 +30,21 @@ const ButtonAppBar=(props)=> {
   let menuIcon = null;
   let loginSignupButtons = null;
   let userProfile = null;
+  let logoutButton = null;
+  let isAdmin=false;
 
   const openProfile = () =>{
     props.history.push('/Homepage/Infopage');
   }
   
   //Depending on pageType specific content will be shown on the header
-  const pageConfigs = (pageType)=>{
-
+  const pageConfigs = (pageType,userType="student")=>{
+    if(userType == "Admin") isAdmin = true;
     //Guestpage Configurations
     if(pageType == "Guest")
     {
       menuIcon = false;
+      logoutButton=null;
       loginSignupButtons= <>
                             <Button 
                             color="inherit" 
@@ -62,6 +65,15 @@ const ButtonAppBar=(props)=> {
       menuIcon=true;
       loginSignupButtons= null;
       userProfile=null;
+      logoutButton=null;
+    }
+    else if(pageType == "AdminHome")
+    {
+      menuIcon=false;
+      loginSignupButtons = null;
+      logoutButton= <>
+                       <Button color="inherit"> logout </Button>
+                    </>
     }
 
      //Any other page Configurations
@@ -69,6 +81,7 @@ const ButtonAppBar=(props)=> {
      {
        menuIcon = true;
        loginSignupButtons= null;
+       logoutButton=null;
        userProfile = <>
                         <Image 
                         src={props.avatar} 
@@ -83,17 +96,24 @@ const ButtonAppBar=(props)=> {
   
 
   return (
-    <div className={classes.root} onLoad={pageConfigs(props.pageType)}>
+    <div className={classes.root} onLoad={pageConfigs(props.pageType,props.userType)}>
       <AppBar position="static" className={classes.AppBar}>
         <Toolbar className={cssClasses.Toolbar}>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <Drawer menuIconToggle={menuIcon}/>
           </IconButton>
           <Logo/>
-          <Typography variant="h6" className={classes.title}>
-            A Better Marje3
+          <Typography 
+          variant="h6" 
+          className={classes.title}>
+            <a 
+            href={isAdmin?"/AdminHome":"/Homepage"}
+            className={cssClasses.title}>
+              A Better Marje3
+            </a>
           </Typography>
           {loginSignupButtons}
+          {logoutButton}
           {userProfile}
         </Toolbar>
       </AppBar>

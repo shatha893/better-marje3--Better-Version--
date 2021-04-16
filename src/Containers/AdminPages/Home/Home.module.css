@@ -1,0 +1,23 @@
+.container{
+   min-height: 100vh !important;
+}
+
+.card{
+   margin-top:5%;
+   margin-left:12px;
+   margin-right:12px;
+   margin-bottom:20%;
+}
+
+.anchor{
+   color:white;
+   text-decoration: none;
+   float:right;
+}
+
+.statusRow{
+   padding-top:100px;
+   font-size:larger;
+   color:#591CA8;
+   margin:auto;
+}

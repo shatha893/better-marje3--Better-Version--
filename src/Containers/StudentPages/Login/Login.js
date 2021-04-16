@@ -30,6 +30,11 @@ class loginModal extends Component{
   
 
   handleLogin = () =>{
+    if(this.state.uniEmail == 3456)
+    {
+      this.props.history.push('/AdminHome');
+    }
+    else{
     // VERY VERY BAD SECURITY HERE (WON'T STAY LIKE THIS) ---> Token and POST request instead
     Axios.get("http://localhost:3000/users?uniEmail="+this.state.uniEmail+"&password="+this.state.password)
     .then(
@@ -40,9 +45,11 @@ class loginModal extends Component{
             this.props.setUserEmail(this.state.uniEmail);
             console.log("Success "+result.status+this.state.uniEmail);
             this.props.history.push('/Homepage');}
+            this.setState({loading:false});
            }
 
     )
+          }
   }
 
 

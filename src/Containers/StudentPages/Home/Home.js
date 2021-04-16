@@ -29,8 +29,6 @@ class Home extends Component{
         loading:false
     }
 
-    mounted = false;
-
     componentDidMount(){
 
         this.mounted = true;
@@ -67,10 +65,6 @@ class Home extends Component{
 
     }
 
-    componentWillUnmount(){
-        this.mounted = false;
-    }
-   
     render()
     {
         const pageContent = <>

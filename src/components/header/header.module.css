@@ -11,3 +11,12 @@
     color:white !important;
 }
 
+.title{
+    text-decoration:none;
+    color:white;
+}
+a:hover{
+    text-decoration: none !important;
+    color:white !important;
+}
+

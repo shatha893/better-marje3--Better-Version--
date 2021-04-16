@@ -9,6 +9,8 @@ import EditProfile from './Containers/StudentPages/Profile/EditProfile/EditProfi
 import Exams from './Containers/StudentPages/Exams/Exams';
 import ExamEntrée from './Containers/StudentPages/ExamEntrée/ExamEntrée';
 import Exam from './Containers/StudentPages/Exam/Exam';
+import AdminHome from './Containers/AdminPages/Home/Home';
+import Notes from './Containers/AdminPages/Notes/Notes';
 
 class App extends Component {
 
@@ -26,6 +28,12 @@ class App extends Component {
     return (
       <div>
         <Switch>
+        <Route
+          path="/notes"
+          render={()=><Notes userEmail={this.state.userEmail}/>}/>
+         <Route
+          path="/AdminHome"
+          render={()=><AdminHome userEmail={this.state.userEmail}/>}/>
           <Route
           path="/Exam"
           render={()=><Exam userEmail={this.state.userEmail}/>}/>
