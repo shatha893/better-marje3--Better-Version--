@@ -4,6 +4,21 @@
    margin:0%;
 }
 
-.examCol{
-   
+.questionTitle{
+   font-weight: bold;
+   padding-top:10px;
+   padding-left:15px;
+}
+
+.questionBody{
+   padding:15px;
+}
+
+.questionContainer{
+   background-color: white;
+   border-radius:5px;
+}
+
+.divider{
+   color:black;
 }

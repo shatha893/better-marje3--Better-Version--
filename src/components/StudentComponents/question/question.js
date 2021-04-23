@@ -8,13 +8,16 @@ import Col from 'react-bootstrap/Col';
 
 const question = (props) =>{
     return(<div className={props.hide?null:classes.hidden}>
-      <Form id="question-form" className={classes.form} >
+      <Form 
+      id="question-form" 
+      className={classes.form}
+      hasValidation>
           <Form.Group controlId="questionInput">
               <Form.Label> Question </Form.Label>
               <Form.Control 
               as="textarea" 
               rows={3}
-              onChange={(event)=>props.handleChange("body",event)}/>
+              onChange={(event)=>props.handleQuestion("body",event)}/>
           </Form.Group>
 
           {props.children}
@@ -24,7 +27,12 @@ const question = (props) =>{
               <Col sm={2}>
                   <Form.Control 
                   type="number" 
-                  onChange={(event)=>props.handleChange("weight",event)}/>
+                  min="0"
+                  isInvalid={!props.hasValidWeight}
+                  onChange={(event)=>props.handleQuestion("weight",event)}/>
+                  <Form.Control.Feedback type="invalid">
+                     Please provide a valid weight.
+                  </Form.Control.Feedback>
               </Col>
           </Form.Group>
          
@@ -50,6 +58,7 @@ const question = (props) =>{
       </Form>
       <Button 
       className={classes.button}
+      disabled={props.hasValidWeight?false:true}
       onClick={()=>props.handleSave()}>
          Save
       </Button>

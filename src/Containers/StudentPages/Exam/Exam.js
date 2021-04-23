@@ -6,11 +6,13 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
+import Divider from '@material-ui/core/Divider';
 
 class Exam extends Component{
    state={
       time:{},
-      seconds:2000
+      seconds:2000,
+      questions:[]
    };
 
    timer = 0; 
@@ -65,7 +67,16 @@ class Exam extends Component{
             <Col sm={8} className={classes.examCol}>
                {/*____A Single question's div_____ */}
                <div>
-                  {/* MAKE A PAGE FOR EACH QUESTION AND DO A MAP FCN ...ETC */}
+                  {/* Make a form for each type of question for the answers */}
+                   <Container className={classes.questionContainer}>
+                      <Row className={classes.questionTitle}>
+                         <p>Question 1</p>
+                      </Row>
+                      <Divider className={classes.divider}/>
+                      <Row className={classes.questionBody}>
+                         <p>Question body</p>
+                      </Row>
+                   </Container>
                </div>
             </Col>
             <Col>
