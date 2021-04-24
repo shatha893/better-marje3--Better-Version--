@@ -31,7 +31,6 @@ class Home extends Component{
 
     componentDidMount(){
 
-        this.mounted = true;
         this.setState({loading:true});
         Axios.all([
             Axios.get("http://localhost:3000/courses"),
@@ -39,9 +38,6 @@ class Home extends Component{
         .then(
             
             responseArr=>{
-                
-                if(this.mounted)
-                {
                     let tempArr = [];
                     for(let i in responseArr[0].data)
                     {
@@ -57,7 +53,6 @@ class Home extends Component{
                     avatar:responseArr[1].data[0].profilePic,
                     loading:false});
                 }
-            }
             )
         .catch(error=>{
         console.log("Error :( = "+error);
@@ -90,10 +85,14 @@ class Home extends Component{
         return(
             <Container fluid={+true} className={classes.Container}>
                 <Row>
-                    <Header pageType={"Home"} userName={this.state.userName} avatar={this.state.avatar}/> 
+                    <Header 
+                    pageType={"Home"} 
+                    userName={this.state.userName} 
+                    avatar={this.state.avatar}/> 
                 </Row>
                 <Row className={classes.content}>
-                    {this.state.loading?<Spinner loading={this.state.loading}/>: pageContent}
+                <Spinner loading={this.state.loading}/>
+                    { this.state.loading?null: pageContent}
                 </Row>
                
                 <Row>

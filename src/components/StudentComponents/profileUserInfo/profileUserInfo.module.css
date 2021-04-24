@@ -44,3 +44,7 @@
 .TextField ::placeholder{
     color:#8D69BA !important
 }
+
+.imageEdit{
+    display:none;
+}

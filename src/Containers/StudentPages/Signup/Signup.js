@@ -103,19 +103,36 @@ class SignupModal extends Component{
           break;
 
         default:
-          const imageToBase64 = require('image-to-base64');
-          imageToBase64(event.target.value) // Path to the image
-              .then(
-                  (response) => {
-                      console.log(response); // "cGF0aC90by9maWxlLmpwZw=="
-                      this.setState({profilePic:response});
-                  }
-              )
-              .catch(
-                  (error) => {
-                      console.log(error); // Logs an error if there was one
-                  }
-              )
+          let reader = new FileReader();
+            reader.onload = (e)=>{
+              this.setState({profilePic: e.target.result});
+            };
+            reader.readAsDataURL(event.target.files[0]);
+          // var reader = new FileReader();
+          // reader.readAsDataURL(blob); 
+          // reader.onloadend = function() {
+          //    base64data = reader.result;     
+          // }
+          // const imageToBase64 = require('image-to-base64');
+          // imageToBase64(event.target.value) // Path to the image
+          //     .then(
+          //         (response) => {
+          //             console.log(response); // "cGF0aC90by9maWxlLmpwZw=="
+          //             this.setState({profilePic:response});
+          //         }
+          //     )
+          //     .catch(
+          //         (error) => {
+          //             console.log(error); // Logs an error if there was one
+          //         }
+          //     )
+        //   fileUploadInputChange(e) {
+        //     let reader = new FileReader();
+        //     reader.onload = function(e) {
+        //       this.setState({uploadedImage: e.target.result});
+        //     };
+        //     reader.readAsDataURL(event.target.files[0]);
+        // }
             
           
     }

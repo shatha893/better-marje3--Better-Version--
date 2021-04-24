@@ -42,6 +42,7 @@ class Infopage extends Component {
         return(
             <Profile>
                 <ProfileUserInfo 
+                type="info"
                 userInfo={userInfo} 
                 disable={true} 
                 buttonText={"EDIT"}
