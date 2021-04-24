@@ -34,7 +34,16 @@ class Editpage extends Component {
             });
     }
 
-    handleEditClick=()=>{
+    handleEditClick=(dataArr)=>{
+        this.setState({
+            username:dataArr[0],
+            profilePic:dataArr[6],
+            email:dataArr[1],
+            major:dataArr[2],
+            mobileNum:dataArr[3],
+            studyPlan:dataArr[4],
+            password:dataArr[5],
+        });
         this.props.history.push("/Homepage/Infopage");
     }
 
@@ -45,6 +54,7 @@ class Editpage extends Component {
         return(
             <Profile>
                 <ProfileUserInfo 
+                type="edit"
                 userInfo={userInfo} 
                 disable={false} 
                 buttonText={"SAVE"}
