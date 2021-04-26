@@ -4,58 +4,58 @@ import Footer from '../../../components/footer/footer';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import NotesCard from '../../../components/homeResources/resources';
-import classes from './Notes.module.css';
+import classes from './Pastpapers.module.css';
 import Filters from '../../../components/StudentComponents/UI/Filters/Filters';
 
-class Notes extends Component{
+class Pastpapers extends Component{
     // title:"",   //should be like this "",
             // description:"", //should be like this "",
             // file:"", //should be like this "",
     state = {
-        notesInfo:[
+        pastpapersInfo:[
             {
-                title:"Calculus II Notes",
+                title:"Calculus II Pastpaper",
                 //the "description" is supposed to be the "description"
                 description:"Thomas Wodsworth",
                 file:""
         },
         {
-            title:"Databases Notes",
+            title:"Databases Pastpaper",
             description:"Audrey Patterson",
             file:""
     },
     {
-        title:"English Notes",
+        title:"English Pastpaper",
         description:"Liam Neeson",
         file:""
     },
     {
-        title:"Calculus II Notes",
+        title:"Calculus II Pastpaper",
         description:"Thomas Wodsworth",
         file:""
 },
 {
-    title:"Databases Notes",
+    title:"Databases Pastpaper",
     description:"Audrey Patterson",
     file:""
 },
 {
-title:"English Notes",
+title:"English Pastpaper",
 description:"Liam Neeson",
 file:""
 },
 {
-    title:"Calculus II Notes",
+    title:"Calculus II Pastpaper",
     description:"Thomas Wodsworth",
     file:""
 },
 {
-title:"Databases Notes",
+title:"Databases Pastpaper",
 description:"Audrey Patterson",
 file:""
 },
 {
-title:"English Notes",
+title:"English Pastpaper",
 description:"Liam Neeson",
 file:""
 }   
@@ -74,7 +74,7 @@ file:""
                 className={classes.content}>
                     <Filters>
                         <NotesCard 
-                        cardsInfo={this.state.notesInfo}
+                        cardsInfo={this.state.pastpapersInfo}
                         className={classes.card}/>
                     </Filters>
                 </Row>
@@ -87,4 +87,4 @@ file:""
 
 }
 
-export default Notes;
+export default Pastpapers;

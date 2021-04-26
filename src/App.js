@@ -11,6 +11,7 @@ import ExamEntrée from './Containers/StudentPages/ExamEntrée/ExamEntrée';
 import Exam from './Containers/StudentPages/Exam/Exam';
 import AdminHome from './Containers/AdminPages/Home/Home';
 import Notes from './Containers/AdminPages/Notes/Notes';
+import Pastpapers from './Containers/AdminPages/Pastpapers/Pastpapers';
 
 class App extends Component {
 
@@ -29,6 +30,9 @@ class App extends Component {
       
       <div>
         <Switch>
+        <Route
+          path="/pastpapers"
+          render={()=><Pastpapers userEmail={this.state.userEmail}/>}/>
         <Route
           path="/notes"
           render={()=><Notes userEmail={this.state.userEmail}/>}/>

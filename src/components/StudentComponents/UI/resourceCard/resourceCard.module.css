@@ -1,0 +1,13 @@
+.anchor{
+   text-decoration:underline;
+   color:#591CA8;
+}
+
+.card a:hover{
+   color:#7652a5e5;
+}
+
+.content{
+   width: 18rem;
+   margin:10px;
+}

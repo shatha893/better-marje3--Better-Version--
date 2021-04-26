@@ -10,7 +10,7 @@ import Accordion from '../../../components/StudentComponents/homeAcc/homeAcc';
 import noteImg from '../../../Assets/notes_slideshow.jpg';
 import Pagination from 'react-bootstrap/Pagination';
 import Axios from 'axios';
-import ResourcesPage from '../../../components/StudentComponents/homeResources/resources';
+import ResourcesPage from '../../../components/homeResources/resources';
 import Spinner from '../../../components/StudentComponents/UI/spinner/spinner';
 
 class Home extends Component{

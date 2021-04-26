@@ -7,57 +7,48 @@ import NotesCard from '../../../components/homeResources/resources';
 import classes from './Notes.module.css';
 import Filters from '../../../components/StudentComponents/UI/Filters/Filters';
 
-class Notes extends Component{
+class Exams extends Component{
     // title:"",   //should be like this "",
             // description:"", //should be like this "",
             // file:"", //should be like this "",
     state = {
         notesInfo:[
             {
-                title:"Calculus II Notes",
+                title:"Calculus II Exam",
                 //the "description" is supposed to be the "description"
-                description:"Thomas Wodsworth",
-                file:""
+                description:"Thomas Wodsworth"
         },
         {
-            title:"Databases Notes",
-            description:"Audrey Patterson",
-            file:""
+            title:"Databases Exam",
+            description:"Audrey Patterson"
     },
     {
-        title:"English Notes",
-        description:"Liam Neeson",
-        file:""
+        title:"English Exam",
+        description:"Liam Neeson"
     },
     {
-        title:"Calculus II Notes",
-        description:"Thomas Wodsworth",
-        file:""
+        title:"Calculus II Exam",
+        description:"Thomas Wodsworth"
 },
 {
-    title:"Databases Notes",
-    description:"Audrey Patterson",
-    file:""
+    title:"Databases Exam",
+    description:"Audrey Patterson"
 },
 {
-title:"English Notes",
-description:"Liam Neeson",
-file:""
+title:"English Exam",
+description:"Liam Neeson"
 },
 {
-    title:"Calculus II Notes",
-    description:"Thomas Wodsworth",
-    file:""
+    title:"Calculus II Exam",
+    description:"Thomas Wodsworth"
 },
 {
-title:"Databases Notes",
-description:"Audrey Patterson",
-file:""
+title:"Databases Exam",
+description:"Audrey Patterson"
 },
 {
-title:"English Notes",
-description:"Liam Neeson",
-file:""
+title:"English Exam",
+description:"Liam Neeson"
 }   
         ]
     };
@@ -87,4 +78,4 @@ file:""
 
 }
 
-export default Notes;
+export default Exams;

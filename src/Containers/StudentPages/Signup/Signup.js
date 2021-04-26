@@ -107,52 +107,37 @@ class SignupModal extends Component{
             reader.onload = (e)=>{
               this.setState({profilePic: e.target.result});
             };
-            reader.readAsDataURL(event.target.files[0]);
-          // var reader = new FileReader();
-          // reader.readAsDataURL(blob); 
-          // reader.onloadend = function() {
-          //    base64data = reader.result;     
-          // }
-          // const imageToBase64 = require('image-to-base64');
-          // imageToBase64(event.target.value) // Path to the image
-          //     .then(
-          //         (response) => {
-          //             console.log(response); // "cGF0aC90by9maWxlLmpwZw=="
-          //             this.setState({profilePic:response});
-          //         }
-          //     )
-          //     .catch(
-          //         (error) => {
-          //             console.log(error); // Logs an error if there was one
-          //         }
-          //     )
-        //   fileUploadInputChange(e) {
-        //     let reader = new FileReader();
-        //     reader.onload = function(e) {
-        //       this.setState({uploadedImage: e.target.result});
-        //     };
-        //     reader.readAsDataURL(event.target.files[0]);
-        // }
-            
-          
+            reader.readAsDataURL(event.target.files[0]);  
     }
 }
 
 handleSubmit = ()=>{
     let data = {
-      username:this.state.username.value,
-      uniEmail:this.state.uniEmail.value,
-      major:this.state.major.value,
-      phoneNum:this.state.phoneNum.value,
+      name:this.state.username.value,
+      email:this.state.uniEmail.value,
+      // major:this.state.major.value,
+      // phoneNum:this.state.phoneNum.value,
       password:this.state.password.value,
-      studyPlan:this.state.studyPlan.value,
-      profilePic:this.state.profilePic
+      profilePictureJpgBase64:this.state.profilePic,
+      studyPlanId:this.state.studyPlan.value 
     };
-    // for(let key in this.state)
+   
     // {
-    //   let temp = JSON.stringify(key);
-    //   data[temp]= this.state[key].value;
+    //   "name": "string",
+    //   "email": "string",
+    //   "password": "string",
+    //   "profilePictureJpgBase64": "string",
+    //   "studyPlanId": 0
     // }
+    // Axios.post("http://localhost:1234/swagger/index.html/User/Create",data)
+    // .then(response =>{
+    //   console.log(response);
+    //   if(response.status == 201)
+    //     this.setState({hideSuccessAlert:false});
+    //   else
+    //     this.setState({hideWarningAlert:false});
+    // })
+
     Axios.post("http://localhost:3000/users",data)
     .then(response =>{
       if(response.status == 201)

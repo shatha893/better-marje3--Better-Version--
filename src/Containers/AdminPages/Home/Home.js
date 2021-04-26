@@ -17,22 +17,30 @@ class Home extends Component{
          {
             color:'Success',
             title:'Pending Notes',
-            link:'/notes'
+            link:<a 
+            href='/notes'
+            className={classes.anchor}>Go there</a>
          },
          {
            color:'Danger',
            title:'Pending Pastpapers',
-           link:'/pastpapers'
+           link:<a 
+           href='/pastpapers'
+           className={classes.anchor}>Go there</a>
         },
         {
            color:'Warning',
            title:'Pending Exams',
-           link:'/exams'
+           link:<a 
+           href='/exams'
+           className={classes.anchor}>Go there</a>
         },
         {
            color:'Info',
            title:'Users\' Reports',
-           link:'/reports'
+           link:<a 
+           href='/reports'
+           className={classes.anchor}>Go there</a>
         }
   
       ]
@@ -56,16 +64,13 @@ class Home extends Component{
                   key={idx}
                   text={'white'}
                   style={{ width: '18rem' }}
-                  className={classes.card}
-                  >
+                  className={classes.card}>
                   <Card.Header><b>{option.title}</b></Card.Header>
                   <Card.Body>
-                  <Card.Text>
+                  <Card.Text className={classes.anchorParent}>
                      You have 500 pending request to approve
                      <br/>
-                     <a 
-                     href={option.link}
-                     className={classes.anchor}>Go there</a>
+                     {option.link}
                   </Card.Text>
                   </Card.Body>
                   </Card>

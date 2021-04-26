@@ -14,14 +14,14 @@ import Spinner from '../../../components/StudentComponents/UI/spinner/spinner';
 class loginModal extends Component{
 
   state = {
-    uniEmail:"",
+    email:"",
     password:"",
     loginBtnClicked:false,
     loading:false
   }
 
-  handleUniEmailChange = event =>{
-    this.setState({uniEmail:event.target.value});
+  handleemailChange = event =>{
+    this.setState({email:event.target.value});
   }
 
   handlePasswordChange = event =>{
@@ -30,22 +30,29 @@ class loginModal extends Component{
   
 
   handleLogin = () =>{
-    if(this.state.uniEmail == 3456)
+    if(this.state.email == 3456)
     {
       this.props.history.push('/AdminHome');
     }
     else{
-    // VERY VERY BAD SECURITY HERE (WON'T STAY LIKE THIS) ---> Token and POST request instead
+    // Axios.post(
+    //   "http://localhost:1234/swagger/index.html/User/Login",
+    //   {
+    //     email:this.state.email,
+    //     password:this.state.password
+    //   }
+    //   )
     Axios.get("http://localhost:3000/users?uniEmail="+this.state.uniEmail+"&password="+this.state.password)
     .then(
       result =>{
         this.setState({loading:true});
         if(result.status == 200)
           {
-            this.props.setUserEmail(this.state.uniEmail);
-            console.log("Success "+result.status+this.state.uniEmail);
+            this.props.setUserEmail(this.state.email);
+            console.log("Success "+result.status+this.state.email);
             this.props.history.push('/Homepage');}
             this.setState({loading:false});
+        console.log(result);
            }
 
     )
@@ -76,7 +83,7 @@ class loginModal extends Component{
                             type="email" 
                             placeholder="Required" 
                             className={classes.inputs} 
-                            onChange={this.handleUniEmailChange}/>
+                            onChange={this.handleemailChange}/>
                         </Form.Group>
           
                         <Form.Group controlId="formBasicPassword" className={classes.Titles}>

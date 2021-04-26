@@ -1,7 +1,7 @@
 import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import LocalCard from '../UI/resourceCard/resourceCard';
+import LocalCard from '../StudentComponents/UI/resourceCard/resourceCard';
 import classes from './resources.module.css';
 
 const resourcesPage = (props)=>{
@@ -56,7 +56,8 @@ const resourcesPage = (props)=>{
                     className={classes.LocalCard} 
                     title={cardInfo.title} 
                     description={cardInfo.description}
-                    downloadLink={cardInfo.file}/> ))   }
+                    downloadLink={cardInfo.file}
+                    pageType={props.pageType}/> ))   }
             </Col>
         </Row>);
 }
