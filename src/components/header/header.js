@@ -17,10 +17,7 @@ const useStyles = makeStyles((theme) => ({
   }, 
   menuButton: {
     marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
+  }
 }));
 
 const ButtonAppBar=(props)=> {
@@ -105,7 +102,7 @@ const ButtonAppBar=(props)=> {
           <Logo/>
           <Typography 
           variant="h6" 
-          className={classes.title}>
+          className={cssClasses.typography}>
             <a 
             href={isAdmin?"/AdminHome":"/Homepage"}
             className={cssClasses.title}>

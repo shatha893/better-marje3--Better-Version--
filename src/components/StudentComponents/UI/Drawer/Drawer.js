@@ -49,6 +49,7 @@ class LocalDrawer extends Component{
 }
 
 handleExamsBtn =()=>{
+  
   this.props.history.push("/MainExams");
   this.setState(
     {

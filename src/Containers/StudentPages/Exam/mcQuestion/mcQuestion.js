@@ -4,8 +4,6 @@ import classes from './mcQuestion.module.css';
 
 const mcQuestion=(props)=>{
    return(
-      <Form>
-         <p>
          <Form.Group 
          controlId="exampleForm.ControlInput1"
          className={classes.formGroup}>
@@ -34,8 +32,6 @@ const mcQuestion=(props)=>{
                   id="choice3"/>
                </Form.Label>
          </Form.Group>
-         </p>
-    </Form>
       );
 }
 

@@ -406,14 +406,12 @@ class MakeQuestion extends Component{
                                 <fieldset className={classes.formGroup}>
                                 <Form.Group as={Row} >
                                 <Col>
-                                    <Form.Group controlId="exampleForm.ControlInput1">
-                                        <Form.Label>
-                                           Answer
-                                        </Form.Label>
-                                        <Form.Control 
-                                         type="text" 
-                                        onChange={()=>this.handleChange()}/>
-                                    </Form.Group>
+                                    <Form.Label>
+                                        Answer
+                                    </Form.Label>
+                                    <Form.Control 
+                                    type="text" 
+                                    onChange={()=>this.handleChange()}/>
                                 </Col>
                                 </Form.Group>
                               </fieldset>

@@ -9,7 +9,7 @@ import Button from 'react-bootstrap/Button';
 import Divider from '@material-ui/core/Divider';
 import MCQuestion from './mcQuestion/mcQuestion';
 import PQuestion from './pQuestion/pQuestion';
-import FiBQuestion from './FiBQuestion/FiBQuestion';
+import FiBQuestion from './FiBQuestion/fibQuestion';
 import TFQuestion from './tfQuestion/tfQuestion';
 import submitButton from './Exam.module.css';
 import Clock from '../../../components/StudentComponents/UI/Clock/Clock';
@@ -17,8 +17,6 @@ import Clock from '../../../components/StudentComponents/UI/Clock/Clock';
 class Exam extends Component{
   
    state={
-      time:{},
-      seconds:2000,
        //Each question have to have a type so that we can choose the right view for it
       questions:[{
          type:'MCQ',
@@ -26,7 +24,7 @@ class Exam extends Component{
          options:['Malé','Amman','Albany']
       },
    {
-      type:'P',
+      type:'PQ',
       body:'What is the output of the following:'+
       "Petya is preparing for his birthday. He decided that there would be n different dishes on the dinner table, numbered from 1 to n. Since Petya doesn't like to cook, he wants to order these dishes in restaurants.\n"+
       "Unfortunately, all dishes are prepared in different restaurants and therefore Petya needs to pick up his orders from n different places. To speed up this process, he wants to order courier delivery at some restaurants. Thus, for each dish, there are two options for Petya how he can get it:\n"+      
@@ -39,47 +37,17 @@ class Exam extends Component{
       "The first line contains one positive integer t (1≤t≤2⋅105) — the number of test cases. Then t test cases follow.\n"+    
       "Each test case begins with a line containing one integer n (1≤n≤2⋅105) — the number of dishes that Petya wants to order."     
       
+   },
+   {
+      type:'TFQ',
+      body:'The company IBM was founded in 1912?'
+   },
+   {
+      type:'FiBQ',
+      body:'_________invented the telegraph.'
    }],
-      answers:[]
+      answers:['Malé','false','I don\'t know yet','David Alter']
    };
-
-   timer = 0; 
-
-   secondsToTime = (secs)=>{
-      let hours = Math.floor(secs/(3600));
-
-      let divisorForMins = secs%3600;
-      let minutes = Math.floor(divisorForMins/60);
-
-      let divisorForSecs = divisorForMins%60;
-      let seconds = Math.ceil(divisorForSecs);
-
-      let obj = {"h":hours, "m":minutes, "s":seconds};
-      return obj;
-   }
-
-   componentDidMount = ()=>{
-      let timeLeftVar = this.secondsToTime(this.state.seconds);
-      this.setState({time:timeLeftVar});
-      this.startTimer();
-   }
-
-   startTimer =()=>{
-      if(this.timer == 0 && this.state.seconds>0){
-         this.timer = setInterval(this.countdown, 1000);
-      }
-   }
-
-   countdown = () =>{
-      let seconds = this.state.seconds - 1;
-      this.setState({
-         time:this.secondsToTime(seconds),
-         seconds:seconds
-      })
-
-      if(seconds == 0) 
-         clearInterval(this.timer);
-   }
 
    chooseQuestion = (question)=>{
       switch(question.type){
@@ -92,6 +60,10 @@ class Exam extends Component{
          case "TFQ":
             return <TFQuestion question={question}/>;
       }
+   }
+
+   handleSubmit = () =>{
+      this.props.history.push("/Exam/Feedback");
    }
 
    render(){
@@ -109,7 +81,9 @@ class Exam extends Component{
                <div>
                   {/* Make a form for each type of question for the answers */}
                   {this.state.questions.map( (question,index)=>(
-                     <Container className={classes.questionContainer}>
+                     <Container 
+                     className={classes.questionContainer}
+                     key={index}>
                      <Row className={classes.questionTitle}>
                         <p>Question {index+1}</p>
                      </Row>
@@ -122,13 +96,14 @@ class Exam extends Component{
                      </Row>
                   </Container>
                   ))}
-                   <Button className={classes.submitButton}>
+                   <Button 
+                   className={classes.submitButton}
+                   onClick={this.handleSubmit}>
                       Submit Answers
                    </Button>
                </div>
             </Col>
             <Col>
-               {/* Time: {this.state.time.h}:{this.state.time.m}:{this.state.time.s} */}
                <Clock/>
             </Col>
          </Row>

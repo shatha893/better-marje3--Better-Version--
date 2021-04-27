@@ -15,7 +15,11 @@
     text-decoration:none;
     color:white;
 }
-a:hover{
+.typography{
+    flex-grow: 1
+}
+
+.typography a:hover{
     text-decoration: none !important;
     color:white !important;
 }
