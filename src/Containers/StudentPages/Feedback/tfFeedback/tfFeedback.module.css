@@ -1,0 +1,11 @@
+.formGroup{
+   margin-left:20px;
+}
+
+.wrongOpt{
+   color:red;
+}
+
+.rightOpt{
+   color:green;
+}

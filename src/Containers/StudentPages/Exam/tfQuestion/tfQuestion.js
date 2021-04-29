@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col';
 
 const tfQuestion=(props)=>{
    return(
+      <fieldset id='group1'>
       <Form.Group 
       as={Row}
       className={classes.formGroup}>
@@ -15,15 +16,18 @@ const tfQuestion=(props)=>{
          label="True"
          name="formHorizontalRadios"
          id="trueRadio"
-         className={classes.radioBtn}/>
+         className={classes.radioBtn}
+         key='group1'/>
          <Form.Check
          type="radio"
          label="False"
          name="formHorizontalRadios"
          id="falseRadio"
-         className={classes.radioBtn}/>
+         className={classes.radioBtn}
+         key='group1'/>
       </Col>
-      </Form.Group>);
+      </Form.Group>
+      </fieldset>);
 }
 
 export default tfQuestion;

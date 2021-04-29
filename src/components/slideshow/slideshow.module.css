@@ -1,0 +1,27 @@
+.carousel{
+   margin-right:60px;
+   margin-left:15%;
+   margin-top:10px;
+   width:70%;}
+
+.container{
+   min-height: 100vh;
+}
+
+.carousel img{
+   width: 100%;
+   object-fit: cover;
+}
+
+.captionSlide1{
+   position:relative;
+   bottom:500px;
+   left:-200px;
+}
+
+.captionSlide2{
+   position:relative;
+   bottom:500px;
+   left:-200px;
+   color:black;
+}
