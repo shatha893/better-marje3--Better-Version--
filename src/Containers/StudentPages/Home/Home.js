@@ -12,6 +12,7 @@ import Pagination from 'react-bootstrap/Pagination';
 import Axios from 'axios';
 import ResourcesPage from '../../../components/homeResources/resources';
 import Spinner from '../../../components/StudentComponents/UI/spinner/spinner';
+import Filters from '../../../components/StudentComponents/UI/Filters/Filters';
 
 class Home extends Component{
 
@@ -22,7 +23,7 @@ class Home extends Component{
             // description:"", //should be like this "",
             // file:"", //should be like this "",
         courses:[],
-        userName:null,
+        userName:"Aaron Warner",
         firstMount:false,
         avatar:null,
         toggleDrawer:false,
@@ -31,7 +32,6 @@ class Home extends Component{
 
     componentDidMount(){
 
-        this.setState({loading:true});
         Axios.all([
             Axios.get("http://localhost:3000/courses"),
             Axios.get("http://localhost:3000/users?uniEmail="+this.props.userEmail)])
@@ -50,8 +50,7 @@ class Home extends Component{
 
                     this.setState({courses:[...tempArr],
                     userName:responseArr[1].data[0].username,
-                    avatar:responseArr[1].data[0].profilePic,
-                    loading:false});
+                    avatar:responseArr[1].data[0].profilePic});
                 }
             )
         .catch(error=>{
@@ -63,26 +62,24 @@ class Home extends Component{
     render()
     {
         const pageContent = <>
-                                {/* The filter search column */}
-                                <Col md={3} >
-                                    <div className={classes.FiltersDiv}>
-                                        <img src={FilterSearch} alt="workspace" fluid={+true}/> 
-                                        <p>Filter Results by</p>
-                                        <Accordion courses={this.state.courses} />
-                                    </div>               
-                                </Col>
-
-                                {/* The Results column */}
-                                <Col md={9}>
-                                    <Row>
-                                        <p className={classes.PageTitle}> Notes and Pastpapers </p>
-                                    </Row>
-                                    <ResourcesPage cardsInfo={this.state.cards}/>
-                                </Col>
+                                <Row>
+                                    <p className={classes.PageTitle}> Notes and Pastpapers </p>
+                                </Row>
+                                <Row className={classes.content}>
+                                <img 
+                                    src={FilterSearch} 
+                                    alt="workspace"
+                                    className={classes.filtersImg}/>
+                                    <Filters>
+                                        {/* <ResourcesPage cardsInfo={this.state.cards}/> */}
+                                    </Filters>
+                                </Row>     
                             </>;
 
 
         return(
+            <>
+            <Spinner loading={this.state.loading}/>
             <Container fluid={+true} className={classes.Container}>
                 <Row>
                     <Header 
@@ -90,16 +87,13 @@ class Home extends Component{
                     userName={this.state.userName} 
                     avatar={this.state.avatar}/> 
                 </Row>
-                <Row className={classes.content}>
-                <Spinner loading={this.state.loading}/>
+                
                     { this.state.loading?null: pageContent}
-                </Row>
-               
                 <Row>
                     <Footer/>
                 </Row>
             </Container>
-            );
+           </> );
 }
 }
 

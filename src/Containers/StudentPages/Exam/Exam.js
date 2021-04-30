@@ -65,7 +65,7 @@ class Exam extends Component{
    }
 
    handleSubmit = () =>{
-      this.props.history.push("/Exam/Feedback");
+      this.props.history.push("/Feedback");
    }
 
    render(){

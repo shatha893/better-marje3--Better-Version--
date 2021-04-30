@@ -49,7 +49,7 @@ class App extends Component {
           render={()=><AdminHome/>}/>
           <Route
           path="/Exam"
-          render={()=><Exams/>}/>
+          render={()=><Exam/>}/>
           <Route
           path="/ExamEntrée"
           render={()=><ExamEntrée/>}/>
@@ -66,14 +66,15 @@ class App extends Component {
           render={()=><InfoProfile userEmail={this.state.userEmail}/>}/>
 
           <Route 
-          path="/Homepage" 
+          // path="/Homepage" 
+          path="/" 
           render={ ()=>{
             return <Home userEmail={this.state.userEmail}/>;}}/>
 
           <Route 
-          path="/" 
+          // path="/" 
           exact 
-          render={()=><Guest email={this.state.userEmail} setUserEmail={(email)=>this.setUserEmail(email)}/>} />
+          render={()=><Guest/>} />
           
         </Switch>
       </div>
