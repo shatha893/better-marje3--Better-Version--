@@ -4,16 +4,15 @@ import classes from './mcQuestion.module.css';
 
 const mcQuestion=(props)=>{
    return(
-         <Form.Group 
-         controlId="exampleForm.ControlInput1"
-         className={classes.formGroup}>
+      <fieldset id="group2" className={classes.formGroup}>
                <br/>
                <Form.Label>
                   <Form.Check
                   type="radio"
                   label={props.question.options[0]}
                   name="formHorizontalRadios"
-                  id="choice1"/>
+                  id="choice1"
+                  key='group2'/>
                </Form.Label>
                <br/>
                <Form.Label>
@@ -21,7 +20,8 @@ const mcQuestion=(props)=>{
                   type="radio"
                   label={props.question.options[1]}
                   name="formHorizontalRadios"
-                  id="choice2"/>
+                  id="choice2"
+                  key='group2'/>
                </Form.Label>
                <br/>
                <Form.Label>
@@ -29,9 +29,10 @@ const mcQuestion=(props)=>{
                   type="radio"
                   label={props.question.options[2]}
                   name="formHorizontalRadios"
-                  id="choice3"/>
+                  id="choice3"
+                  key='group2'/>
                </Form.Label>
-         </Form.Group>
+         </fieldset>
       );
 }
 

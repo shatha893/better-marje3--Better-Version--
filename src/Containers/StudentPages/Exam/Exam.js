@@ -10,8 +10,8 @@ import Divider from '@material-ui/core/Divider';
 import MCQuestion from './mcQuestion/mcQuestion';
 import PQuestion from './pQuestion/pQuestion';
 import TFQuestion from './tfQuestion/tfQuestion';
-import submitButton from './Exam.module.css';
 import Clock from '../../../components/StudentComponents/UI/Clock/Clock';
+import { withRouter } from 'react-router-dom';
 
 class Exam extends Component{
   
@@ -20,7 +20,8 @@ class Exam extends Component{
       questions:[{
          type:'MCQ',
          body:'what is the capital of the maldives?',
-         options:['Malé','Amman','Albany']
+         options:['Malé','Amman','Albany'],
+         answer:'Malé'
       },
    {
       type:'PQ',
@@ -34,18 +35,19 @@ class Exam extends Component{
       "Find the minimum time after which all the dishes can be at Petya's home.\n"+
       "Input\n"+     
       "The first line contains one positive integer t (1≤t≤2⋅105) — the number of test cases. Then t test cases follow.\n"+    
-      "Each test case begins with a line containing one integer n (1≤n≤2⋅105) — the number of dishes that Petya wants to order."     
-      
+      "Each test case begins with a line containing one integer n (1≤n≤2⋅105) — the number of dishes that Petya wants to order.",     
+      answer:'I don\'t know yet'
    },
    {
       type:'TFQ',
-      body:'The company IBM was founded in 1912?'
+      body:'The company IBM was founded in 1912?',
+      answer:'false'
    },
    {
       type:'FiBQ',
-      body:'_________invented the telegraph.'
-   }],
-      answers:['Malé','false','I don\'t know yet','David Alter']
+      body:'_________invented the telegraph.',
+      answer:'David Alter'
+   }]
    };
 
    chooseQuestion = (question)=>{
@@ -60,7 +62,7 @@ class Exam extends Component{
    }
 
    handleSubmit = () =>{
-      this.props.history.push("/Exam/Feedback");
+      this.props.history.push("/Feedback");
    }
 
    render(){
@@ -112,4 +114,4 @@ class Exam extends Component{
    }
 }
 
-export default Exam;
+export default withRouter(Exam);

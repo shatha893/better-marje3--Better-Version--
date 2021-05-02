@@ -82,7 +82,7 @@ class Questions extends Component{
             <ListGroup.Item 
             key={question.id}
             action 
-            href="/" 
+            href="/Question" 
             className={classes.listItem}> 
                 <p className={classes.content}> 
                 {question.title} 

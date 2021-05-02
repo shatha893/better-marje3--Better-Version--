@@ -10,6 +10,7 @@ import { withRouter } from 'react-router-dom';
 import Axios from 'axios';
 import classes from './Login.module.css';
 import Spinner from '../../../components/StudentComponents/UI/spinner/spinner';
+import Alert from '../../../components/StudentComponents/UI/anAlert/anAlert';
 
 class loginModal extends Component{
 
@@ -17,7 +18,7 @@ class loginModal extends Component{
     email:"",
     password:"",
     loginBtnClicked:false,
-    loading:false
+    hideWarningAlert:true
   }
 
   handleemailChange = event =>{
@@ -35,28 +36,34 @@ class loginModal extends Component{
       this.props.history.push('/AdminHome');
     }
     else{
-    // Axios.post(
-    //   "http://localhost:1234/swagger/index.html/User/Login",
-    //   {
-    //     email:this.state.email,
-    //     password:this.state.password
-    //   }
-    //   )
-    Axios.get("http://localhost:3000/users?uniEmail="+this.state.uniEmail+"&password="+this.state.password)
+    this.setState({loading:true});
+    Axios.post("http://localhost:1234/User/Login",
+    {
+          email:this.state.email,
+          password:this.state.password
+    })
     .then(
       result =>{
-        this.setState({loading:true});
-        if(result.status == 200)
-          {
-            this.props.setUserEmail(this.state.email);
-            console.log("Success "+result.status+this.state.email);
-            this.props.history.push('/Homepage');}
-            this.setState({loading:false});
-        console.log(result);
-           }
+      this.props.history.push('/Homepage');
+      })
+    .catch((error)=>{
+    this.setState({hideWarningAlert:false});
+    // if (error.response) {
+    //   // Request made and server responded
+    //   console.log(error.response.data);
+    //   console.log(error.response.status);
+    //   console.log(error.response.headers);
+    // } else if (error.request) {
+    //   // The request was made but no response was received
+    //   console.log(error.request);
+    // } else {
+    //   // Something happened in setting up the request that triggered an Error
+    //   console.log('Error', error.message);
+    // }
 
-    )
-          }
+  });
+          
+    }
   }
 
 
@@ -74,30 +81,33 @@ class loginModal extends Component{
          <Modal.Title className={classes.ModalTitle}>Login</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-      {this.state.loading? <Spinner/>:<Container className={classes.ModalContainer}>
-                  <Row>
-                      <Col>
-                        <Form.Group controlId="formBasicEmail" className={classes.Titles}>
-                            <Form.Label> Email </Form.Label>
-                            <Form.Control 
-                            type="email" 
-                            placeholder="Required" 
-                            className={classes.inputs} 
-                            onChange={this.handleemailChange}/>
-                        </Form.Group>
-          
-                        <Form.Group controlId="formBasicPassword" className={classes.Titles}>
-                          <Form.Label> Password </Form.Label>
-                          <Form.Control type="password" placeholder="Required" className={classes.inputs} onChange={this.handlePasswordChange}/>
-                        </Form.Group>
-                      </Col>
-                      <Col xs={6}>
-                        <img src={Workspace} alt="workspace" fluid={+true}/>
-                      </Col>
-                  </Row>
-                  
-                  
-                </Container>}         
+        <Container className={classes.ModalContainer}>
+          <Row>
+              <Col>
+                <Form.Group controlId="formBasicEmail" className={classes.Titles}>
+                    <Form.Label> Email </Form.Label>
+                    <Form.Control 
+                    type="email" 
+                    placeholder="Required" 
+                    className={classes.inputs} 
+                    onChange={this.handleemailChange}/>
+                </Form.Group>
+  
+                <Form.Group controlId="formBasicPassword" className={classes.Titles}>
+                  <Form.Label> Password </Form.Label>
+                  <Form.Control type="password" placeholder="Required" className={classes.inputs} onChange={this.handlePasswordChange}/>
+                </Form.Group>
+              </Col>
+              <Col xs={6}>
+                <img src={Workspace} alt="workspace" fluid={+true}/>
+              </Col>
+          </Row>
+        </Container>
+        <Alert 
+        hide={this.state.hideWarningAlert}
+        variant={"danger"}
+        title={"Wrong Credentials"}
+        textContent={"Please make sure you provided the right username and password"}/>        
       </Modal.Body>
 
       <Modal.Footer className={classes.ModalFooter}>

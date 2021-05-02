@@ -7,6 +7,7 @@ import Col from 'react-bootstrap/Col';
 import Axios from 'axios';
 import Alert from '../../../components/StudentComponents/UI/anAlert/anAlert';
 import classes from './Signup.module.css';
+import MyTooltip from '../../../components/StudentComponents/UI/tooltip/tooltip';
 
 class SignupModal extends Component{
 
@@ -21,7 +22,8 @@ class SignupModal extends Component{
         value:"",
         label:"University Email",
         type:"text",
-        controlId:"formBasicUniEmail"
+        controlId:"formBasicUniEmail",
+        tooltipText:"Please enter your univesity email"
       },
       major:{
         value:"",
@@ -39,14 +41,17 @@ class SignupModal extends Component{
         value:"",
         label:"Password",
         type:"password",
-        controlId:"formBasicPassword"
+        controlId:"formBasicPassword",
+        tooltipText:"Password must be at least 6 characters and has "+
+        "numbers, special symbols, capital letters and small letters"
       },
      
       studyPlan:{
         value:"",
         label:"Study Plan",
         type:"text",
-        controlId:"formBasicStudyPlan"
+        controlId:"formBasicStudyPlan",
+        tooltipText:"Input the year that represents your study plan. E.g 2020"
       },
       
       profilePic:"",
@@ -118,33 +123,30 @@ handleSubmit = ()=>{
       // major:this.state.major.value,
       // phoneNum:this.state.phoneNum.value,
       password:this.state.password.value,
-      profilePictureJpgBase64:this.state.profilePic,
+      profilePictureJpgBase64:this.state.profilePic.substr(23,this.state.profilePic.length),
       studyPlanId:this.state.studyPlan.value 
     };
-   
-    // {
-    //   "name": "string",
-    //   "email": "string",
-    //   "password": "string",
-    //   "profilePictureJpgBase64": "string",
-    //   "studyPlanId": 0
-    // }
-    // Axios.post("http://localhost:1234/swagger/index.html/User/Create",data)
-    // .then(response =>{
-    //   console.log(response);
-    //   if(response.status == 201)
-    //     this.setState({hideSuccessAlert:false});
-    //   else
-    //     this.setState({hideWarningAlert:false});
-    // })
 
-    Axios.post("http://localhost:3000/users",data)
-    .then(response =>{
-      if(response.status == 201)
-        this.setState({hideSuccessAlert:false});
-      else
-        this.setState({hideWarningAlert:false});
+     Axios.post("http://localhost:1234/User/Create",data)
+      .then(response =>{
+        this.setState({hideSuccessAlert:false});  
     })
+    .catch(function (error) {
+      this.setState({hideWarningAlert:false});
+      // if (error.response) {
+      //   // Request made and server responded
+      //   console.log(error.response.data);
+      //   console.log(error.response.status);
+      //   console.log(error.response.headers);
+      // } else if (error.request) {
+      //   // The request was made but no response was received
+      //   console.log(error.request);
+      // } else {
+      //   // Something happened in setting up the request that triggered an Error
+      //   console.log('Error', error.message);
+      // }
+  
+    });
   }
 
   handleCloseAlert = (variant) =>{
@@ -197,10 +199,12 @@ handleSubmit = ()=>{
                         controlId={formGroup.content.controlId} 
                         className={classes.Titles}>
                         <Form.Label> {formGroup.content.label} </Form.Label>
-                        <Form.Control 
-                        type="text" 
-                        className={classes.inputs} 
-                        onChange={(event)=>this.handleChange(formGroup.content.controlId,event)}/>
+                        <MyTooltip tooltipText={formGroup.content.tooltipText}>
+                          <Form.Control 
+                          type="text" 
+                          className={classes.inputs} 
+                          onChange={(event)=>this.handleChange(formGroup.content.controlId,event)}/>
+                        </MyTooltip>
                       </Form.Group>))
                   }
                   </Col>
@@ -210,10 +214,12 @@ handleSubmit = ()=>{
                     controlId={this.state.password.controlId}
                     className={classes.Titles}>
                       <Form.Label>{this.state.password.label}</Form.Label>
-                      <Form.Control 
-                      type={this.state.password.type} 
-                      className={classes.inputs}
-                      onChange={(event)=>this.handleChange(this.state.password.controlId,event)}/>
+                      <MyTooltip tooltipText={this.state.password.tooltipText}>
+                        <Form.Control 
+                        type={this.state.password.type} 
+                        className={classes.inputs}
+                        onChange={(event)=>this.handleChange(this.state.password.controlId,event)}/>
+                      </MyTooltip>
                     </Form.Group>
     
                     {/* Study Plan Input */}
@@ -221,10 +227,12 @@ handleSubmit = ()=>{
                     controlId={this.state.studyPlan.controlId} 
                     className={classes.Titles}>
                         <Form.Label> {this.state.studyPlan.label} </Form.Label>
-                        <Form.Control 
-                        type="text"  
-                        className={classes.inputs} 
-                        onChange={(event)=>this.handleChange(this.state.studyPlan.controlId,event)}/>
+                        <MyTooltip tooltipText={this.state.studyPlan.tooltipText}>
+                          <Form.Control 
+                          type="text"  
+                          className={classes.inputs} 
+                          onChange={(event)=>this.handleChange(this.state.studyPlan.controlId,event)}/>
+                        </MyTooltip>
                     </Form.Group>
   
                     {/* Profile picture */}

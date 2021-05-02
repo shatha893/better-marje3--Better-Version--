@@ -12,6 +12,8 @@ import Exam from './Containers/StudentPages/Exam/Exam';
 import AdminHome from './Containers/AdminPages/Home/Home';
 import Notes from './Containers/AdminPages/Notes/Notes';
 import Pastpapers from './Containers/AdminPages/Pastpapers/Pastpapers';
+import Feedback from './Containers/StudentPages/Feedback/Feedback';
+import Question from './Containers/StudentPages/Question/Question';
 
 class App extends Component {
 
@@ -31,23 +33,29 @@ class App extends Component {
       <div>
         <Switch>
         <Route
+          path="/Question"
+          render={()=><Question/>}/>
+        <Route
+          path="/Feedback"
+          render={()=><Feedback/>}/>
+        <Route
           path="/pastpapers"
-          render={()=><Pastpapers userEmail={this.state.userEmail}/>}/>
+          render={()=><Pastpapers/>}/>
         <Route
           path="/notes"
-          render={()=><Notes userEmail={this.state.userEmail}/>}/>
+          render={()=><Notes/>}/>
          <Route
           path="/AdminHome"
-          render={()=><AdminHome userEmail={this.state.userEmail}/>}/>
+          render={()=><AdminHome/>}/>
           <Route
           path="/Exam"
-          render={()=><Exam userEmail={this.state.userEmail}/>}/>
+          render={()=><Exam/>}/>
           <Route
           path="/ExamEntrée"
-          render={()=><ExamEntrée userEmail={this.state.userEmail}/>}/>
+          render={()=><ExamEntrée/>}/>
           <Route
           path="/MainExams"
-          render={()=><Exams userEmail={this.state.userEmail}/>}/>
+          render={()=><Exams/>}/>
 
           <Route 
           path="/Homepage/Infopage/Editpage" 
@@ -58,14 +66,15 @@ class App extends Component {
           render={()=><InfoProfile userEmail={this.state.userEmail}/>}/>
 
           <Route 
-          path="/Homepage" 
+          // path="/Homepage" 
+          path="/" 
           render={ ()=>{
             return <Home userEmail={this.state.userEmail}/>;}}/>
 
           <Route 
-          path="/" 
+          // path="/" 
           exact 
-          render={()=><Guest email={this.state.userEmail} setUserEmail={(email)=>this.setUserEmail(email)}/>} />
+          render={()=><Guest/>} />
           
         </Switch>
       </div>

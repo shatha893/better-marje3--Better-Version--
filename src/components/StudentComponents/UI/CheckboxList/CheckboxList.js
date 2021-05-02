@@ -13,6 +13,8 @@ import classes from './CheckboxList.module.css';
 import Filters from '../Filters/Filters';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import QuestionModal from '../QuestionModal/QuestionModal';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Form from 'react-bootstrap/Form';
 
 class CheckboxList extends Component{
 
@@ -106,6 +108,15 @@ class CheckboxList extends Component{
       });
 
   return (<>
+      <InputGroup className="mb-3">
+      <InputGroup.Prepend>
+        <Button variant="outline-secondary" className={classes.addButton}>Add</Button>
+      </InputGroup.Prepend>
+      <Form.Control 
+      className={classes.formControl}
+      aria-describedby="basic-addon1"
+      placeholder="Add x number of random questions"/>
+    </InputGroup>
     <Filters
     handleData = {(arr)=>this.handleData(arr)}
     data={this.props.itemList}> 
