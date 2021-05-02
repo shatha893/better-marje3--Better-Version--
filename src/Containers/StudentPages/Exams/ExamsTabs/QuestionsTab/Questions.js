@@ -8,35 +8,72 @@ import Filters from '../../../../../components/StudentComponents/UI/Filters/Filt
 class Questions extends Component{
     
    state = {
-        originalData:[],
-        dataPerPage:[],
-        loading:false
+    originalData:[],
+    dataPerPage:[],
+    loading:false,
+    filters:[]
    }
 
-   handleData = (newData)=>{
-    this.setState({dataPerPage:[...newData]});
-}
+  
 
     componentDidMount(){
+
         this.setState({loading:true});
         //questions data instead which is supposed to be consisting of ( Question, Question tags)
-        Axios.get("http://localhost:3000/exams").then(response=>{
-            let tempArr = [];
-            console.log(response);
-            for(let i in response.data)
-            {
-                tempArr.push({
-                    id:i,
-                    name:response.data[i].name,
-                    date:response.data[i].year
-                })
-            }
-            this.setState({
-                originalData:[...tempArr],
-                loading:false
-            })
+         var ids = [];
+        fetch('http://localhost:1234/Question/GetAll', {
+            method: 'POST',
+            headers: {
+           'Accept': 'application/json',
+           'Content-Type': 'application/json',
+           },
+           body: JSON.stringify({
+            count: '10'
+          })
+         }).then(res => res.json())
+         .then(json =>{
+             ids = json 
+             console.log(json)
+         })
+ 
+        var idsz = [  100, 104,108, 111,]
+          console.log(idsz);
+        
+        fetch('http://localhost:1234/Question/Get', {
+            method: 'POST',
+            headers: {
+           'Accept': 'application/json',
+           'Content-Type': 'application/json',
+           },
+           body: JSON.stringify(["100","111"])
+         }).then(res => res.json())
+            .then(json =>{
+        
+                let tempArr = [];
 
-        })
+                for(let i in json)
+                {
+                    console.log(json[i]);
+                    tempArr.push({
+                        id:json[i].id,
+                        title:json[i].title,
+                        name:json[i].volunteer.name
+                    })
+                }
+                 console.log(tempArr);
+                this.setState({
+                    originalData:[...tempArr],
+                    loading:false
+                })
+         })
+    }
+
+    handleListItemClick = () =>{
+        this.props.history.push("");
+    }
+
+    handleData = (newData)=>{
+        this.setState({dataPerPage:[...newData]});
     }
 
     render(){
@@ -48,14 +85,15 @@ class Questions extends Component{
             href="/" 
             className={classes.listItem}> 
                 <p className={classes.content}> 
-                    What is C++? 
+                {question.title} 
                     <span 
                     className={classes.subContent}>
-                        Date Created: {question.date} <br/>
                         Created By: {question.name} 
                     </span> 
                 </p>
             </ListGroup.Item>);
+
+         console.log(dataList);
 
         return(
             <>
@@ -64,13 +102,12 @@ class Questions extends Component{
             <Filters
             handleData={this.handleData}
             data={this.state.originalData == null?undefined:this.state.originalData}>    
-                <p className={classes.resultsTitle}> Available Questions </p>
+                <p className={classes.resultsTitle}> Available Exams </p>
                 <ListGroup className={classes.list}>
                     {dataList}
                 </ListGroup>
             </Filters> }
-            </>
-            );
+            </>);
     }
     
 }

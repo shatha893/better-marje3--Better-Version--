@@ -12,28 +12,38 @@ class TakeExamTab extends Component{
         originalData:[],
         dataPerPage:[],
         loading:false,
-        filters:[]
+        filters:[],
+        ids:[]
     }
 
     componentDidMount(){
         this.setState({loading:true});
-        Axios.get("http://localhost:3000/exams").then(response=>{
-            let tempArr = [];
-            console.log(response);
-            for(let i in response.data)
-            {
-                tempArr.push({
-                    id:i,
-                    name:response.data[i].name,
-                    date:response.data[i].year
-                })
-            }
-            this.setState({
-                originalData:[...tempArr],
-                loading:false
-            })
 
-        })
+        const requestOptions = {
+            method: 'POST',
+            headers: {},
+            body: JSON.stringify({ count: 10 })
+        };
+        
+        fetch('http://localhost:1234/Exam/GetAll', {
+            method: 'POST',
+            headers: {
+           'Accept': 'application/json',
+           'Content-Type': 'application/json',
+           },
+           body: JSON.stringify({
+            count: '10'
+          })
+         }).then(res => res.json())
+         .then(json =>{
+            this.setState({
+             ids:json 
+                   })  
+                   console.log(json)    
+         })
+   
+
+
     }
 
     handleData = (newData)=>{
@@ -64,8 +74,7 @@ class TakeExamTab extends Component{
         
         return(
             <>
-            <Spinner loading={this.state.loading}/>
-            { this.state.loading?null:
+           
             <Filters
             handleData={this.handleData}
             data={this.state.originalData == null?undefined:this.state.originalData}>    
@@ -73,7 +82,7 @@ class TakeExamTab extends Component{
                 <ListGroup className={classes.list}>
                     {dataList}
                 </ListGroup>
-            </Filters> }
+            </Filters> 
             </>);
     }
     

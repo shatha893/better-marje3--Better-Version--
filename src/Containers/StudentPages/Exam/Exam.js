@@ -9,7 +9,6 @@ import Button from 'react-bootstrap/Button';
 import Divider from '@material-ui/core/Divider';
 import MCQuestion from './mcQuestion/mcQuestion';
 import PQuestion from './pQuestion/pQuestion';
-import FiBQuestion from './FiBQuestion/fibQuestion';
 import TFQuestion from './tfQuestion/tfQuestion';
 import submitButton from './Exam.module.css';
 import Clock from '../../../components/StudentComponents/UI/Clock/Clock';
@@ -55,8 +54,6 @@ class Exam extends Component{
             return <MCQuestion question={question}/>;
          case "PQ":
             return <PQuestion question={question}/>;
-         case "FiBQ":
-            return <FiBQuestion question={question}/>;
          case "TFQ":
             return <TFQuestion question={question}/>;
       }
