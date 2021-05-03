@@ -27,7 +27,6 @@ class App extends Component {
 
   render()
   {
-    console.log(this.state.userEmail);
     return (
       
       <div>
@@ -59,17 +58,17 @@ class App extends Component {
 
           <Route 
           path="/Homepage/Infopage/Editpage" 
-          render={()=><EditProfile userEmail={this.state.userEmail}/>}/>
+          render={()=><EditProfile/>}/>
 
           <Route 
           path="/Homepage/Infopage" 
-          render={()=><InfoProfile userEmail={this.state.userEmail}/>}/>
+          render={()=><InfoProfile/>}/>
 
           <Route 
           // path="/Homepage" 
           path="/" 
           render={ ()=>{
-            return <Home userEmail={this.state.userEmail}/>;}}/>
+            return <Home/>;}}/>
 
           <Route 
           // path="/" 

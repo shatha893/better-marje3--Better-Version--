@@ -9,6 +9,15 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import classes from './Filters.module.css';
+import Card from 'react-bootstrap/Card';
+// import List from '@material-ui/core/List';
+// import ListItem from '@material-ui/core/ListItem';
+// import ListItemIcon from '@material-ui/core/ListItemIcon';
+// import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+// import ListItemText from '@material-ui/core/ListItemText';
+// import Checkbox from '@material-ui/core/Checkbox';
+import Accordion from 'react-bootstrap/Accordion';
+import FiltersList from './FiltersList/FiltersList';
 
 class Filters extends Component{
    state={
@@ -62,13 +71,96 @@ class Filters extends Component{
    componentDidMount(){
         this.recievedData();
    }
+//    <Accordion 
+//    className={classes.accordion} 
+//    hidden={!this.state.addQuestionClicked}>
+//    <Card className={classes.card}>
+//        <Accordion.Toggle 
+//        className={classes.cardHeader} 
+//        as={Card.Header} 
+//        eventKey="0">
+//            <p> Make New Question </p>
+//        </Accordion.Toggle>
+//        <Accordion.Collapse eventKey="0">
+//        <Card.Body>
+//            <MakeQuestion handleSave={(obj)=>this.handleSave(obj)}/>
+//        </Card.Body>
+//        </Accordion.Collapse>
+//    </Card>
+//    {/*_______Already Created Questions Card_______*/}
+//    <Card className={classes.card}>
+//        <Accordion.Toggle 
+//        className={classes.cardHeader} 
+//        as={Card.Header} 
+//        eventKey="1"
+//        onClick={this.handleExistingQuestion}>
+//            <p> Use already created Questions </p>
+//        </Accordion.Toggle>
+//        <Accordion.Collapse eventKey="1">
+//        <Card.Body>
+//            <Spinner loading={this.state.loading}/>
+//            {/*__Haven't handled the save of the checkboxlist questions yet__*/}
+//            {this.state.loading?null:
+//            <CheckboxList 
+//            itemList={this.state.existingQuestions}
+//            handleSave={(obj)=>this.handleSave(obj)}/>}
+//        </Card.Body>
+//        </Accordion.Collapse>
+//    </Card>
+//    {/*____________________________________________*/}
+//    </Accordion>
 
    render()
    {
-      return(
+    // const filters = this.props.filters == null
+    // ?null
+    // :this.props.filters.map((item,index) => {
+     
+    //   return (
+    //     <ListItem 
+    //     key={index} 
+    //     role={undefined} 
+    //     dense 
+    //     button 
+    //     onClick={()=>this.handleToggle(item)}
+    //     >
+    //       <ListItemIcon>
+    //         <Checkbox
+    //           edge="start"
+    //         //   checked={this.props.filters.checked.indexOf(item) !== -1}
+    //           tabIndex={-1}
+    //           disableRipple
+    //           inputProps={{ 'aria-labelledby': index }}
+    //         />
+    //       </ListItemIcon>
+    //       <ListItemText id={index} primary={item.name} />
+    //     </ListItem>);
+    //     });
+        let newArr=[];
+        this.props.courses.map((course,index)=>{
+            newArr.push(course);
+            return;
+        });
+        console.log("newArr = ",newArr);
+
+        const accCards = [
+            {
+                title:"Courses",
+                data:[...newArr]
+            },
+            {
+                title:"Doctors",
+                data:null
+            },
+            {
+                title:"Other",
+                data:null
+            }]
+
+        return(
          <Container fluid={+true}>
                 <Row>
-                <Col sm={2} className={classes.filterCol}>
+                <Col sm={3} className={classes.filterCol}>
                     <p className={classes.filtersTitle}> Refine By </p>
                     <div>
                         <InputGroup className="mb-3">
@@ -83,8 +175,34 @@ class Filters extends Component{
                             aria-label="search"
                             aria-describedby="basic-addon1"/>
                         </InputGroup>
-                        
+                       
+                        {/* <CheckboxList 
+                        itemList={this.props.filters }
+                        displaySave={false}/> */}
+                       
                     </div>
+                    <Accordion 
+                    className={classes.accordion} 
+                    // hidden={!this.state.addQuestionClicked}
+                    >
+                         {accCards.map((card,index)=>{
+                            return(
+                                <Card className={classes.card}>
+                                <Accordion.Toggle 
+                                className={classes.cardHeader} 
+                                as={Card.Header} 
+                                eventKey={index.toString()}>
+                                <p> {card.title} </p>
+                                </Accordion.Toggle>
+                                <Accordion.Collapse eventKey={index.toString()}>
+                                <Card.Body>
+                                    <FiltersList filters={card.data}/>
+                                </Card.Body>
+                                </Accordion.Collapse>
+                            </Card>
+                            );})
+                            } 
+                        </Accordion>
                 </Col>
                 <Col>
 

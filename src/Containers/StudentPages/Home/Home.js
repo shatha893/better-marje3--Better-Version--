@@ -23,6 +23,7 @@ class Home extends Component{
             // description:"", //should be like this "",
             // file:"", //should be like this "",
         courses:[],
+        resources:[],
         userName:"Aaron Warner",
         firstMount:false,
         avatar:null,
@@ -30,37 +31,74 @@ class Home extends Component{
         loading:false
     }
 
-    componentDidMount(){
-
-        Axios.all([
-            Axios.get("http://localhost:3000/courses"),
-            Axios.get("http://localhost:3000/users?uniEmail="+this.props.userEmail)])
-        .then(
-            
-            responseArr=>{
-                    let tempArr = [];
-                    for(let i in responseArr[0].data)
-                    {
-                        tempArr.push({
-                            id:responseArr[0].data[0].id,
-                            name:responseArr[0].data[0].name,
-                            checked:false
-                        });
-                    }
-
-                    this.setState({courses:[...tempArr],
-                    userName:responseArr[1].data[0].username,
-                    avatar:responseArr[1].data[0].profilePic});
-                }
-            )
-        .catch(error=>{
-        console.log("Error :( = "+error);
+    filtersMounting = ()=>{
+        Axios.post("http://localhost:1234/Course/GetAll",{
+            "offset": 0,
+            "count": 99999
+          })
+        .then((response) => {
+          return Axios.post("http://localhost:1234/Course/Get",response.data); 
         })
+        .then((response) => {
+            let tempArr = [];
+            response.data.map((course,index)=>{
+                tempArr.push({
+                    id:course.id,
+                    name:course.name,
+                    checked:false
+                })
+            });
+            this.setState({courses:[...tempArr]})
+        });
+    }
+
+    handleData = (newData)=>{
+        this.setState({dataPerPage:[...newData]});
+    }
+
+    componentDidMount(){
+        this.filtersMounting();
+        // Axios.post("http://localhost:1234/Resource/GetAll",{
+        //     "offset": 0,
+        //     "count": 99999
+        //   })
+        // .then((response) => {
+        //   return axios.get(...); // using response.data
+        // })
+        // .then((response) => {
+        //   console.log('Response: ', response);
+        // });
+            //______MY CODE________________________________
+            // Axios.all([
+            //     Axios.get("http://localhost:3000/courses"),
+            //     Axios.get("http://localhost:3000/users?uniEmail="+this.props.userEmail)])
+            // .then(
+                
+            //     responseArr=>{
+            //             let tempArr = [];
+            //             for(let i in responseArr[0].data)
+            //             {
+            //                 tempArr.push({
+            //                     id:responseArr[0].data[0].id,
+            //                     name:responseArr[0].data[0].name,
+            //                     checked:false
+            //                 });
+            //             }
+
+            //             this.setState({courses:[...tempArr],
+            //             userName:responseArr[1].data[0].username,
+            //             avatar:responseArr[1].data[0].profilePic});
+            //         }
+            //     )
+            // .catch(error=>{
+            // console.log("Error :( = "+error);
+            // })
 
     }
 
     render()
     {
+        console.log(this.state.courses);
         const pageContent = <>
                                 <Row>
                                     <p className={classes.PageTitle}> Notes and Pastpapers </p>
@@ -70,7 +108,10 @@ class Home extends Component{
                                     src={FilterSearch} 
                                     alt="workspace"
                                     className={classes.filtersImg}/>
-                                    <Filters>
+                                    <Filters
+                                    filtersMounting={this.filtersMounting}
+                                    handleData={(newData)=>this.handleData(newData)}
+                                    courses={this.state.courses}>
                                         {/* <ResourcesPage cardsInfo={this.state.cards}/> */}
                                     </Filters>
                                 </Row>     
@@ -88,7 +129,7 @@ class Home extends Component{
                     avatar={this.state.avatar}/> 
                 </Row>
                 
-                    { this.state.loading?null: pageContent}
+                    {this.state.loading?null: pageContent}
                 <Row>
                     <Footer/>
                 </Row>

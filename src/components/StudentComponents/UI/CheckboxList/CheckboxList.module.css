@@ -15,3 +15,7 @@
    border-color:#591CA8;
    color:#591CA8;
 }
+
+.hideButton{
+   display:none;
+}

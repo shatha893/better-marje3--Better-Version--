@@ -8,6 +8,7 @@ import Axios from 'axios';
 import Alert from '../../../components/StudentComponents/UI/anAlert/anAlert';
 import classes from './Signup.module.css';
 import MyTooltip from '../../../components/StudentComponents/UI/tooltip/tooltip';
+import DropdownList from '../../../components/StudentComponents/UI/DropdownList/DropdownList';
 
 class SignupModal extends Component{
 
@@ -115,7 +116,7 @@ class SignupModal extends Component{
             reader.readAsDataURL(event.target.files[0]);  
     }
 }
-
+//make drop down list
 handleSubmit = ()=>{
     let data = {
       name:this.state.username.value,
@@ -129,6 +130,7 @@ handleSubmit = ()=>{
 
      Axios.post("http://localhost:1234/User/Create",data)
       .then(response =>{
+        console.log(response);
         this.setState({hideSuccessAlert:false});  
     })
     .catch(function (error) {
@@ -161,8 +163,8 @@ handleSubmit = ()=>{
     let formGroups = [];
 
     for(let key in inputs){
-      if(key == "password")
-        break;
+      if(key == "password" || key == "major")
+        continue;
       formGroups.push({
         id:key,
         content:inputs[key]

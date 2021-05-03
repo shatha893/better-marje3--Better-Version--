@@ -18,20 +18,20 @@ class Editpage extends Component {
 
     componentDidMount(){
         
-        Axios.get("http://localhost:3000/users?uniEmail="+this.props.userEmail)
-        .then(
-            response=>{
-                    console.log(response);
-                    this.setState({username:response.data[0].username,
-                        profilePic:response.data[0].profilePic,
-                        email:response.data[0].uniEmail,
-                        major:response.data[0].major,
-                        studyPlan:response.data[0].studyPlan,
-                        phoneNum:response.data[0].phoneNum,
-                        password:response.data[0].password})
+        // Axios.get("http://localhost:3000/users?uniEmail="+this.props.userEmail)
+        // .then(
+        //     response=>{
+        //             console.log(response);
+        //             this.setState({username:response.data[0].username,
+        //                 profilePic:response.data[0].profilePic,
+        //                 email:response.data[0].uniEmail,
+        //                 major:response.data[0].major,
+        //                 studyPlan:response.data[0].studyPlan,
+        //                 phoneNum:response.data[0].phoneNum,
+        //                 password:response.data[0].password})
                 
         
-            });
+        //     });
     }
 
     handleEditClick=(dataArr)=>{
