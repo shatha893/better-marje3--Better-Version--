@@ -7,7 +7,11 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 
 const filtersList = (props)=>{
-   console.log(props.filters);
+
+   const handleToggle = (courseId)=>{
+        props.checkCourses(courseId);
+   }
+
    const filters = props.filters == null
     ?null
     :props.filters.map((item,index) => {
@@ -18,7 +22,7 @@ const filtersList = (props)=>{
         role={undefined} 
         dense 
         button 
-        onClick={()=>this.handleToggle(item)}
+        onClick={()=>handleToggle(item.id)}
         >
           <ListItemIcon>
             <Checkbox
@@ -32,7 +36,6 @@ const filtersList = (props)=>{
           <ListItemText id={index} primary={item.name} />
         </ListItem>);
         });
-console.log("filters",filters);
 return(
    
       <List>

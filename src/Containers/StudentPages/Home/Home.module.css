@@ -37,3 +37,13 @@
 .filtersImg{
     width:15%;
 }
+
+.submitResourceButton{
+    background-color: #591CA8 !important;
+    border-color:#591CA8 !important;
+    padding:8px 85px 8px 85px !important;
+    position:relative !important;
+    top:90px !important;
+    margin:auto !important;
+    border-radius: 5px !important;
+}

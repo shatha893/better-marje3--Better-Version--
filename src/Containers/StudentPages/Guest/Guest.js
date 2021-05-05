@@ -58,7 +58,7 @@ class Guest extends Component{
             <LoginModal 
             show={this.state.showLoginModal} 
             closeModal={this.closeLoginModalHandler}
-            setUserEmail = {(email)=>this.props.setUserEmail(email)}/>  
+            setUserInfo = {(info)=>this.props.setUserInfo(info)}/>  
 
             <SignupModal 
             show={this.state.showSignupModal} 

@@ -10,7 +10,9 @@ const localCard = (props) =>{
             <Card.Body className={classes.card}>
                 <Card.Title>{props.title}</Card.Title>
                 <Card.Text>
-                {props.description}
+                    {props.description.course} <br/>
+                    {props.description.author} <br/>
+                    {props.description.creationDate} <br/>
                 </Card.Text>
                 {/* a link that will download the pdf file when clicking it!! */}
                 <a 

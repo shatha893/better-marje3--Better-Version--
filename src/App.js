@@ -1,8 +1,8 @@
 import React,{Component} from 'react';
 import { Route, Switch } from 'react-router-dom';
 import './App.css';
-import Guest from './Containers/StudentPages/Guest/Guest';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Guest from './Containers/StudentPages/Guest/Guest';
 import Home from './Containers/StudentPages/Home/Home';
 import InfoProfile from './Containers/StudentPages/Profile/InfoProfile/InfoProfile';
 import EditProfile from './Containers/StudentPages/Profile/EditProfile/EditProfile';
@@ -14,15 +14,26 @@ import Notes from './Containers/AdminPages/Notes/Notes';
 import Pastpapers from './Containers/AdminPages/Pastpapers/Pastpapers';
 import Feedback from './Containers/StudentPages/Feedback/Feedback';
 import Question from './Containers/StudentPages/Question/Question';
+import SubmitResource from './Containers/StudentPages/SubmitRersource/SubmitResource';
+import Cookies from 'js-cookie';
 
 class App extends Component {
-
-  state={
-    userEmail:""
+  
+  constructor() {
+    super();
+    const data = localStorage.getItem('data');
+    if(typeof data !== 'undefined')
+    {
+      this.state = {
+       username: data ? data : null
+    };
   }
+}
 
-  setUserEmail=(email)=>{
-    this.setState({userEmail:email});
+  setUserInfo=(info)=>{
+    console.log("inside the function!!",info);
+    localStorage.setItem('data', info);
+    this.setState({username:info});
   }
 
   render()
@@ -31,6 +42,9 @@ class App extends Component {
       
       <div>
         <Switch>
+        <Route
+          path="/SubmitResource"
+          render={()=><SubmitResource username={this.state.username}/>}/>
         <Route
           path="/Question"
           render={()=><Question/>}/>
@@ -58,22 +72,23 @@ class App extends Component {
 
           <Route 
           path="/Homepage/Infopage/Editpage" 
-          render={()=><EditProfile/>}/>
+          render={()=><EditProfile username={this.state.username}/>}/>
 
           <Route 
-          path="/Homepage/Infopage" 
-          render={()=><InfoProfile/>}/>
+          path="/Homepage/infopage" 
+          render={()=><InfoProfile username={this.state.username}/>}/>
 
           <Route 
           // path="/Homepage" 
-          path="/" 
+          path='/'
           render={ ()=>{
-            return <Home/>;}}/>
+            return <Home 
+            username={this.state.username}/>;}}/>
 
           <Route 
           // path="/" 
           exact 
-          render={()=><Guest/>} />
+          render={()=><Guest setUserInfo={(info)=>this.setUserInfo(info)}/>} />
           
         </Switch>
       </div>

@@ -27,39 +27,37 @@ const resourcesPage = (props)=>{
     }
 
     return(
+        <>
         <Row>
-            <Col 
-            className={classes.ResultsCols}>
-                {cardsInfoCol1.map( cardInfo =>(
-                    <LocalCard 
-                    key={cardInfo.title}
-                    className={classes.LocalCard} 
-                    title={cardInfo.title} 
-                    description={cardInfo.description}
-                    downloadLink={cardInfo.file}/> ))   }
-            </Col>
+            {cardsInfoCol1.map( cardInfo =>(
+                <LocalCard 
+                key={cardInfo.name}
+                className={classes.LocalCard} 
+                title={cardInfo.name} 
+                description={cardInfo.description}
+                downloadLink={cardInfo.file}/> ))   }
+        </Row>
 
-            <Col 
-            className={classes.ResultsCols}>
+        <Row>   
             {cardsInfoCol2.map( cardInfo =>(
                     <LocalCard 
+                    key={cardInfo.name}
                     className={classes.LocalCard} 
-                    title={cardInfo.title} 
+                    title={cardInfo.name} 
                     description={cardInfo.description}
                     downloadLink={cardInfo.file}/> ))   }
-            </Col>
-
-            <Col 
-            className={ classes.ResultsCols }>
-                {cardsInfoCol3.map( cardInfo =>(
-                    <LocalCard 
-                    className={classes.LocalCard} 
-                    title={cardInfo.title} 
-                    description={cardInfo.description}
-                    downloadLink={cardInfo.file}
-                    pageType={props.pageType}/> ))   }
-            </Col>
-        </Row>);
+        </Row>
+        <Row>
+            {cardsInfoCol3.map( cardInfo =>(
+                <LocalCard 
+                key={cardInfo.name}
+                className={classes.LocalCard} 
+                title={cardInfo.name} 
+                description={cardInfo.description}
+                downloadLink={cardInfo.file}
+                pageType={props.pageType}/> ))   }
+        </Row>
+        </>);
 }
 
 export default resourcesPage;

@@ -42,25 +42,14 @@ class loginModal extends Component{
           email:this.state.email,
           password:this.state.password
     })
-    .then(
-      result =>{
+    .then(result =>{
+      console.log("result of login",result)
+      this.props.setUserInfo(result.data.user.name);
       this.props.history.push('/Homepage');
       })
     .catch((error)=>{
+      console.log(error);
     this.setState({hideWarningAlert:false});
-    // if (error.response) {
-    //   // Request made and server responded
-    //   console.log(error.response.data);
-    //   console.log(error.response.status);
-    //   console.log(error.response.headers);
-    // } else if (error.request) {
-    //   // The request was made but no response was received
-    //   console.log(error.request);
-    // } else {
-    //   // Something happened in setting up the request that triggered an Error
-    //   console.log('Error', error.message);
-    // }
-
   });
           
     }

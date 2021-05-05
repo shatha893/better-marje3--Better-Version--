@@ -19,7 +19,7 @@ class Infopage extends Component {
 
     componentDidMount(){ 
         //How do I do this ????
-    Axios.post("http://localhost:1234/User/Get",JSON.parse([1]))
+    Axios.post("http://localhost:1234/User/Get",JSON.stringify(["1"]))
     .then((response) => {
         let tempArr = [];
         response.data.map((item,index)=>{
