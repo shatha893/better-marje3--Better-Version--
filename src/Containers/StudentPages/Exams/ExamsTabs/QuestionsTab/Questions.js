@@ -82,7 +82,7 @@ class Questions extends Component{
             <ListGroup.Item 
             key={question.id}
             action 
-            href="/Question" 
+            href= {"/Question/?id=" + question.id}  
             className={classes.listItem}> 
                 <p className={classes.content}> 
                 {question.title} 
@@ -91,7 +91,8 @@ class Questions extends Component{
                         Created By: {question.name} 
                     </span> 
                 </p>
-            </ListGroup.Item>);
+            </ListGroup.Item>
+            );
 
          console.log(dataList);
 

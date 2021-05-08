@@ -17,14 +17,10 @@ class TakeExamTab extends Component{
     }
 
     componentDidMount(){
-        this.setState({loading:true});
 
-        const requestOptions = {
-            method: 'POST',
-            headers: {},
-            body: JSON.stringify({ count: 10 })
-        };
-        
+        this.setState({loading:true});
+        //questions data instead which is supposed to be consisting of ( Question, Question tags)
+         var ids = [];
         fetch('http://localhost:1234/Exam/GetAll', {
             method: 'POST',
             headers: {
@@ -36,31 +32,57 @@ class TakeExamTab extends Component{
           })
          }).then(res => res.json())
          .then(json =>{
-            this.setState({
-             ids:json 
-                   })  
-                   console.log(json)    
+             ids = json 
+             console.log(json)
          })
-   
+ 
+        var idsz = [  100, 104,108, 111,]
+          console.log(idsz);
+        
+        fetch('http://localhost:1234/Exam/Get', {
+            method: 'POST',
+            headers: {
+           'Accept': 'application/json',
+           'Content-Type': 'application/json',
+           },
+           body: JSON.stringify(["196","201"])
+         }).then(res => res.json())
+            .then(json =>{
+        
+                let tempArr = [];
 
-
-    }
-
-    handleData = (newData)=>{
-        this.setState({dataPerPage:[...newData]});
+                for(let i in json)
+                {
+                    console.log(json[i]);
+                   tempArr.push({
+                        id:json[i].id,
+                        date:json[i].year,
+                        name:json[i].name
+                    })
+                }
+                 console.log(tempArr);
+                this.setState({
+                    originalData:[...tempArr],
+                    loading:false
+                })
+         })
     }
 
     handleListItemClick = () =>{
         this.props.history.push("");
     }
 
+    handleData = (newData)=>{
+        this.setState({dataPerPage:[...newData]});
+    }
+
     render(){
         
-        const dataList = this.state.dataPerPage.map(exam => 
+        const dataList = this.state.originalData.map(exam => 
             <ListGroup.Item 
             key={exam.id}
             action 
-            href="/ExamEntrée" 
+            href={"/ExamEntrée?id=" + exam.id}
             className={classes.listItem}> 
                 <p className={classes.content}> 
                     {exam.name} 

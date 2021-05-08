@@ -9,9 +9,9 @@ import Button from 'react-bootstrap/Button';
 import Divider from '@material-ui/core/Divider';
 import MCQuestion from '../Exam/mcQuestion/mcQuestion';
 import PQuestion from '../Exam/pQuestion/pQuestion';
-import FiBQuestion from '../Exam/FiBQuestion/fibQuestion';
 import TFQuestion from '../Exam/tfQuestion/tfQuestion';
 import { withRouter } from 'react-router-dom';
+import question from '../../../components/StudentComponents/question/question';
 
 class Question extends Component{
   
@@ -30,12 +30,39 @@ class Question extends Component{
             return <MCQuestion question={question}/>;
          case "PQ":
             return <PQuestion question={question}/>;
-         case "FiBQ":
-            return <FiBQuestion question={question}/>;
          case "TFQ":
             return <TFQuestion question={question}/>;
       }
    }
+   componentDidMount(){
+
+      const queryParams = new URLSearchParams(window.location.search);
+      const id = queryParams.get('id');
+      console.log(id);
+
+      fetch('http://localhost:1234/Question/Get', {
+         method: 'POST',
+         headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify([id])
+      }).then(res => res.json())
+         .then(json =>{
+                   console.log(json[0]);
+                    this.setState(prevState => ({
+                     question: {                   // object that we want to update
+                      ...prevState.question,    // keep all other key-value pairs
+                      body: json[0].content     // update the value of specific key
+                  }
+              }))
+
+
+      })
+   
+   }
+
+
 
    handleSubmit = () =>{
       this.props.history.push("/Feedback");

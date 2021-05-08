@@ -14,6 +14,7 @@ import Notes from './Containers/AdminPages/Notes/Notes';
 import Pastpapers from './Containers/AdminPages/Pastpapers/Pastpapers';
 import Feedback from './Containers/StudentPages/Feedback/Feedback';
 import Question from './Containers/StudentPages/Question/Question';
+import MainQuestion from './Containers/StudentPages/Exam/MainQuestion/MainQuestion';
 
 class App extends Component {
 
@@ -64,6 +65,10 @@ class App extends Component {
           <Route 
           path="/Homepage/Infopage" 
           render={()=><InfoProfile userEmail={this.state.userEmail}/>}/>
+          
+           <Route 
+          path="/MainQ" 
+          render={()=><MainQuestion/>}/>
 
           <Route 
           // path="/Homepage" 

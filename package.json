@@ -52,6 +52,7 @@
   },
   "devDependencies": {
     "@wojtekmaj/enzyme-adapter-react-17": "^0.4.1",
+    "create-react-component-folder": "^0.3.7",
     "file-loader": "^6.1.1"
   }
 }
