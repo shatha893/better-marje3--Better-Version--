@@ -3,35 +3,52 @@ import TextField from '@material-ui/core/TextField';
 import Button from 'react-bootstrap/Button';
 import classes from './profileUserInfo.module.css';
 import Form from 'react-bootstrap/Form';
+import noPic from '../../../Assets/no_pic_try2.png';
 
 const userInfoContent = (props) =>{
 
     //Data will be sorted as this in the array:
     //name, email,major,mobileNo,studyPlan, password
-    let tempData = [ "","","","","",""];
+    let newData={
+      username:props.userInfo === null?null:props.userInfo.name,
+      profilePic:null,
+      email:null,
+      major:null,
+      mobileNum:null,
+      studyPlan:null,
+      password:null
+    };
 
     const handleChange = (inputType,event) =>{
        switch(inputType){
           case "name":
-            tempData[0]= event.target.value;
+           newData.username = event.target.value;
             break;
           case "email":
-            tempData[1]= event.target.value;
+           newData.email= event.target.value;
             break;
           case "major":
-            tempData[2]= event.target.value;
+           newData.major = event.target.value;
             break;
           case "mobileNo":
-            tempData[3]= event.target.value;
+           newData.mobileNo = event.target.value;
             break;
           case "studyPlan":
-            tempData[4]= event.target.value;
+            newData.studyPlan= event.target.value;
             break;
           case "password":
-            tempData[5]= event.target.value;
+            newData.password = event.target.value;
+            break;
+          case "profilePic":
+            let reader = new FileReader();
+            reader.onload = (e)=>{
+              newData.profilePic = e.target.result;
+            };
+            reader.readAsDataURL(event.target.files[0]); 
+            console.log("ProfilePic --> ",newData.profilePic);
             break;
           default:
-            tempData[6]=event.target.value;
+            newData.password =event.target.value;
             break;
        }
     }
@@ -39,20 +56,24 @@ const userInfoContent = (props) =>{
 
     return(
       <div className={classes.UserInfo}>
-      
+      {props.userInfo === null?null:
       <form className={classes.root} noValidate autoComplete="off">
-        <img src={props.userInfo.profilePic} className={classes.ProfilePic}/>
+        <img src={props.userInfo.profilePic==null
+        ?noPic
+        :`data:image/jpeg;base64,${props.userInfo.profilePic}`} 
+        className={props.type=="edit"
+          ?classes.hideImage
+          :classes.ProfilePic}/>
         <Form.Group>
           <Form.File 
-          label="Profile Picture" 
-          className={props.type=="edit"?null:classes.imageEdit} 
-          onChange={(event)=>handleChange("ProfilePic",event)}/>
+          className={props.type=="edit"?classes.changeImage:classes.hideImage} 
+          onChange={(event)=>handleChange("profilePic",event)}/>
         </Form.Group>
         <br/><br/><br/>
         <span>NAME</span>
         <TextField 
         id="username-input" 
-        placeholder={props.userInfo.username} 
+        placeholder={props.userInfo.name} 
         disabled={props.disable} 
         className={classes.TextField}
         onChange={(event)=>handleChange("name",event)}/>
@@ -103,9 +124,10 @@ const userInfoContent = (props) =>{
         className={classes.TextField}
         onChange={(event)=>handleChange("password",event)}/>
       </form>
+      }
       <Button 
       className={classes.Button} 
-      onClick={props.handleClicking(tempData)}> {props.buttonText} </Button>
+      onClick={()=>props.handleClicking(newData)}> {props.buttonText} </Button>
     </div>   
     );
     

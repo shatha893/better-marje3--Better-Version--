@@ -1,17 +1,18 @@
 import React from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
+import classes from './DropdownList.module.css';
 
 const dropdownList = (props)=>{
+
    return(
       <Dropdown>
-      <Dropdown.Toggle variant="success" id="dropdown-basic">
-         Dropdown Button
+      <Dropdown.Toggle 
+      variant="success" id="dropdown-basic"
+      className={classes.dropdownlist}>
+        {props.text}
       </Dropdown.Toggle>
-
       <Dropdown.Menu>
-         <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-         <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-         <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+        {props.children}
       </Dropdown.Menu>
       </Dropdown>
    );

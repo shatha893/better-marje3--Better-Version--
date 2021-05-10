@@ -45,6 +45,11 @@
     color:#8D69BA !important
 }
 
-.imageEdit{
+.hideImage{
     display:none;
+}
+
+.changeImage{
+    margin-left:50px !important;
+    padding-top:50px !important;
 }

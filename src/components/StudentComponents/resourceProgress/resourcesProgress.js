@@ -10,10 +10,16 @@ const resourcesProgress = (props) =>{
             <Divider/>
             <p className={classes.Subtitle}>pending</p>
             <div>
-               <Resource resourceName={"Calculus Exam"} className={classes.SingleResource}/> 
-               <Resource resourceName={"Calculus Exam"} className={classes.SingleResource}/>
-               <Resource resourceName={"Calculus Exam"} className={classes.SingleResource}/>
-               <Resource resourceName={"Calculus Exam"} className={classes.SingleResource}/>
+                {props.resources.map(resource=>{
+                    return(
+                        <Resource 
+                        key={resource.id}
+                        resourceName={resource.name} 
+                        className={classes.SingleResource}/>
+                    );
+                })}
+               
+               
             </div>
             <p className={classes.Subtitle}>already uploaded</p>
             <div>

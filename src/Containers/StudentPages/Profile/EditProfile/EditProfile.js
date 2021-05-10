@@ -3,6 +3,7 @@ import ProfileUserInfo from '../../../../components/StudentComponents/profileUse
 import Profile from '../Profile';
 import { withRouter } from 'react-router-dom';
 import Axios from 'axios';
+import Cookies from 'js-cookie';
 
 class Editpage extends Component {
 
@@ -16,34 +17,21 @@ class Editpage extends Component {
         password:""
     }
 
-    componentDidMount(){
-        
-        // Axios.get("http://localhost:3000/users?uniEmail="+this.props.userEmail)
-        // .then(
-        //     response=>{
-        //             console.log(response);
-        //             this.setState({username:response.data[0].username,
-        //                 profilePic:response.data[0].profilePic,
-        //                 email:response.data[0].uniEmail,
-        //                 major:response.data[0].major,
-        //                 studyPlan:response.data[0].studyPlan,
-        //                 phoneNum:response.data[0].phoneNum,
-        //                 password:response.data[0].password})
-                
-        
-        //     });
-    }
-
-    handleEditClick=(dataArr)=>{
-        this.setState({
-            username:dataArr[0],
-            profilePic:dataArr[6],
-            email:dataArr[1],
-            major:dataArr[2],
-            mobileNum:dataArr[3],
-            studyPlan:dataArr[4],
-            password:dataArr[5],
-        });
+    
+    handleSaveClick= async(newData)=>{
+        console.log("newData -->",newData,"---",newData.profilePic.substr(23,newData.profilePic.length));
+        const config = { 
+            headers: { Authorization: `Bearer ${JSON.parse(Cookies.get('user')).token}` } 
+        };
+        const res = await Axios.patch("http://localhost:1234/User/Update",{
+            "id": JSON.parse(Cookies.get('user')).id,
+            "isAdmin": false,
+            "password":newData.password,
+            "profilePictureJpgBase64": newData.profilePic.substr(23,newData.profilePic.length),
+            "studyPlanId": null,
+            "name": newData.username
+          }, config);
+          console.log(res);
         this.props.history.push("/Homepage/Infopage");
     }
 
@@ -58,7 +46,7 @@ class Editpage extends Component {
                 userInfo={userInfo} 
                 disable={false} 
                 buttonText={"SAVE"}
-                handleClicking={this.handleEditClick}/>
+                handleClicking={(newData)=>this.handleSaveClick(newData)}/>
             </Profile>
             
         );

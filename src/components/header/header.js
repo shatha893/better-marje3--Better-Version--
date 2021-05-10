@@ -9,7 +9,9 @@ import Image from 'react-bootstrap/Image';
 import cssClasses from './header.module.css';
 import Drawer from '../StudentComponents/UI/Drawer/Drawer';
 import Logo from '../logo/logo';
+import noPic from '../../Assets/no_pic_try2.png';
 import { withRouter } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -81,10 +83,10 @@ const ButtonAppBar=(props)=> {
        logoutButton=null;
        userProfile = <>
                         <Image 
-                        src={props.avatar} 
+                        src={props.avatar===null?noPic:props.avatar} 
                         roundedCircle 
                         className={cssClasses.profilePic}/>
-                        <Button className={cssClasses.profile} onClick={openProfile}>{props.userName}</Button>
+                        <Button className={cssClasses.profile} onClick={openProfile}>{JSON.parse(Cookies.get('user')).name}</Button>
                      </>
           
      }

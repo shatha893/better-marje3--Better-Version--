@@ -29,9 +29,9 @@ const resourcesPage = (props)=>{
     return(
         <>
         <Row>
-            {cardsInfoCol1.map( cardInfo =>(
+            {cardsInfoCol1.map( (cardInfo,index) =>(
                 <LocalCard 
-                key={cardInfo.name}
+                key={index}
                 className={classes.LocalCard} 
                 title={cardInfo.name} 
                 description={cardInfo.description}
@@ -39,18 +39,18 @@ const resourcesPage = (props)=>{
         </Row>
 
         <Row>   
-            {cardsInfoCol2.map( cardInfo =>(
+            {cardsInfoCol2.map( (cardInfo,index) =>(
                     <LocalCard 
-                    key={cardInfo.name}
+                    key={index}
                     className={classes.LocalCard} 
                     title={cardInfo.name} 
                     description={cardInfo.description}
                     downloadLink={cardInfo.file}/> ))   }
         </Row>
         <Row>
-            {cardsInfoCol3.map( cardInfo =>(
+            {cardsInfoCol3.map( (cardInfo,index) =>(
                 <LocalCard 
-                key={cardInfo.name}
+                key={index}
                 className={classes.LocalCard} 
                 title={cardInfo.name} 
                 description={cardInfo.description}

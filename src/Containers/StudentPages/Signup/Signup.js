@@ -9,6 +9,7 @@ import Alert from '../../../components/StudentComponents/UI/anAlert/anAlert';
 import classes from './Signup.module.css';
 import MyTooltip from '../../../components/StudentComponents/UI/tooltip/tooltip';
 import DropdownList from '../../../components/StudentComponents/UI/DropdownList/DropdownList';
+import Dropdown from 'react-bootstrap/Dropdown';
 
 class SignupModal extends Component{
 
@@ -26,12 +27,6 @@ class SignupModal extends Component{
         controlId:"formBasicUniEmail",
         tooltipText:"Please enter your univesity email"
       },
-      major:{
-        value:"",
-        label:"Major",
-        type:"text",
-        controlId:"formBasicMajor"
-      },
       phoneNum:{
         value:"",
         label:"Phone Number",
@@ -46,7 +41,6 @@ class SignupModal extends Component{
         tooltipText:"Password must be at least 6 characters and has "+
         "numbers, special symbols, capital letters and small letters"
       },
-     
       studyPlan:{
         value:"",
         label:"Study Plan",
@@ -54,11 +48,30 @@ class SignupModal extends Component{
         controlId:"formBasicStudyPlan",
         tooltipText:"Input the year that represents your study plan. E.g 2020"
       },
+      majorValues:[],
+      chosenMajor:"",
       
       profilePic:"",
       hideSuccessAlert:true,
       hideWarningAlert:true
   }
+
+  componentDidMount = ()=>{
+    Axios.post("http://localhost:1234/Major/GetAll",{
+      offset:0,
+      count:99999
+    })
+    .then(response=>{
+      return Axios.post("http://localhost:1234/Major/Get",response.data);
+    })
+      .then(response =>{
+        console.log(response);
+        this.setState({majorValues:response.data});
+    })
+    .catch(function (error) {
+     console.log(error);
+  })
+}
 
    //Function to handle the change in the input "Form Control" value
    handleChange = (controlId,event)=>{
@@ -121,7 +134,7 @@ handleSubmit = ()=>{
     let data = {
       name:this.state.username.value,
       email:this.state.uniEmail.value,
-      // major:this.state.major.value,
+      // major:this.state.chosenMajor,
       // phoneNum:this.state.phoneNum.value,
       password:this.state.password.value,
       profilePictureJpgBase64:this.state.profilePic.substr(23,this.state.profilePic.length),
@@ -133,7 +146,7 @@ handleSubmit = ()=>{
         console.log(response);
         this.setState({hideSuccessAlert:false});  
     })
-    .catch(function (error) {
+    .catch((error)=>{
       this.setState({hideWarningAlert:false});
       // if (error.response) {
       //   // Request made and server responded
@@ -158,13 +171,17 @@ handleSubmit = ()=>{
       this.setState({hideWarningAlert:true});
   }
 
+  handleMajorClick = (majorName) =>{
+    this.setState({chosenMajor:majorName});
+  }
+
   render(){
     const inputs = {...this.state};
     let formGroups = [];
 
     for(let key in inputs){
-      if(key == "password" || key == "major")
-        continue;
+      if(key == "password")
+        break;
       formGroups.push({
         id:key,
         content:inputs[key]
@@ -201,14 +218,23 @@ handleSubmit = ()=>{
                         controlId={formGroup.content.controlId} 
                         className={classes.Titles}>
                         <Form.Label> {formGroup.content.label} </Form.Label>
-                        <MyTooltip tooltipText={formGroup.content.tooltipText}>
                           <Form.Control 
                           type="text" 
                           className={classes.inputs} 
                           onChange={(event)=>this.handleChange(formGroup.content.controlId,event)}/>
-                        </MyTooltip>
                       </Form.Group>))
                   }
+                  <DropdownList 
+                  majors={this.state.majorValues}
+                  text={this.state.chosenMajor !== ""?this.state.chosenMajor:"Choose your Major"}>
+                    {this.state.majorValues.map((major,index)=>{
+                       return(
+                          <Dropdown.Item
+                          key={index}
+                          onClick={()=>this.handleMajorClick(major.name)}>{major.name}</Dropdown.Item>
+                       );
+                    })}
+                  </DropdownList>
                   </Col>
                   <Col>
                     {/* Password Input */}

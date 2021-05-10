@@ -11,6 +11,7 @@ import Axios from 'axios';
 import classes from './Login.module.css';
 import Spinner from '../../../components/StudentComponents/UI/spinner/spinner';
 import Alert from '../../../components/StudentComponents/UI/anAlert/anAlert';
+import Cookies from 'js-cookie';
 
 class loginModal extends Component{
 
@@ -44,7 +45,13 @@ class loginModal extends Component{
     })
     .then(result =>{
       console.log("result of login",result)
-      this.props.setUserInfo(result.data.user.name);
+      // this.props.setUserInfo(result.data.user.name);
+      let cookieBody = {
+        name:result.data.user.name,
+        id:result.data.user.id,
+        token:result.data.token
+      };
+      Cookies.set('user',cookieBody);
       this.props.history.push('/Homepage');
       })
     .catch((error)=>{

@@ -18,24 +18,7 @@ import SubmitResource from './Containers/StudentPages/SubmitRersource/SubmitReso
 import Cookies from 'js-cookie';
 
 class App extends Component {
-  
-  constructor() {
-    super();
-    const data = localStorage.getItem('data');
-    if(typeof data !== 'undefined')
-    {
-      this.state = {
-       username: data ? data : null
-    };
-  }
-}
-
-  setUserInfo=(info)=>{
-    console.log("inside the function!!",info);
-    localStorage.setItem('data', info);
-    this.setState({username:info});
-  }
-
+ 
   render()
   {
     return (
@@ -44,7 +27,7 @@ class App extends Component {
         <Switch>
         <Route
           path="/SubmitResource"
-          render={()=><SubmitResource username={this.state.username}/>}/>
+          render={()=><SubmitResource/>}/>
         <Route
           path="/Question"
           render={()=><Question/>}/>
@@ -71,24 +54,24 @@ class App extends Component {
           render={()=><Exams/>}/>
 
           <Route 
-          path="/Homepage/Infopage/Editpage" 
-          render={()=><EditProfile username={this.state.username}/>}/>
+          path="/Homepage/Infopage" 
+          render={()=><InfoProfile/>}/>
 
           <Route 
-          path="/Homepage/infopage" 
-          render={()=><InfoProfile username={this.state.username}/>}/>
+          path="/Homepage/Editpage" 
+          render={()=><EditProfile/>}/>
+
+          
 
           <Route 
-          // path="/Homepage" 
-          path='/'
+          path="/Homepage"
           render={ ()=>{
-            return <Home 
-            username={this.state.username}/>;}}/>
+            return <Home />;}}/>
 
           <Route 
-          // path="/" 
+          path="/" 
           exact 
-          render={()=><Guest setUserInfo={(info)=>this.setUserInfo(info)}/>} />
+          render={()=><Guest/>} />
           
         </Switch>
       </div>
