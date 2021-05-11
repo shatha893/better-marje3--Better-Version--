@@ -9,7 +9,7 @@ const mcQuestion=(props)=>{
                <Form.Label>
                   <Form.Check
                   type="radio"
-                  label={props.question.options[0]}
+                  label={props.question.choices[0].content}
                   name="formHorizontalRadios"
                   id="choice1"
                   key='group2'/>
@@ -18,7 +18,7 @@ const mcQuestion=(props)=>{
                <Form.Label>
                   <Form.Check
                   type="radio"
-                  label={props.question.options[1]}
+                  label={props.question.choices[1].content}
                   name="formHorizontalRadios"
                   id="choice2"
                   key='group2'/>
@@ -27,7 +27,7 @@ const mcQuestion=(props)=>{
                <Form.Label>
                   <Form.Check
                   type="radio"
-                  label={props.question.options[2]}
+                  label={props.question.choices[2].content}
                   name="formHorizontalRadios"
                   id="choice3"
                   key='group2'/>

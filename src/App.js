@@ -14,7 +14,7 @@ import Notes from './Containers/AdminPages/Notes/Notes';
 import Pastpapers from './Containers/AdminPages/Pastpapers/Pastpapers';
 import Feedback from './Containers/StudentPages/Feedback/Feedback';
 import Question from './Containers/StudentPages/Question/Question';
-import MainQuestion from './Containers/StudentPages/Exam/MainQuestion/MainQuestion';
+import MainQuestion from './Containers/StudentPages/MainQuestion/MainQuestion';
 
 class App extends Component {
 

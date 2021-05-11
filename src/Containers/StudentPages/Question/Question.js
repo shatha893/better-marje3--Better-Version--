@@ -34,6 +34,8 @@ class Question extends Component{
             return <TFQuestion question={question}/>;
       }
    }
+
+  
    componentDidMount(){
 
       const queryParams = new URLSearchParams(window.location.search);
@@ -53,7 +55,8 @@ class Question extends Component{
                     this.setState(prevState => ({
                      question: {                   // object that we want to update
                       ...prevState.question,    // keep all other key-value pairs
-                      body: json[0].content     // update the value of specific key
+                      body: json[0].content,
+                                                     // update the value of specific key
                   }
               }))
 

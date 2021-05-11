@@ -10,9 +10,72 @@ import { withRouter } from 'react-router-dom';
 
 class ExamEntrée extends Component{
    state={
-      userName:null,
-      avatar:null
+      Exam:{
+         name:"",
+         time:"",
+      },
+      ExamQuestion:[]
    }
+
+
+   componentDidMount(){
+
+      const queryParams = new URLSearchParams(window.location.search);
+      const id = queryParams.get('id');
+      console.log(id);
+
+      fetch('http://localhost:1234/Exam/Get', {
+         method: 'POST',
+         headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify([id])
+      }).then(function(res){
+         return res.json();
+      }).then( (data) => {
+        // console.log(data);
+         // Store the post data to a variable
+         this.setState(prevState => ({
+            Exam: {            
+             name:data[0].name,
+             time:data[0].duration
+         },
+         ExamQuestion:data.questions
+      }))
+      console.log(data[0].questions);
+
+        var arr=data[0].subQuestion.id;
+         
+         console.log(arr);
+
+         // Fetch another API
+return fetch('http://localhost:1234/SubQuestion​/Get', {
+         method: 'POST',
+         headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify([arr])
+      });
+      
+      }).then(function (response) {
+         if (response.ok) {
+            return response.json();
+         } else {
+            return Promise.reject(response);
+         }
+      }).then(function (userData) {
+         this.setState(prevState => ({
+            ExamQuestion:userData
+      }))
+      }).catch(function (error) {
+         console.warn(error);
+      });
+   
+   }
+
+
 
    handleExamClick = () =>{
       this.props.history.push('/Exam');

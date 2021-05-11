@@ -20,7 +20,7 @@ class Questions extends Component{
 
         this.setState({loading:true});
         //questions data instead which is supposed to be consisting of ( Question, Question tags)
-         var ids = [];
+
         fetch('http://localhost:1234/Question/GetAll', {
             method: 'POST',
             headers: {
@@ -28,44 +28,56 @@ class Questions extends Component{
            'Content-Type': 'application/json',
            },
            body: JSON.stringify({
-            count: '10'
+            count: '30'
           })
-         }).then(res => res.json())
-         .then(json =>{
-             ids = json 
-             console.log(json)
-         })
- 
-        var idsz = [  100, 104,108, 111,]
-          console.log(idsz);
-        
-        fetch('http://localhost:1234/Question/Get', {
-            method: 'POST',
-            headers: {
-           'Accept': 'application/json',
-           'Content-Type': 'application/json',
-           },
-           body: JSON.stringify(["100","111"])
-         }).then(res => res.json())
-            .then(json =>{
-        
-                let tempArr = [];
+         }).then(function(res){
+            return res.json();
+         }).then(function (data) {
+           
+           var arr=data;
+            
+            console.log(arr);
+   
+       return   fetch('http://localhost:1234/Question/Get', {
+                      method: 'POST',
+                        headers: {
+                         'Accept': 'application/json', 
+                         'Content-Type': 'application/json',
+                    },
+                       body: JSON.stringify(arr)
+                    });
 
-                for(let i in json)
-                {
-                    console.log(json[i]);
-                    tempArr.push({
-                        id:json[i].id,
-                        title:json[i].title,
-                        name:json[i].volunteer.name
-                    })
-                }
-                 console.log(tempArr);
-                this.setState({
-                    originalData:[...tempArr],
-                    loading:false
+            }).then(function (response) {
+            if (response.ok) {
+               return response.json();
+            } else {
+               return Promise.reject(response);
+            }
+         }).then( (userData) => {
+            console.log(userData);
+
+            let tempArr = [];
+
+            for(let i in userData)
+            {
+                console.log(userData[i]);
+                tempArr.push({
+                    id:userData[i].id,
+                    title:userData[i].title,
+                    name:userData[i].volunteer.name
                 })
-         })
+            }
+             console.log(tempArr);
+            this.setState({
+                originalData:[...tempArr],
+                loading:false
+            })
+
+         }).catch(function (error) {
+            console.warn(error);
+         });
+
+        
     }
 
     handleListItemClick = () =>{

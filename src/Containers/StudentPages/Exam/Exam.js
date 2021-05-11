@@ -51,6 +51,7 @@ class Exam extends Component{
    };
 
    chooseQuestion = (question)=>{
+
       switch(question.type){
          case "MCQ":
             return <MCQuestion question={question}/>;

@@ -13,15 +13,13 @@ class TakeExamTab extends Component{
         dataPerPage:[],
         loading:false,
         filters:[],
-        ids:[]
     }
 
     componentDidMount(){
 
         this.setState({loading:true});
-        //questions data instead which is supposed to be consisting of ( Question, Question tags)
-         var ids = [];
-        fetch('http://localhost:1234/Exam/GetAll', {
+
+       fetch('http://localhost:1234/Exam/GetAll', {
             method: 'POST',
             headers: {
            'Accept': 'application/json',
@@ -30,42 +28,62 @@ class TakeExamTab extends Component{
            body: JSON.stringify({
             count: '10'
           })
-         }).then(res => res.json())
-         .then(json =>{
-             ids = json 
-             console.log(json)
-         })
- 
-        var idsz = [  100, 104,108, 111,]
-          console.log(idsz);
+         }).then(function(res){
+            return res.json();
+         }).then(function (data) {
+            console.log(data);
+            // Store the post data to a variable
+                 
+   
+            console.log(data);
+   
         
-        fetch('http://localhost:1234/Exam/Get', {
-            method: 'POST',
-            headers: {
-           'Accept': 'application/json',
-           'Content-Type': 'application/json',
-           },
-           body: JSON.stringify(["196","201"])
-         }).then(res => res.json())
-            .then(json =>{
-        
-                let tempArr = [];
+           var arr=data;
+            
+            console.log(arr);
+   
+            // Fetch another API
+   return  fetch('http://localhost:1234/Exam/Get', {
+    method: 'POST',
+    headers: {
+   'Accept': 'application/json',
+   'Content-Type': 'application/json',
+   },
+              body: JSON.stringify(arr)
+              });
+         
+         }).then(function (response) {
+            if (response.ok) {
+               return response.json();
+            } else {
+               return Promise.reject(response);
+            }
+         }).then( (userData) => {
+            console.log(userData);
 
-                for(let i in json)
-                {
-                    console.log(json[i]);
-                   tempArr.push({
-                        id:json[i].id,
-                        date:json[i].year,
-                        name:json[i].name
-                    })
-                }
-                 console.log(tempArr);
-                this.setState({
-                    originalData:[...tempArr],
-                    loading:false
+            let tempArr = [];
+
+            for(let i in userData)
+            {
+               tempArr.push({
+                    id:userData[i].id,
+                    date:userData[i].year,
+                    name:userData[i].name
                 })
-         })
+            }
+
+            this.setState({
+                originalData:[...tempArr],
+                loading:false
+            })
+            console.log("Sssssssss");
+
+         }).catch(function (error) {
+            console.warn(error);
+         });
+
+
+      
     }
 
     handleListItemClick = () =>{
