@@ -41,44 +41,26 @@ class ExamEntrée extends Component{
              name:data[0].name,
              time:data[0].duration
          },
-         ExamQuestion:data.questions
+         ExamQuestion:data[0].questions
       }))
       console.log(data[0].questions);
 
-        var arr=data[0].subQuestion.id;
-         
-         console.log(arr);
+      
 
          // Fetch another API
-return fetch('http://localhost:1234/SubQuestion​/Get', {
-         method: 'POST',
-         headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        },
-        body: JSON.stringify([arr])
-      });
-      
-      }).then(function (response) {
-         if (response.ok) {
-            return response.json();
-         } else {
-            return Promise.reject(response);
-         }
-      }).then(function (userData) {
-         this.setState(prevState => ({
-            ExamQuestion:userData
-      }))
-      }).catch(function (error) {
-         console.warn(error);
-      });
+      })
    
    }
 
 
 
    handleExamClick = () =>{
-      this.props.history.push('/Exam');
+      console.log(this.state.ExamQuestion);
+
+      this.props.history.push({
+      pathname: '/Exam',
+      state: { questionsId: this.state.ExamQuestion }
+   });
    }
 
    render(){
@@ -90,14 +72,14 @@ return fetch('http://localhost:1234/SubQuestion​/Get', {
                 <div className={classes.content}>
                 <Row>
                     {/* {this.state.loading?<Spinner loading={this.state.loading}/>: pageContent} */}
-                    <h5>Exam Title</h5>
+                    <h5>{this.state.Exam.name}</h5>
                 </Row>
                 <Row>
                 <p>Instructions</p>
                 </Row>
                 <Row>
                   <ul>
-                  <li>Exam Time</li>
+                  <li>{this.state.Exam.time/60000}  minutes</li>
                   <li>instruction #2</li>
                   </ul>
                 </Row>
