@@ -12,22 +12,30 @@ class Infopage extends Component {
     }
 
     getUserData = async() =>{
+        try{
         const idArray = [];
         console.log(JSON.parse(Cookies.get('user')).id)
         idArray.push(JSON.parse(Cookies.get('user')).id)
     
         const config = { 
-            headers: { Authorization: `Bearer ${JSON.parse(Cookies.get('user')).token}` } 
+            headers: { Authorization: `${JSON.parse(Cookies.get('user')).token}` } 
         };
-        const res = await Axios.post("http://localhost:1234/User/Get?metadata=true", idArray, config);
+        const res = await Axios.get("http://localhost:1234/User/GetLoggedIn",config);
+        console.log(res);
         const profilePicRes = await Axios.get("http://localhost:1234/User/GetProfilePicture?userId="+JSON.parse(Cookies.get('user')).id);
+        console.log(profilePicRes);
         let responseObj = {
-                id:res.data[0].id,
-                name:res.data[0].name,
+                id:res.data.id,
+                name:res.data.name,
+                email:res.data.email,
                 // studyPlan:item.studyPlan.year,
                 profilePic:profilePicRes.data===""?null: profilePicRes.data
             }
         this.setState({userInfo:{...responseObj}});
+        }
+        catch(error){
+            console.log("Error = ",error);
+        } 
     }
 
     componentDidMount(){ 

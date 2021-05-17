@@ -15,46 +15,110 @@ import Cookies from 'js-cookie';
 class Profile extends Component {
 
     state={
-      exams:[],
-      PPsandNotes:[]
+      pendingExams:[],
+      uploadedExams:[],
+      pendingPpsNotes:[],
+      uploadedPpsNotes:[]
     }
 
     componentDidMount = () => {
-        this.getExams();
+        this.getPendingExams();
+        this.getUploadedExams();
+        this.getPendingPpsNotes();
+        this.getUploadedPpsNotes();
     }
 
-    getExams = async()=>{
+    getPendingExams = async()=>{
         try{
             const result = await Axios.post("http://localhost:1234/Exam/Search",{
-                "nameMask": null,
-                "minYear": null,
-                "maxYear": null,
-                "types": null,
-                "semesters": null,
-                "minDuration": null,
-                "maxDuration": null,
-                "courses": null,
-                "tags": null,
-                "isApproved": true,
+                "isApproved": false,
                 "volunteersIds": [JSON.parse(Cookies.get('user')).id],
                 "offset": 0,
-                "count": 10,
+                "count": 9999,
                 "metadata": true
               });
-
-            const awaiting = await result;
             let tempArr = [];
-            awaiting.data.map((exam)=>{
+            result.data.map((exam)=>{
                 tempArr.push({
                     id:exam.id,
                     name:exam.name
                 })
             });
-           
-            this.setState({exams:[...tempArr]});
+            this.setState({pendingExams:[...tempArr]});
         }
         catch(error){
             console.log("Error = ",error);
+        }
+    }
+
+    getUploadedExams = async() => {
+        try{
+            const result = await Axios.post("http://localhost:1234/Exam/Search",{
+                "isApproved": true,
+                "volunteersIds": [JSON.parse(Cookies.get('user')).id],
+                "offset": 0,
+                "count": 9999,
+                "metadata": true
+              });
+            let tempArr = [];
+            result.data.map((exam)=>{
+                tempArr.push({
+                    id:exam.id,
+                    name:exam.name
+                })
+            });
+            console.log("examssss",tempArr)
+            this.setState({uploadedExams:[...tempArr]});
+        }
+        catch(error){
+            console.log("Error = ",error);
+        }
+    }
+
+    getPendingPpsNotes = async() => {
+        try{
+            const result = await Axios.post("http://localhost:1234/Resource/Search",{
+                "isApproved": false,
+                "volunteers": [JSON.parse(Cookies.get('user')).id],
+                "offset": 0,
+                "count": 9999,
+                "metadata": true
+              });
+              console.log(result);
+            let tempArr = [];
+            result.data.map((exam)=>{
+                tempArr.push({
+                    id:exam.id,
+                    name:exam.name
+                })
+            });
+            this.setState({uploadedPpsNotes:[...tempArr]});
+        }
+        catch(error){
+            console.log("Resource Search Error (Note Approved Yet) = ",error);
+        }
+    }
+
+    getUploadedPpsNotes = async() => {
+        try{
+            const result = await Axios.post("http://localhost:1234/Resource/Search",{
+                "isApproved": true,
+                "volunteers": [JSON.parse(Cookies.get('user')).id],
+                "offset": 0,
+                "count": 9999,
+                "metadata": true
+              });
+            let tempArr = [];
+            result.data.map((exam)=>{
+                tempArr.push({
+                    id:exam.id,
+                    name:exam.name
+                })
+            });
+            this.setState({uploadedPpsNotes:[...tempArr]});
+        }
+        catch(error){
+            console.log("Resource Search Error (Approved)= ",error);
         }
     }
 
@@ -74,13 +138,15 @@ class Profile extends Component {
                         <Row>
                             <ResourcesProgress 
                             Title={"exams you made"} 
-                            resources={[...this.state.exams]} 
+                            pendingResources={[...this.state.pendingExams]}
+                            uploadedResources={[...this.state.uploadedExams]} 
                             resourceType={"exam"}/>
                         </Row>
                         <Row>
                             <ResourcesProgress 
                             Title={"your pastpapers & notes"} 
-                            resources={[...this.state.PPsandNotes]} 
+                            pendingResources={[...this.state.pendingPpsNotes]}
+                            uploadedResources={[...this.state.uploadedPpsNotes]} 
                             resourceType={"pp&notes"}/>
                         </Row>
                     </Col>

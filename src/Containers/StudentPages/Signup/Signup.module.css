@@ -47,9 +47,25 @@
 .SubmitButton{
     background-color: #591CA8 !important;
     border-color:#591CA8 !important;
-    padding:8px 90px 8px 90px !important;
+    padding:5px 70px 5px 70px !important;
     margin-right:10% !important;
     margin-bottom:8% !important;
+    margin-top:5% !important;
     border-radius: 50px !important;
 }
 
+.submit_resource_div{
+    padding:40px !important;
+}
+
+.dropdownlist{
+    margin-top:10px;
+}
+
+.create_res_col{
+    padding:20px;
+}
+
+.create_res_col_2{
+    padding:30px;
+}

@@ -14,7 +14,6 @@ const userInfoContent = (props) =>{
       profilePic:null,
       email:null,
       major:null,
-      mobileNum:null,
       studyPlan:null,
       password:null
     };
@@ -29,9 +28,6 @@ const userInfoContent = (props) =>{
             break;
           case "major":
            newData.major = event.target.value;
-            break;
-          case "mobileNo":
-           newData.mobileNo = event.target.value;
             break;
           case "studyPlan":
             newData.studyPlan= event.target.value;
@@ -95,15 +91,6 @@ const userInfoContent = (props) =>{
         disabled={props.disable} 
         className={classes.TextField}
         onChange={(event)=>handleChange("major",event)}/>
-
-        <br/><br/>
-        <span>MOBILE NO.</span>
-        <TextField 
-        id="mobile-input" 
-        placeholder={props.userInfo.phoneNum} 
-        disabled={props.disable} 
-        className={classes.TextField}
-        onChange={(event)=>handleChange("mobileNo",event)}/>
 
         <br/><br/>
         <span>STUDY PLAN</span>

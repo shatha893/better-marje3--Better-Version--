@@ -21,10 +21,12 @@ class Filters extends Component{
       perPage: 9,
       currentPage: 0,
       pageCount:0,
-      checked:[],
+      checkedCourses:[],
+      checkedTypes:[],
       cards:[],
       filteredCards:[],
-      courses:[]
+      courses:[],
+      resourceFile:""
 }
 
 // handleCheckToggle = (id,checkState)=>{
@@ -41,25 +43,18 @@ class Filters extends Component{
 //     }
 // }
 
-filteredCourses = (newIds) =>{
-    console.log("newIds = ",newIds);
+filteredResources = (newIds,newTypes) =>{
+    console.log("newCourseIds = ",newIds);
     Axios.post("http://localhost:1234/Resource/Search",{
         "courses": newIds,
-        "minCreationYear": null,
-        "maxCreationYear": null,
-        "isApproved": null,
-        "creationSemesters": null,
-        "nameMask": null,
-        "volunteers": null,
-        "extensions": null,
         "offset": 0,
         "count": 99999,
-        "types": null
+        "types":newTypes
       })
       .then((response) => {
         console.log(response);
         let tempArr = [];
-        response.data.map((resource,index)=>{
+        response.data.map((resource)=>{
             let semester= "";
             switch(resource.creationSemester)
             {
@@ -94,19 +89,16 @@ filteredCourses = (newIds) =>{
                 "offset": 0,
                 "count": 99999
               });
-            const coursesObjs = await result;
-            const finalResult = await Axios.post("http://localhost:1234/Course/Get",coursesObjs.data);
+            const finalResult = await Axios.post("http://localhost:1234/Course/Get",result.data);
             let tempArr = [];
-            const awaiting = await finalResult;
-            awaiting.data.map((course,index)=>{
+            finalResult.data.map((course)=>{
                 tempArr.push({
                     id:course.id,
                     name:course.name,
                     checked:false
                 })
             });
-           
-            this.setState({courses:[...tempArr]})
+           this.setState({courses:[...tempArr]})
         }
         catch(error){
             console.log("Error = ",error);
@@ -145,12 +137,10 @@ filteredCourses = (newIds) =>{
                         course:resource.course.name,
                         author:resource.volunteer.name,
                         creationDate:`Created In ${resource.creationYear}, in ${semester} semester`
-                    },
-                    file:
-                }) 
-            });
+                    }
+            })}
+            );
             this.setState({cards:[...tempArr], filteredCards:[...tempArr]},()=>this.recievedData());
-           
         }
         catch(error){
             console.log("Error = ",error);
@@ -159,21 +149,22 @@ filteredCourses = (newIds) =>{
 
   recievedData =()=>{
     const slice = this.state.filteredCards.slice(this.state.offset, this.state.offset + this.state.perPage);
-    this.props.handleData(slice);
+    console.log("sliceeee is",slice," offset = ",this.state.offset);
+    
     this.setState({
         pageCount: Math.ceil(this.state.filteredCards.length / this.state.perPage)
-    });
+    },this.props.handleData(slice));
 }
 
   handlePageClick = (e) => {
    const selectedPage = e.selected;
    const offset = selectedPage * this.state.perPage;
-
+   console.log("selected Page = ",selectedPage);
    this.setState({
        currentPage: selectedPage,
        offset: offset
    },
-   this.recievedData());
+   ()=>this.recievedData());
 };
 
    componentDidMount(){
@@ -183,24 +174,44 @@ filteredCourses = (newIds) =>{
    }
 
    filterCourse = (courseId) =>{
-    if(this.state.checked.indexOf(courseId)==-1)
+    if(this.state.checkedCourses.indexOf(courseId)==-1)
        {
-            let tempArr = [...this.state.checked];
+            let tempArr = [...this.state.checkedCourses];
             tempArr.push(courseId);
-            this.setState({checked:[...tempArr]},()=>this.filteredCourses(tempArr));
+            this.setState({checkedCourses:[...tempArr]},()=>this.filteredResources(tempArr,this.state.checkedTypes));
        }
     else{
         let coursesExceptOne = [];
-        for(let i in this.state.checked)
+        for(let i in this.state.checkedCourses)
         {
-            if(this.state.checked[i] === courseId)
+            if(this.state.checkedCourses[i] === courseId)
               continue;
-            coursesExceptOne.push(this.state.checked[i]);
+            coursesExceptOne.push(this.state.checkedCourses[i]);
         }
-        this.setState({checked: [...coursesExceptOne]},()=>this.filteredCourses(coursesExceptOne));
+        this.setState({checkedCourses: [...coursesExceptOne]},()=>this.filteredResources(coursesExceptOne,this.state.newTypes));
     }
    }
 
+   filterType = (typeNum) =>{
+    if(this.state.checkedTypes.indexOf(typeNum)==-1)
+    {
+         let tempArr = [...this.state.checkedTypes];
+         tempArr.push(typeNum);
+         this.setState({checkedTypes:[...tempArr]},()=>this.filteredResources(this.state.checkedCourses,tempArr));
+    }
+ else{
+     let typesExceptOne = [];
+     for(let i in this.state.checkedTypes)
+     {
+         if(this.state.checkedTypes[i] === typeNum)
+           continue;
+         typesExceptOne.push(this.state.checkedTypes[i]);
+     }
+     this.setState({checkedTypes: [...typesExceptOne]},()=>this.filteredResources(this.state.checkedCourses,typesExceptOne));
+ }
+   }
+
+   
    render()
    {
        console.log(this.state.cards);
@@ -208,16 +219,21 @@ filteredCourses = (newIds) =>{
             {
                 title:"Courses",
                 data:[...this.state.courses],
-                checkedValues:[...this.state.checked],
+                checkedValues:[...this.state.checkedCourses],
                 filterValue:(courseId)=>this.filterCourse(courseId)
             },
             {
-                title:"Doctors",
-                data:null
+                title:"Type of Resource",
+                data:[{ id:0, name:"Notes" },
+                    { id:1, name:"Pastpapers" },
+                    { id:2, name:"Quizes" },
+                    { id:3, name:"Slides" },
+                    { id:4, name:"Books" }],
+                checkedValues:[...this.state.checkedTypes],
+                filterValue:(typeNum)=>this.filterType(typeNum)
             },
             {
-                title:"Other",
-                data:null
+                title:"Date of Creation"
             }]
 
         return(
@@ -234,9 +250,10 @@ filteredCourses = (newIds) =>{
                             </InputGroup.Prepend>
                             <FormControl
                             className={classes.formControl}
-                            placeholder="Search"
+                            placeholder="Search by Tag"
                             aria-label="search"
-                            aria-describedby="basic-addon1"/>
+                            aria-describedby="basic-addon1"
+                            type="text"/>
                         </InputGroup>
                     </div>
                     <Accordion 
@@ -278,8 +295,8 @@ filteredCourses = (newIds) =>{
                         breakClassName={"break-me"}
                         pageCount={this.state.pageCount}
                         marginPagesDisplayed={2}
-                        pageRangeDisplayed={5}
-                        onPageChange={this.handlePageClick}/>
+                        pageRangeDisplayed={10}
+                        onPageChange={(event)=>this.handlePageClick(event)}/>
                 </Col>
                 </Row>
             </Container>

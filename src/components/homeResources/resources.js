@@ -25,7 +25,10 @@ const resourcesPage = (props)=>{
             cardsInfoCol3.push(props.cardsInfo[i]);
         }
     }
-
+    for(let i in cardsInfoCol1)
+    {
+        console.log("cardsInfoCol1["+i+"] = ",cardsInfoCol1[i]);
+    }
     return(
         <>
         <Row>
@@ -35,7 +38,8 @@ const resourcesPage = (props)=>{
                 className={classes.LocalCard} 
                 title={cardInfo.name} 
                 description={cardInfo.description}
-                downloadLink={cardInfo.file}/> ))   }
+                resourceId={cardInfo.id}
+                getResourceFile={(id)=>props.getResourceFile(id)}/> ))   }
         </Row>
 
         <Row>   
@@ -45,7 +49,9 @@ const resourcesPage = (props)=>{
                     className={classes.LocalCard} 
                     title={cardInfo.name} 
                     description={cardInfo.description}
-                    downloadLink={cardInfo.file}/> ))   }
+                    downloadLink={cardInfo.file}
+                    resourceId={cardInfo.id}
+                    getResourceFile={(id)=>props.getResourceFile(id)}/> ))   }
         </Row>
         <Row>
             {cardsInfoCol3.map( (cardInfo,index) =>(
@@ -55,7 +61,9 @@ const resourcesPage = (props)=>{
                 title={cardInfo.name} 
                 description={cardInfo.description}
                 downloadLink={cardInfo.file}
-                pageType={props.pageType}/> ))   }
+                pageType={props.pageType}
+                resourceId={cardInfo.id}
+                getResourceFile={(id)=>props.getResourceFile(id)}/> ))   }
         </Row>
         </>);
 }

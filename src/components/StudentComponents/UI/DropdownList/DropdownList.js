@@ -11,7 +11,7 @@ const dropdownList = (props)=>{
       className={classes.dropdownlist}>
         {props.text}
       </Dropdown.Toggle>
-      <Dropdown.Menu>
+      <Dropdown.Menu className={classes.scrollable_menu}>
         {props.children}
       </Dropdown.Menu>
       </Dropdown>

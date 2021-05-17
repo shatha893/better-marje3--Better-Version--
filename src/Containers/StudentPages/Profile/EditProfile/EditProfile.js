@@ -21,7 +21,7 @@ class Editpage extends Component {
     handleSaveClick= async(newData)=>{
         console.log("newData -->",newData,"---",newData.profilePic.substr(23,newData.profilePic.length));
         const config = { 
-            headers: { Authorization: `Bearer ${JSON.parse(Cookies.get('user')).token}` } 
+            headers: { Authorization: `${JSON.parse(Cookies.get('user')).token}` } 
         };
         const res = await Axios.patch("http://localhost:1234/User/Update",{
             "id": JSON.parse(Cookies.get('user')).id,

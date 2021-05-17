@@ -15,5 +15,10 @@ background-color: #240947!important;
    background-color: #240947;
    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(119, 86, 163, 0.6) !important;
    border-color:#73569781 !important;
-  
+}
+
+.scrollable_menu{
+   height: auto;
+   max-height: 200px;
+   overflow-x: hidden;
 }

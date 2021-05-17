@@ -148,20 +148,7 @@ handleSubmit = ()=>{
     })
     .catch((error)=>{
       this.setState({hideWarningAlert:false});
-      // if (error.response) {
-      //   // Request made and server responded
-      //   console.log(error.response.data);
-      //   console.log(error.response.status);
-      //   console.log(error.response.headers);
-      // } else if (error.request) {
-      //   // The request was made but no response was received
-      //   console.log(error.request);
-      // } else {
-      //   // Something happened in setting up the request that triggered an Error
-      //   console.log('Error', error.message);
-      // }
-  
-    });
+     });
   }
 
   handleCloseAlert = (variant) =>{
@@ -224,8 +211,7 @@ handleSubmit = ()=>{
                           onChange={(event)=>this.handleChange(formGroup.content.controlId,event)}/>
                       </Form.Group>))
                   }
-                  <DropdownList 
-                  majors={this.state.majorValues}
+                  <DropdownList
                   text={this.state.chosenMajor !== ""?this.state.chosenMajor:"Choose your Major"}>
                     {this.state.majorValues.map((major,index)=>{
                        return(

@@ -10,6 +10,7 @@ import ResourcesPage from '../../../components/homeResources/resources';
 import Spinner from '../../../components/StudentComponents/UI/spinner/spinner';
 import Filters from '../../../components/StudentComponents/UI/Filters/Filters';
 import Button from 'react-bootstrap/Button';
+import Axios from 'axios';
 import { withRouter } from 'react-router-dom';
 
 class Home extends Component{
@@ -29,6 +30,19 @@ class Home extends Component{
     handleResourceSubmit = () =>{
         this.props.history.push('/SubmitResource');
     }
+
+    getResourceFile = async(resourceId)=>{
+        try{
+            const result = await Axios.get("http://localhost:1234/Resource/GetResourceFile?resourceId="+resourceId);
+            window.open(result.data,'Data','height=250,width=250');
+            console.log("file --> ",result.data);
+            // this.setState({resouceFile:result.data});
+        }
+        catch(error){
+            console.log("get resource file Error = ",error);
+        } 
+       }
+    
 
     render()
     {
@@ -50,7 +64,9 @@ class Home extends Component{
                                    
                                     <Filters
                                     handleData={(newData)=>this.handleData(newData)}>
-                                        <ResourcesPage cardsInfo={this.state.cardsPerPage}/>
+                                        <ResourcesPage 
+                                        cardsInfo={this.state.cardsPerPage}
+                                        getResourceFile={(resourceId)=>this.getResourceFile(resourceId)}/>
                                     </Filters>
                                 </Row> 
                                  

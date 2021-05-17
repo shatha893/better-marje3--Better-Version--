@@ -3,6 +3,11 @@ import Button from 'react-bootstrap/Button';
 import classes from './resourceCard.module.css';
 
 const localCard = (props) =>{
+
+    let test = () =>{
+        props.getResourceFile(props.resouceId)
+    }
+
     return(
         <Card 
         className={classes.content}>
@@ -18,6 +23,7 @@ const localCard = (props) =>{
                 <a 
                 className={classes.anchor}
                 href={props.file} 
+                onClick={test}
                 download>Download Me!</a>
             </Card.Body>
         </Card>
