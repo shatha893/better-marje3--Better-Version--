@@ -22,14 +22,14 @@ class Infopage extends Component {
         };
         const res = await Axios.get("http://localhost:1234/User/GetLoggedIn",config);
         console.log(res);
-        const profilePicRes = await Axios.get("http://localhost:1234/User/GetProfilePicture?userId="+JSON.parse(Cookies.get('user')).id);
-        console.log(profilePicRes);
+        // const profilePicRes = await Axios.get("http://localhost:1234/User/GetProfilePicture?userId="+JSON.parse(Cookies.get('user')).id);
+        // console.log(profilePicRes);
         let responseObj = {
                 id:res.data.id,
                 name:res.data.name,
                 email:res.data.email,
-                // studyPlan:item.studyPlan.year,
-                profilePic:profilePicRes.data===""?null: profilePicRes.data
+                // // studyPlan:item.studyPlan.year,
+                // profilePic:profilePicRes.data===""?null: profilePicRes.data
             }
         this.setState({userInfo:{...responseObj}});
         }

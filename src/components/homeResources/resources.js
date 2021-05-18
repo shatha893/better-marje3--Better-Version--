@@ -10,6 +10,10 @@ const resourcesPage = (props)=>{
     let cardsInfoCol2 = [];
     let cardsInfoCol3 = [];
 
+    let getFile = (id)=>{
+        props.getResourceFile(id);
+    }
+
     for(let i=0; i<props.cardsInfo.length; i++ ){
 
         if(cardsInfoCol1.length < 3)
@@ -38,8 +42,7 @@ const resourcesPage = (props)=>{
                 className={classes.LocalCard} 
                 title={cardInfo.name} 
                 description={cardInfo.description}
-                resourceId={cardInfo.id}
-                getResourceFile={(id)=>props.getResourceFile(id)}/> ))   }
+                resourceId={cardInfo.id}/> ))   }
         </Row>
 
         <Row>   
@@ -50,8 +53,7 @@ const resourcesPage = (props)=>{
                     title={cardInfo.name} 
                     description={cardInfo.description}
                     downloadLink={cardInfo.file}
-                    resourceId={cardInfo.id}
-                    getResourceFile={(id)=>props.getResourceFile(id)}/> ))   }
+                    resourceId={cardInfo.id}/> ))   }
         </Row>
         <Row>
             {cardsInfoCol3.map( (cardInfo,index) =>(
@@ -62,8 +64,7 @@ const resourcesPage = (props)=>{
                 description={cardInfo.description}
                 downloadLink={cardInfo.file}
                 pageType={props.pageType}
-                resourceId={cardInfo.id}
-                getResourceFile={(id)=>props.getResourceFile(id)}/> ))   }
+                resourceId={cardInfo.id}/> ))   }
         </Row>
         </>);
 }

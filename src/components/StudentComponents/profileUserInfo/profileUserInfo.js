@@ -4,6 +4,8 @@ import Button from 'react-bootstrap/Button';
 import classes from './profileUserInfo.module.css';
 import Form from 'react-bootstrap/Form';
 import noPic from '../../../Assets/no_pic_try2.png';
+import Cookies from 'js-cookie';
+import Axios from 'axios';
 
 const userInfoContent = (props) =>{
 
@@ -49,14 +51,17 @@ const userInfoContent = (props) =>{
        }
     }
 
-
+    console.log("props.userInfo.profilePic",props.userInfo === null?"":props.userInfo.profilePic);
     return(
+      
       <div className={classes.UserInfo}>
       {props.userInfo === null?null:
       <form className={classes.root} noValidate autoComplete="off">
-        <img src={props.userInfo.profilePic==null
-        ?noPic
-        :`data:image/jpeg;base64,${props.userInfo.profilePic}`} 
+        <img 
+        // src={"http://localhost:1234/User/GetProfilePicture?userId="+JSON.parse(Cookies.get('user')).id==null
+        // ?noPic
+        // :"http://localhost:1234/User/GetProfilePicture?userId="+JSON.parse(Cookies.get('user')).id} 
+        src={"http://localhost:1234/User/GetProfilePicture?userId="+JSON.parse(Cookies.get('user')).id}
         className={props.type=="edit"
           ?classes.hideImage
           :classes.ProfilePic}/>

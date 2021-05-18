@@ -1,5 +1,10 @@
 import React,{Component} from 'react';
-import { Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Guest from './Containers/StudentPages/Guest/Guest';
@@ -22,7 +27,7 @@ class App extends Component {
   render()
   {
     return (
-      
+      <Router>
       <div>
         <Switch>
         <Route
@@ -60,9 +65,7 @@ class App extends Component {
           <Route 
           path="/Homepage/Editpage" 
           render={()=><EditProfile/>}/>
-
           
-
           <Route 
           path="/Homepage"
           render={ ()=>{
@@ -75,7 +78,7 @@ class App extends Component {
           
         </Switch>
       </div>
-
+    </Router>
     );
   }
   

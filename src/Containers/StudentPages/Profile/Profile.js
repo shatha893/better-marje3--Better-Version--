@@ -61,6 +61,7 @@ class Profile extends Component {
                 "metadata": true
               });
             let tempArr = [];
+            console.log(result);
             result.data.map((exam)=>{
                 tempArr.push({
                     id:exam.id,

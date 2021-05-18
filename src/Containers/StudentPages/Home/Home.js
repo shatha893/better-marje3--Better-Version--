@@ -17,7 +17,8 @@ class Home extends Component{
     state={
         cardsPerPage:[],
         avatar:null,
-        loading:false
+        loading:false,
+        clickedResourceId:null
     }
 
 
@@ -31,18 +32,9 @@ class Home extends Component{
         this.props.history.push('/SubmitResource');
     }
 
-    getResourceFile = async(resourceId)=>{
-        try{
-            const result = await Axios.get("http://localhost:1234/Resource/GetResourceFile?resourceId="+resourceId);
-            window.open(result.data,'Data','height=250,width=250');
-            console.log("file --> ",result.data);
-            // this.setState({resouceFile:result.data});
-        }
-        catch(error){
-            console.log("get resource file Error = ",error);
-        } 
-       }
-    
+    updateResourceId = (id)=>{
+        this.setState({clickedResourceId:id},()=>this.getResourceFile());
+    }
 
     render()
     {
@@ -66,7 +58,7 @@ class Home extends Component{
                                     handleData={(newData)=>this.handleData(newData)}>
                                         <ResourcesPage 
                                         cardsInfo={this.state.cardsPerPage}
-                                        getResourceFile={(resourceId)=>this.getResourceFile(resourceId)}/>
+                                        updateResourceId={(id)=>this.updateResourceId(id)}/>
                                     </Filters>
                                 </Row> 
                                  
@@ -79,8 +71,7 @@ class Home extends Component{
             <Container fluid={+true} className={classes.Container}>
                 <Row>
                     <Header 
-                    pageType={"Home"} 
-                    // userName={this.props.username===null?null:this.props.username} 
+                    pageType={"Home"}
                     avatar={this.state.avatar}/> 
                 </Row>
                     {pageContent}

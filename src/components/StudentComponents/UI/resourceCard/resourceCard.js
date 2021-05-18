@@ -5,7 +5,8 @@ import classes from './resourceCard.module.css';
 const localCard = (props) =>{
 
     let test = () =>{
-        props.getResourceFile(props.resouceId)
+        console.log("test test test",props.resourceId);
+        
     }
 
     return(
@@ -19,12 +20,9 @@ const localCard = (props) =>{
                     {props.description.author} <br/>
                     {props.description.creationDate} <br/>
                 </Card.Text>
-                {/* a link that will download the pdf file when clicking it!! */}
                 <a 
-                className={classes.anchor}
-                href={props.file} 
-                onClick={test}
-                download>Download Me!</a>
+                href={`http://localhost:1234/Resource/GetResourceFile?resourceId=${props.resourceId}`}
+                className={classes.anchor}>Download Me!</a>
             </Card.Body>
         </Card>
     );

@@ -83,7 +83,7 @@ const ButtonAppBar=(props)=> {
        logoutButton=null;
        userProfile = <>
                         <Image 
-                        src={props.avatar===null?noPic:props.avatar} 
+                        src={`http://localhost:1234/User/GetProfilePicture?userId=${JSON.parse(Cookies.get('user')).id}`} 
                         roundedCircle 
                         className={cssClasses.profilePic}/>
                         <Button className={cssClasses.profile} onClick={openProfile}>{JSON.parse(Cookies.get('user')).name}</Button>

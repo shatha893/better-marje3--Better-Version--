@@ -44,7 +44,6 @@ class Filters extends Component{
 // }
 
 filteredResources = (newIds,newTypes) =>{
-    console.log("newCourseIds = ",newIds);
     Axios.post("http://localhost:1234/Resource/Search",{
         "courses": newIds,
         "offset": 0,
@@ -52,7 +51,6 @@ filteredResources = (newIds,newTypes) =>{
         "types":newTypes
       })
       .then((response) => {
-        console.log(response);
         let tempArr = [];
         response.data.map((resource)=>{
             let semester= "";
@@ -114,8 +112,7 @@ filteredResources = (newIds,newTypes) =>{
             
             const finalResult = await Axios.post("http://localhost:1234/Resource/Get",result.data);
             let tempArr = [];
-            const awaiting = await finalResult;
-            awaiting.data.map((resource,index)=>{
+            finalResult.data.map((resource,index)=>{
                 
                 let semester= "";
                 switch(resource.creationSemester)
@@ -149,7 +146,6 @@ filteredResources = (newIds,newTypes) =>{
 
   recievedData =()=>{
     const slice = this.state.filteredCards.slice(this.state.offset, this.state.offset + this.state.perPage);
-    console.log("sliceeee is",slice," offset = ",this.state.offset);
     
     this.setState({
         pageCount: Math.ceil(this.state.filteredCards.length / this.state.perPage)
@@ -159,7 +155,6 @@ filteredResources = (newIds,newTypes) =>{
   handlePageClick = (e) => {
    const selectedPage = e.selected;
    const offset = selectedPage * this.state.perPage;
-   console.log("selected Page = ",selectedPage);
    this.setState({
        currentPage: selectedPage,
        offset: offset
@@ -214,7 +209,6 @@ filteredResources = (newIds,newTypes) =>{
    
    render()
    {
-       console.log(this.state.cards);
         const accCards = [
             {
                 title:"Courses",
@@ -241,7 +235,7 @@ filteredResources = (newIds,newTypes) =>{
                 <Row>
                 <Col sm={3} className={classes.filterCol}>
                     <p className={classes.filtersTitle}> Refine By </p>
-                    <div>
+                    {/* <div>
                         <InputGroup className="mb-3">
                             <InputGroup.Prepend>
                                 <InputGroup.Text id="basic-addon1">
@@ -255,7 +249,7 @@ filteredResources = (newIds,newTypes) =>{
                             aria-describedby="basic-addon1"
                             type="text"/>
                         </InputGroup>
-                    </div>
+                    </div> */}
                     <Accordion 
                     className={classes.accordion}>
                          {accCards.map((card,index)=>{
