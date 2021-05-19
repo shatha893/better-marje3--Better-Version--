@@ -16,7 +16,8 @@ class MainQuestion extends Component{
   
    state={
        //Each question have to have a type so that we can choose the right view for it
-      questions: []
+      questions: [],
+      answers:[],
    };
 
    chooseQuestion = (question)=>{    
@@ -29,6 +30,9 @@ class MainQuestion extends Component{
             return <PQuestion question={question}/>;
          case 2:
             return <TFQuestion question={question}/>;
+         case 1:
+            console.log(question.type);
+
       }
    }
 
@@ -59,11 +63,34 @@ class MainQuestion extends Component{
       })
    
    }
+   handleSubmit = () =>{
+      this.state.questions.map((question,index)=>{
+          if(question.type == 0){
+            fetch('http://localhost:1234/SubQuestionAnswer/Create', {
+               method: 'POST',
+               headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+               "examSubQuestionId": question.id,
+               "SelectedChoices" : []
+              })
+            }).then(function(res){
+               return res.json();
+            }).then( (data) => {
+               this.setState({
+                  questions:data
+               });
+            })
+          }
+      })
+   }
 
    handleButtonClick() {
       this.forceUpdate();
     }
-
+    
    render(){
       console.log('Child component: render()');
 

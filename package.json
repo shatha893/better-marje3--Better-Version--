@@ -9,6 +9,7 @@
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "axios": "^0.21.1",
+    "base-64": "^1.0.0",
     "bootstrap": "^4.6.0",
     "image-to-base64": "^2.1.1",
     "node-sass": "^5.0.0",

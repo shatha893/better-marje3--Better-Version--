@@ -38,6 +38,13 @@ class Exam extends Component{
           });
       }
    }
+//SelectedChoices
+
+   submitAnwser = ()=>{
+      
+
+   }
+
 
    render(){
       return(

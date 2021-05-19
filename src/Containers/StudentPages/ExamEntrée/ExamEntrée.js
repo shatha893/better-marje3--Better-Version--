@@ -24,6 +24,7 @@ class ExamEntrée extends Component{
       const id = queryParams.get('id');
       console.log(id);
 
+      
       fetch('http://localhost:1234/Exam/Get', {
          method: 'POST',
          headers: {
@@ -52,10 +53,16 @@ class ExamEntrée extends Component{
    
    }
 
-
+  
 
    handleExamClick = () =>{
-      console.log(this.state.ExamQuestion);
+      const queryParams = new URLSearchParams(window.location.search);
+      const id = queryParams.get('id');
+      
+           console.log("AAAA");
+           const t = '26:637570408376541626';
+
+    
 
       this.props.history.push({
       pathname: '/Exam',
