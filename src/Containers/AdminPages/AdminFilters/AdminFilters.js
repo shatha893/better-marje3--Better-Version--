@@ -8,13 +8,13 @@ import FormControl from 'react-bootstrap/FormControl';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import classes from './Filters.module.css';
+import classes from 'C:/Users/Shatha Barqawi/Documents/Github Projects/better-marje3/src/components/StudentComponents/UI/Filters/Filters.module.css';
 import Card from 'react-bootstrap/Card';
 import Accordion from 'react-bootstrap/Accordion';
-import FiltersList from './FiltersList/FiltersList';
+import FiltersList from '../../../components/StudentComponents/UI/Filters/FiltersList/FiltersList';
 import Axios from 'axios';
 
-class Filters extends Component{
+class NotesFilters extends Component{
    state={
       //For the pagination
       offset: 0,
@@ -29,12 +29,13 @@ class Filters extends Component{
       resourceFile:""
 }
 
-filteredResources = (newIds,newTypes) =>{
+filteredResources = (newIds) =>{
     Axios.post("http://localhost:1234/Resource/Search",{
         "courses": newIds,
+        "isApproved":false,
         "offset": 0,
         "count": 99999,
-        "types":newTypes
+        "types":[this.props.type]
       })
       .then((response) => {
         let tempArr = [];
@@ -98,7 +99,7 @@ filteredResources = (newIds,newTypes) =>{
             
             const finalResult = await Axios.post("http://localhost:1234/Resource/Get",result.data);
             let tempArr = [];
-            finalResult.data.map((resource,index)=>{
+            finalResult.data.map((resource)=>{
                 
                 let semester= "";
                 switch(resource.creationSemester)
@@ -159,7 +160,7 @@ filteredResources = (newIds,newTypes) =>{
        {
             let tempArr = [...this.state.checkedCourses];
             tempArr.push(courseId);
-            this.setState({checkedCourses:[...tempArr]},()=>this.filteredResources(tempArr,this.state.checkedTypes));
+            this.setState({checkedCourses:[...tempArr]},()=>this.filteredResources(tempArr));
        }
     else{
         let coursesExceptOne = [];
@@ -202,16 +203,16 @@ filteredResources = (newIds,newTypes) =>{
                 checkedValues:[...this.state.checkedCourses],
                 filterValue:(courseId)=>this.filterCourse(courseId)
             },
-            {
-                title:"Type of Resource",
-                data:[{ id:0, name:"Notes" },
-                    { id:1, name:"Pastpapers" },
-                    { id:2, name:"Quizes" },
-                    { id:3, name:"Slides" },
-                    { id:4, name:"Books" }],
-                checkedValues:[...this.state.checkedTypes],
-                filterValue:(typeNum)=>this.filterType(typeNum)
-            },
+            // {
+            //     title:"Type of Resource",
+            //     data:[{ id:0, name:"Notes" },
+            //         { id:1, name:"Pastpapers" },
+            //         { id:2, name:"Quizes" },
+            //         { id:3, name:"Slides" },
+            //         { id:4, name:"Books" }],
+            //     checkedValues:[...this.state.checkedTypes],
+            //     filterValue:(typeNum)=>this.filterType(typeNum)
+            // },
             {
                 title:"Date of Creation"
             }]
@@ -221,21 +222,7 @@ filteredResources = (newIds,newTypes) =>{
                 <Row>
                 <Col sm={3} className={classes.filterCol}>
                     <p className={classes.filtersTitle}> Refine By </p>
-                    {/* <div>
-                        <InputGroup className="mb-3">
-                            <InputGroup.Prepend>
-                                <InputGroup.Text id="basic-addon1">
-                                    <SearchIcon className={classes.searchIcon}/>
-                                </InputGroup.Text>
-                            </InputGroup.Prepend>
-                            <FormControl
-                            className={classes.formControl}
-                            placeholder="Search by Tag"
-                            aria-label="search"
-                            aria-describedby="basic-addon1"
-                            type="text"/>
-                        </InputGroup>
-                    </div> */}
+                   
                     <Accordion 
                     className={classes.accordion}>
                          {accCards.map((card,index)=>{
@@ -284,4 +271,4 @@ filteredResources = (newIds,newTypes) =>{
    }
 }
 
-export default Filters;
+export default NotesFilters;

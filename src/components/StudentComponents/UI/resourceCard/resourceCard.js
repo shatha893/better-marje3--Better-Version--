@@ -4,11 +4,6 @@ import classes from './resourceCard.module.css';
 
 const localCard = (props) =>{
 
-    let test = () =>{
-        console.log("test test test",props.resourceId);
-        
-    }
-
     return(
         <Card 
         className={classes.content}>
@@ -20,9 +15,10 @@ const localCard = (props) =>{
                     {props.description.author} <br/>
                     {props.description.creationDate} <br/>
                 </Card.Text>
-                <a 
+                <div><a 
                 href={`http://localhost:1234/Resource/GetResourceFile?resourceId=${props.resourceId}`}
                 className={classes.anchor}>Download Me!</a>
+                </div>
             </Card.Body>
         </Card>
     );

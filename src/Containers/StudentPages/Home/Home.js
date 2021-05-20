@@ -33,7 +33,7 @@ class Home extends Component{
     }
 
     updateResourceId = (id)=>{
-        this.setState({clickedResourceId:id},()=>this.getResourceFile());
+        this.setState({clickedResourceId:id});
     }
 
     render()

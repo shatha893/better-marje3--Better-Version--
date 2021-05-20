@@ -46,7 +46,8 @@ class App extends Component {
           path="/notes"
           render={()=><Notes/>}/>
          <Route
-          path="/AdminHome"
+         path="/" 
+          // path="/AdminHome"
           render={()=><AdminHome/>}/>
           <Route
           path="/Exam"
@@ -72,7 +73,7 @@ class App extends Component {
             return <Home />;}}/>
 
           <Route 
-          path="/" 
+          // path="/" 
           exact 
           render={()=><Guest/>} />
           
