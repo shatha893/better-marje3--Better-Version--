@@ -1,0 +1,39 @@
+.content{
+    min-height: 100vh;
+    background-color: #F1F2F2 !important;
+    margin:0%;
+ }
+ 
+ .questionTitle{
+    font-weight: bold;
+    padding-top:10px;
+    padding-left:15px;
+ }
+ 
+ .questionBody{
+    padding:15px;
+ }
+ 
+ .questionContainer{
+    background-color: white;
+    border-radius:5px;
+    margin-top:20px;
+    margin-bottom:20px;
+ }
+ 
+ .divider{
+    color:black;
+ }
+ 
+ .submitButton{
+     background-color: #591CA8 !important;
+     border-color:#591CA8 !important;
+     padding:8px 90px 8px 90px !important;
+     margin-left:61% !important;
+     margin-bottom:8% !important;
+     border-radius: 5px !important;
+ }
+
+ .hideButton{
+   display:none !important;
+ }

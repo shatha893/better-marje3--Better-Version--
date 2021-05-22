@@ -205,8 +205,7 @@ class SubmitResource extends Component {
             creationSemester:semester,
             name:this.state.resource_name,
             resource:{
-                contentBase64:this.state.resource_file.substr(28,this.state.resource_file.length),
-                fileExtension:"pdf"
+                contentBase64:this.state.resource_file.substr(28,this.state.resource_file.length)
             },
             type:this.state.chosenType,
             volunteer:JSON.parse(Cookies.get('user')).id

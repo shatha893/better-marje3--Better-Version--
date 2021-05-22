@@ -12,7 +12,9 @@ const fibQuestion=(props)=>{
       <Col>
          <Form.Label
          className={classes.formLabel}> Answer </Form.Label>
-         <Form.Control type="text"/>
+         <Form.Control 
+         type="text"
+         onChange={(event)=>props.handleAnswer(1,props.question.id,event)}/>
       </Col>
       </Form.Group>);
 }

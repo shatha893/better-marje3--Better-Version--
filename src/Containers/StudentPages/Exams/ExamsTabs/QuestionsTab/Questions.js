@@ -8,35 +8,84 @@ import Filters from '../../../../../components/StudentComponents/UI/Filters/Filt
 class Questions extends Component{
     
    state = {
-        originalData:[],
-        dataPerPage:[],
-        loading:false
+    originalData:[],
+    dataPerPage:[],
+    loading:false,
+    filters:[]
    }
 
-   handleData = (newData)=>{
-    this.setState({dataPerPage:[...newData]});
-}
+  
 
     componentDidMount(){
+
         this.setState({loading:true});
         //questions data instead which is supposed to be consisting of ( Question, Question tags)
-        Axios.get("http://localhost:3000/exams").then(response=>{
+
+        fetch('http://localhost:1234/Question/GetAll', {
+            method: 'POST',
+            headers: {
+           'Accept': 'application/json',
+           'Content-Type': 'application/json',
+           },
+           body: JSON.stringify({
+            count: '30'
+          })
+         }).then(function(res){
+            return res.json();
+         }).then(function (data) {
+           
+           var arr=data;
+            
+            console.log(arr);
+   
+       return   fetch('http://localhost:1234/Question/Get', {
+                      method: 'POST',
+                        headers: {
+                         'Accept': 'application/json', 
+                         'Content-Type': 'application/json',
+                    },
+                       body: JSON.stringify(arr)
+                    });
+
+            }).then(function (response) {
+            if (response.ok) {
+               return response.json();
+            } else {
+               return Promise.reject(response);
+            }
+         }).then( (userData) => {
+            console.log(userData);
+
             let tempArr = [];
-            console.log(response);
-            for(let i in response.data)
+
+            for(let i in userData)
             {
+                console.log(userData[i]);
                 tempArr.push({
-                    id:i,
-                    name:response.data[i].name,
-                    date:response.data[i].year
+                    id:userData[i].id,
+                    title:userData[i].title,
+                    name:userData[i].volunteer.name
                 })
             }
+             console.log(tempArr);
             this.setState({
                 originalData:[...tempArr],
                 loading:false
             })
 
-        })
+         }).catch(function (error) {
+            console.warn(error);
+         });
+
+        
+    }
+
+    handleListItemClick = () =>{
+        this.props.history.push("");
+    }
+
+    handleData = (newData)=>{
+        this.setState({dataPerPage:[...newData]});
     }
 
     render(){
@@ -45,17 +94,19 @@ class Questions extends Component{
             <ListGroup.Item 
             key={question.id}
             action 
-            href="/Question" 
+            href= {"/Question/?id=" + question.id}  
             className={classes.listItem}> 
                 <p className={classes.content}> 
-                    What is C++? 
+                {question.title} 
                     <span 
                     className={classes.subContent}>
-                        Date Created: {question.date} <br/>
                         Created By: {question.name} 
                     </span> 
                 </p>
-            </ListGroup.Item>);
+            </ListGroup.Item>
+            );
+
+         console.log(dataList);
 
         return(
             <>
@@ -64,13 +115,12 @@ class Questions extends Component{
             <Filters
             handleData={this.handleData}
             data={this.state.originalData == null?undefined:this.state.originalData}>    
-                <p className={classes.resultsTitle}> Available Questions </p>
+                <p className={classes.resultsTitle}> Available Exams </p>
                 <ListGroup className={classes.list}>
                     {dataList}
                 </ListGroup>
             </Filters> }
-            </>
-            );
+            </>);
     }
     
 }

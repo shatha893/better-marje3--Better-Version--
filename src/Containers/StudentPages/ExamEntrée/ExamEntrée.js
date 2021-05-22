@@ -10,12 +10,64 @@ import { withRouter } from 'react-router-dom';
 
 class ExamEntrée extends Component{
    state={
-      userName:null,
-      avatar:null
+      Exam:{
+         name:"",
+         time:"",
+      },
+      ExamQuestion:[]
    }
 
+
+   componentDidMount(){
+
+      const queryParams = new URLSearchParams(window.location.search);
+      const id = queryParams.get('id');
+      console.log(id);
+
+      
+      fetch('http://localhost:1234/Exam/Get', {
+         method: 'POST',
+         headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify([id])
+      }).then(function(res){
+         return res.json();
+      }).then( (data) => {
+        // console.log(data);
+         // Store the post data to a variable
+         this.setState(prevState => ({
+            Exam: {            
+             name:data[0].name,
+             time:data[0].duration
+         },
+         ExamQuestion:data[0].questions
+      }))
+      console.log(data[0].questions);
+
+      
+
+         // Fetch another API
+      })
+   
+   }
+
+  
+
    handleExamClick = () =>{
-      this.props.history.push('/Exam');
+      const queryParams = new URLSearchParams(window.location.search);
+      const id = queryParams.get('id');
+      
+           console.log("AAAA");
+           const t = '26:637570408376541626';
+
+    
+
+      this.props.history.push({
+      pathname: '/Exam',
+      state: { questionsId: this.state.ExamQuestion }
+   });
    }
 
    render(){
@@ -27,14 +79,14 @@ class ExamEntrée extends Component{
                 <div className={classes.content}>
                 <Row>
                     {/* {this.state.loading?<Spinner loading={this.state.loading}/>: pageContent} */}
-                    <h5>Exam Title</h5>
+                    <h5>{this.state.Exam.name}</h5>
                 </Row>
                 <Row>
                 <p>Instructions</p>
                 </Row>
                 <Row>
                   <ul>
-                  <li>Exam Time</li>
+                  <li>{this.state.Exam.time/60000}  minutes</li>
                   <li>instruction #2</li>
                   </ul>
                 </Row>

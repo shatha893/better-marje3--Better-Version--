@@ -18,7 +18,7 @@ import AdminHome from './Containers/AdminPages/Home/Home';
 import Notes from './Containers/AdminPages/Notes/Notes';
 import Pastpapers from './Containers/AdminPages/Pastpapers/Pastpapers';
 import Feedback from './Containers/StudentPages/Feedback/Feedback';
-import Question from './Containers/StudentPages/Question/Question';
+import MainQuestion from './Containers/StudentPages/MainQuestion/MainQuestion';
 import SubmitResource from './Containers/StudentPages/SubmitRersource/SubmitResource';
 import Cookies from 'js-cookie';
 
@@ -35,7 +35,7 @@ class App extends Component {
           render={()=><SubmitResource/>}/>
         <Route
           path="/Question"
-          render={()=><Question/>}/>
+          render={()=><MainQuestion/>}/>
         <Route
           path="/Feedback"
           render={()=><Feedback/>}/>
@@ -45,9 +45,8 @@ class App extends Component {
         <Route
           path="/notes"
           render={()=><Notes/>}/>
-         <Route
-         path="/" 
-          // path="/AdminHome"
+         <Route 
+          path="/AdminHome"
           render={()=><AdminHome/>}/>
           <Route
           path="/Exam"
@@ -73,7 +72,7 @@ class App extends Component {
             return <Home />;}}/>
 
           <Route 
-          // path="/" 
+          path="/" 
           exact 
           render={()=><Guest/>} />
           

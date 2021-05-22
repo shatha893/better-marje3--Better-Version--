@@ -9,64 +9,47 @@ import Button from 'react-bootstrap/Button';
 import Divider from '@material-ui/core/Divider';
 import MCQuestion from './mcQuestion/mcQuestion';
 import PQuestion from './pQuestion/pQuestion';
-import FiBQuestion from './FiBQuestion/fibQuestion';
 import TFQuestion from './tfQuestion/tfQuestion';
 import Clock from '../../../components/StudentComponents/UI/Clock/Clock';
 import { withRouter } from 'react-router-dom';
+import MainQuestion from '../MainQuestion/MainQuestion';
 
 class Exam extends Component{
   
    state={
-       //Each question have to have a type so that we can choose the right view for it
-      questions:[{
-         type:'MCQ',
-         body:'what is the capital of the maldives?',
-         options:['Malé','Amman','Albany'],
-         answer:'Malé'
-      },
-   {
-      type:'PQ',
-      body:'What is the output of the following:'+
-      "Petya is preparing for his birthday. He decided that there would be n different dishes on the dinner table, numbered from 1 to n. Since Petya doesn't like to cook, he wants to order these dishes in restaurants.\n"+
-      "Unfortunately, all dishes are prepared in different restaurants and therefore Petya needs to pick up his orders from n different places. To speed up this process, he wants to order courier delivery at some restaurants. Thus, for each dish, there are two options for Petya how he can get it:\n"+      
-      "the dish will be delivered by a courier from the restaurant i, in this case the courier will arrive in ai minutes,\n"+     
-      "Petya goes to the restaurant i on his own and picks up the dish, he will spend bi minutes on this.\n"+
-      "Each restaurant has its own couriers and they start delivering the order at the moment Petya leaves the house. In other words, all couriers work in parallel. Petya must visit all restaurants in which he has not chosen delivery, he does this consistently.\n"+   
-      "For example, if Petya wants to order n=4 dishes and a=[3,7,4,5], and b=[2,1,2,4], then he can order delivery from the first and the fourth restaurant, and go to the second and third on your own. Then the courier of the first restaurant will bring the order in 3 minutes, the courier of the fourth restaurant will bring the order in 5 minutes, and Petya will pick up the remaining dishes in 1+2=3 minutes. Thus, in 5 minutes all the dishes will be at Petya's house.\n"+      
-      "Find the minimum time after which all the dishes can be at Petya's home.\n"+
-      "Input\n"+     
-      "The first line contains one positive integer t (1≤t≤2⋅105) — the number of test cases. Then t test cases follow.\n"+    
-      "Each test case begins with a line containing one integer n (1≤n≤2⋅105) — the number of dishes that Petya wants to order.",     
-      answer:'I don\'t know yet'
-   },
-   {
-      type:'TFQ',
-      body:'The company IBM was founded in 1912?',
-      answer:'false'
-   },
-   {
-      type:'FiBQ',
-      body:'_________invented the telegraph.',
-      answer:'David Alter'
-   }]
-   };
+      questions: [],
+      index:0
+  };
 
-   chooseQuestion = (question)=>{
-      switch(question.type){
-         case "MCQ":
-            return <MCQuestion question={question}/>;
-         case "PQ":
-            return <PQuestion question={question}/>;
-         case "FiBQ":
-            return <FiBQuestion question={question}/>;
-         case "TFQ":
-            return <TFQuestion question={question}/>;
-      }
+   componentDidMount(){
+   console.log()
+     
    }
+
 
    handleSubmit = () =>{
       this.props.history.push("/Feedback");
    }
+
+   nextQuestion = ()=>{
+      
+      console.log("length",this.props.location.state.questionsId.length);
+      if(this.state.index < this.props.location.state.questionsId.length-1){
+         {
+            let temp = this.state.index;
+         this.setState({
+            index:temp+1
+          });
+         }
+      }
+   }
+//SelectedChoices
+
+   submitAnwser = ()=>{
+      
+
+   }
+
 
    render(){
       return(
@@ -82,27 +65,25 @@ class Exam extends Component{
                {/*____A Single question's div_____ */}
                <div>
                   {/* Make a form for each type of question for the answers */}
-                  {this.state.questions.map( (question,index)=>(
                      <Container 
                      className={classes.questionContainer}
-                     key={index}>
+                     key={this.state.index}>
                      <Row className={classes.questionTitle}>
-                        <p>Question {index+1}</p>
+                        <p>Question {this.state.index+1}</p>
                      </Row>
                      <Divider className={classes.divider}/>
                      <Row className={classes.questionBody}>
-                        <span>{question.body}</span>
+                        {/* {this.props.location.state.questionsId[this.state.index].content} */}
+                        {/* Eat owner's food mice open the door, let me out, let me out, let me-out, let me-aow, let meaow, meaow! or stare at ceiling, for inspect anything brought into the house wake up human for food at 4am. Chase mice your pillow is now my pet bed or lick left leg for ninety minutes, still dirty pee in the shoe purr as loud as possible, be the most annoying cat that you can, and, knock everything off the table, somehow manage to catch a bird but have no idea what to do next, so play with it until it dies of shock. I cry and cry and cry unless you pet me, and then maybe i cry just for fun reaches under door into adjacent room. Thinking longingly about tuna brine sleep in the bathroom sink, or lay on arms while you're using the keyboard. Murf pratt ungow ungow cat is love, cat is life but trip on catnip for poop on grasses. Crash against wall but walk away like */}
                      </Row>
                      <Row>
-                        {this.chooseQuestion(question)}  
+                        <MainQuestion 
+                        lastQuestion={this.state.index === this.props.location.state.questionsId.length-1}
+                        question={this.props.location.state.questionsId[this.state.index]} 
+                        nextQuestion={this.nextQuestion}/>  
                      </Row>
                   </Container>
-                  ))}
-                   <Button 
-                   className={classes.submitButton}
-                   onClick={this.handleSubmit}>
-                      Submit Answers
-                   </Button>
+                  
                </div>
             </Col>
             <Col>

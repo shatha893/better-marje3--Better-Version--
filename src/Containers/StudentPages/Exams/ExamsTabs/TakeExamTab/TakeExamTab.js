@@ -12,45 +12,95 @@ class TakeExamTab extends Component{
         originalData:[],
         dataPerPage:[],
         loading:false,
-        filters:[]
+        filters:[],
     }
 
     componentDidMount(){
+
         this.setState({loading:true});
-        Axios.get("http://localhost:3000/exams").then(response=>{
+
+       fetch('http://localhost:1234/Exam/GetAll', {
+            method: 'POST',
+            headers: {
+           'Accept': 'application/json',
+           'Content-Type': 'application/json',
+           },
+           body: JSON.stringify({
+            count: '10'
+          })
+         }).then(function(res){
+            return res.json();
+         }).then(function (data) {
+            console.log(data);
+            // Store the post data to a variable
+                 
+   
+            console.log(data);
+   
+        
+           var arr=data;
+            
+            console.log(arr);
+   
+            // Fetch another API
+   return  fetch('http://localhost:1234/Exam/Get', {
+    method: 'POST',
+    headers: {
+   'Accept': 'application/json',
+   'Content-Type': 'application/json',
+   },
+              body: JSON.stringify(arr)
+              });
+         
+         }).then(function (response) {
+            if (response.ok) {
+               return response.json();
+            } else {
+               return Promise.reject(response);
+            }
+         }).then( (userData) => {
+            console.log(userData);
+
             let tempArr = [];
-            console.log(response);
-            for(let i in response.data)
+
+            for(let i in userData)
             {
-                tempArr.push({
-                    id:i,
-                    name:response.data[i].name,
-                    date:response.data[i].year
+               tempArr.push({
+                    id:userData[i].id,
+                    date:userData[i].year,
+                    name:userData[i].name
                 })
             }
+
             this.setState({
                 originalData:[...tempArr],
                 loading:false
             })
+            console.log("Sssssssss");
 
-        })
-    }
+         }).catch(function (error) {
+            console.warn(error);
+         });
 
-    handleData = (newData)=>{
-        this.setState({dataPerPage:[...newData]});
+
+      
     }
 
     handleListItemClick = () =>{
         this.props.history.push("");
     }
 
+    handleData = (newData)=>{
+        this.setState({dataPerPage:[...newData]});
+    }
+
     render(){
         
-        const dataList = this.state.dataPerPage.map(exam => 
+        const dataList = this.state.originalData.map(exam => 
             <ListGroup.Item 
             key={exam.id}
             action 
-            href="/ExamEntrée" 
+            href={"/ExamEntrée?id=" + exam.id}
             className={classes.listItem}> 
                 <p className={classes.content}> 
                     {exam.name} 
@@ -64,17 +114,15 @@ class TakeExamTab extends Component{
         
         return(
             <>
-            <Spinner loading={this.state.loading}/>
-            { this.state.loading?null:
+           
             <Filters
             handleData={this.handleData}
-            data={this.state.originalData == null?undefined:this.state.originalData}
-            displaySave={true}>    
+            data={this.state.originalData == null?undefined:this.state.originalData}>    
                 <p className={classes.resultsTitle}> Available Exams </p>
                 <ListGroup className={classes.list}>
                     {dataList}
                 </ListGroup>
-            </Filters> }
+            </Filters> 
             </>);
     }
     
