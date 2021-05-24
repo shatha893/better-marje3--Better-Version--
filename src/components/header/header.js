@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+
 const ButtonAppBar=(props)=> {
   const classes = useStyles();
 
@@ -36,6 +37,10 @@ const ButtonAppBar=(props)=> {
     props.history.push('/Homepage/Infopage');
   }
   
+  const handleLogoutBtn=()=>{
+    props.history.push("/");
+  }
+
   //Depending on pageType specific content will be shown on the header
   const pageConfigs = (pageType,userType="student")=>{
     if(userType == "Admin") isAdmin = true;
@@ -71,7 +76,9 @@ const ButtonAppBar=(props)=> {
       menuIcon=false;
       loginSignupButtons = null;
       logoutButton= <>
-                       <Button color="inherit"> logout </Button>
+                       <Button 
+                       color="inherit"
+                       onClick={handleLogoutBtn}> logout </Button>
                     </>
     }
 

@@ -46,6 +46,7 @@ class App extends Component {
           path="/notes"
           render={()=><Notes/>}/>
          <Route 
+        //  path="/"
           path="/AdminHome"
           render={()=><AdminHome/>}/>
           <Route

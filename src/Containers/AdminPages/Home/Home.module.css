@@ -1,12 +1,15 @@
-.container{
-   min-height: 100vh !important;
+.card{
+   
+   margin-left:40px !important;
+   margin-right:12px;
+   margin-bottom:2%;
+   height:200px;
+   background-color: #8934f857 !important;
 }
 
-.card{
-   margin-top:5%;
-   margin-left:12px;
-   margin-right:12px;
-   margin-bottom:20%;
+.containerofAllCards{
+   margin-top:10px;
+   min-height: 100vh !important;
 }
 
 .anchor{
@@ -20,4 +23,19 @@
    font-size:larger;
    color:#591CA8;
    margin:auto;
+}
+
+.img{
+   width:300px !important;
+   height:300px !important;
+   color:#591CA8 !important;
+   margin-top:10%;
+   margin-left:14%;
+}
+
+.text{
+   font-size:40px;
+   color:#591CA8;
+   position:relative;
+   right:60px;
 }

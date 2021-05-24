@@ -3,80 +3,49 @@ import Header from '../../../components/header/header';
 import Footer from '../../../components/footer/footer';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import NotesCard from '../../../components/homeResources/resources';
-import classes from './Pastpapers.module.css';
-import Filters from '../../../components/StudentComponents/UI/Filters/Filters';
+import classes from '../../StudentPages/Home/Home.module.css';
+import AdminFilters from '../AdminFilters/AdminFilters';
+import AdminResources from '../AdminResources/AdminResources';
+import FilterSearch from '../../../Assets/search.svg';
 
 class Pastpapers extends Component{
-    // title:"",   //should be like this "",
-            // description:"", //should be like this "",
-            // file:"", //should be like this "",
     state = {
-        pastpapersInfo:[
-            {
-                title:"Calculus II Pastpaper",
-                //the "description" is supposed to be the "description"
-                description:"Thomas Wodsworth",
-                file:""
-        },
-        {
-            title:"Databases Pastpaper",
-            description:"Audrey Patterson",
-            file:""
-    },
-    {
-        title:"English Pastpaper",
-        description:"Liam Neeson",
-        file:""
-    },
-    {
-        title:"Calculus II Pastpaper",
-        description:"Thomas Wodsworth",
-        file:""
-},
-{
-    title:"Databases Pastpaper",
-    description:"Audrey Patterson",
-    file:""
-},
-{
-title:"English Pastpaper",
-description:"Liam Neeson",
-file:""
-},
-{
-    title:"Calculus II Pastpaper",
-    description:"Thomas Wodsworth",
-    file:""
-},
-{
-title:"Databases Pastpaper",
-description:"Audrey Patterson",
-file:""
-},
-{
-title:"English Pastpaper",
-description:"Liam Neeson",
-file:""
-}   
-        ]
+        cardsPerPage:[],
+        clickedResourceId:null
     };
+
+    handleData = (newData)=>{
+        let tempArr = [...newData];
+        this.setState({cardsPerPage:[...tempArr]});
+    }
+
+    updateResourceId = (id)=>{
+        this.setState({clickedResourceId:id});
+    }
+
 
    render(){
       return(
             <Container 
-            fluid={+true}>
+            fluid={+true}
+            className={classes.Container}>
                 <Row>
-                   {/* USER TYPE IS TEMPORARY UNTIL WE DO PROPER AUTHENTICATION */}
                     <Header pageType={"AdminHome"} userType={"Admin"}/> 
                 </Row>
                 <Row
                 className={classes.content}>
-                    <Filters>
-                        <NotesCard 
-                        cardsInfo={this.state.pastpapersInfo}
-                        className={classes.card}/>
-                    </Filters>
+                    <img 
+                    src={FilterSearch} 
+                    alt="workspace"
+                    className={classes.filtersImg}/>
+
+                    <AdminFilters
+                    handleData={(newData)=>this.handleData(newData)}
+                    type={2}>
+                        <AdminResources
+                        cardsInfo={this.state.cardsPerPage}
+                        updateResourceId={(id)=>this.updateResourceId(id)}/>
+                    </AdminFilters>
                 </Row>
                
                 <Row>

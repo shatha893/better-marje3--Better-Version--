@@ -1,0 +1,25 @@
+.hideNoResults,.hidePaginate{
+   display:none;
+  }
+  
+  .img{
+     width:30%;
+     height:30%;
+     margin-left:35% !important;
+  }
+  
+  .hidePaginate{
+     min-height: 100vh !important;
+  }
+  
+  .noResultsText{
+     text-align:center;
+     color:#591CA8;
+     font-size:30px;
+     margin-top:10px;
+  }
+  
+  .noResContainer{
+     background-color:white;
+     padding:50px;  
+  }

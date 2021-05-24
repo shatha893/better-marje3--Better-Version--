@@ -29,10 +29,8 @@ class AdminResourceCard extends Component{
    }
 
    handleDelete = () =>{
-      Axios.delete('http://localhost:1234/Resource/Delete',{
-         "id": this.props.resourceId,
-         "isApproved": true
-       }).then(res => {
+      Axios.delete('http://localhost:1234/Resource/Delete',this.props.resourceId)
+      .then(res => {
           console.log(res);
          this.setState({openSnackbar:true,snackbarMessage:"Resource Deleted"});
        })

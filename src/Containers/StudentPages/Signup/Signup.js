@@ -27,12 +27,6 @@ class SignupModal extends Component{
         controlId:"formBasicUniEmail",
         tooltipText:"Please enter your univesity email"
       },
-      phoneNum:{
-        value:"",
-        label:"Phone Number",
-        type:"text",
-        controlId:"formBasicPhoneNum"
-      },
       password:{
         value:"",
         label:"Password",
@@ -113,14 +107,7 @@ class SignupModal extends Component{
             value:event.target.value}
           });
           break;
-        
-        case "formBasicPhoneNum":
-          this.setState({phoneNum:{
-            ...this.state.phoneNum,
-            value:event.target.value}
-          });
-          break;
-
+       
         default:
           let reader = new FileReader();
             reader.onload = (e)=>{
@@ -135,7 +122,6 @@ handleSubmit = ()=>{
       name:this.state.username.value,
       email:this.state.uniEmail.value,
       // major:this.state.chosenMajor,
-      // phoneNum:this.state.phoneNum.value,
       password:this.state.password.value,
       profilePictureJpgBase64:this.state.profilePic.substr(23,this.state.profilePic.length),
       studyPlanId:this.state.studyPlan.value 
@@ -159,7 +145,10 @@ handleSubmit = ()=>{
   }
 
   handleMajorClick = (majorName) =>{
-    this.setState({chosenMajor:majorName});
+    this.setState({chosenMajor:majorName},
+      ()=>{
+        
+      });
   }
 
   render(){
@@ -212,7 +201,8 @@ handleSubmit = ()=>{
                       </Form.Group>))
                   }
                   <DropdownList
-                  text={this.state.chosenMajor !== ""?this.state.chosenMajor:"Choose your Major"}>
+                  text={this.state.chosenMajor !== ""?this.state.chosenMajor:"Choose your Major"}
+                  dark>
                     {this.state.majorValues.map((major,index)=>{
                        return(
                           <Dropdown.Item
@@ -221,6 +211,16 @@ handleSubmit = ()=>{
                        );
                     })}
                   </DropdownList>
+                  {/* <DropdownList
+                  text={this.state.chosenMajor !== ""?this.state.chosenMajor:"Choose your Major"}>
+                    {this.state.majorValues.map((major,index)=>{
+                       return(
+                          <Dropdown.Item
+                          key={index}
+                          onClick={()=>this.handleMajorClick(major.name)}>{major.name}</Dropdown.Item>
+                       );
+                    })}
+                  </DropdownList> */}
                   </Col>
                   <Col>
                     {/* Password Input */}

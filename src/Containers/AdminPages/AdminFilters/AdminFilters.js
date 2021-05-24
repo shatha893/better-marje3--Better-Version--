@@ -9,6 +9,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import classes from 'C:/Users/Shatha Barqawi/Documents/Github Projects/better-marje3/src/components/StudentComponents/UI/Filters/Filters.module.css';
+import NoResults from '../../../components/StudentComponents/UI/noResults/noResults';
 import Card from 'react-bootstrap/Card';
 import Accordion from 'react-bootstrap/Accordion';
 import FiltersList from '../../../components/StudentComponents/UI/Filters/FiltersList/FiltersList';
@@ -26,7 +27,9 @@ class NotesFilters extends Component{
       cards:[],
       filteredCards:[],
       courses:[],
-      resourceFile:""
+      resourceFile:"",
+
+      showNoResultsSVG:false
 }
 
 filteredResources = (newIds) =>{
@@ -63,7 +66,10 @@ filteredResources = (newIds) =>{
                 }
             })
         });
-        this.setState({filteredCards:[...tempArr]},()=>this.recievedData());
+        if(tempArr.length == 0)
+            this.setState({filteredCards:[...tempArr],showNoResultsSVG:true},()=>this.recievedData());
+        else
+            this.setState({filteredCards:[...tempArr],showNoResultsSVG:false},()=>this.recievedData());
         
     });
 }
@@ -99,32 +105,38 @@ filteredResources = (newIds) =>{
             
             const finalResult = await Axios.post("http://localhost:1234/Resource/Get",result.data);
             let tempArr = [];
+            console.log(finalResult);
             finalResult.data.map((resource)=>{
                 
-                let semester= "";
-                switch(resource.creationSemester)
+                if(resource.type === this.props.type)
                 {
-                    case 0:
-                        semester = "first";
-                        break;
-                    case 1:
-                        semester = "second";
-                        break;
-                    case 2:
-                        semester = "summer";
+                    let semester= "";
+                    switch(resource.creationSemester)
+                    {
+                        case 0:
+                            semester = "first";
+                            break;
+                        case 1:
+                            semester = "second";
+                            break;
+                        case 2:
+                            semester = "summer";
 
-                }
-                tempArr.push({
-                    id:resource.id,
-                    name:resource.name,
-                    description:{
-                        course:resource.course.name,
-                        author:resource.volunteer.name,
-                        creationDate:`Created In ${resource.creationYear}, in ${semester} semester`
                     }
-            })}
-            );
-            this.setState({cards:[...tempArr], filteredCards:[...tempArr]},()=>this.recievedData());
+                    tempArr.push({
+                        id:resource.id,
+                        name:resource.name,
+                        description:{
+                            course:resource.course.name,
+                            author:resource.volunteer.name,
+                            creationDate:`Created In ${resource.creationYear}, in ${semester} semester`
+                        }
+                })
+            }});
+            if(tempArr.length == 0)
+                this.setState({showNoResultsSVG:true});
+            else
+                this.setState({cards:[...tempArr], filteredCards:[...tempArr]},()=>this.recievedData());
         }
         catch(error){
             console.log("Error = ",error);
@@ -202,23 +214,10 @@ filteredResources = (newIds) =>{
                 data:[...this.state.courses],
                 checkedValues:[...this.state.checkedCourses],
                 filterValue:(courseId)=>this.filterCourse(courseId)
-            },
-            // {
-            //     title:"Type of Resource",
-            //     data:[{ id:0, name:"Notes" },
-            //         { id:1, name:"Pastpapers" },
-            //         { id:2, name:"Quizes" },
-            //         { id:3, name:"Slides" },
-            //         { id:4, name:"Books" }],
-            //     checkedValues:[...this.state.checkedTypes],
-            //     filterValue:(typeNum)=>this.filterType(typeNum)
-            // },
-            {
-                title:"Date of Creation"
-            }]
+            }];
 
-        return(
-         <Container fluid={+true}>
+            return(
+            <Container fluid={+true}>
                 <Row>
                 <Col sm={3} className={classes.filterCol}>
                     <p className={classes.filtersTitle}> Refine By </p>
@@ -250,20 +249,20 @@ filteredResources = (newIds) =>{
                         </Accordion>
                 </Col>
                 <Col>
-
-                    {this.props.children}
+                    <NoResults isShown={this.state.showNoResultsSVG}/>
+                    {this.props.children} 
 
                     <Pagination
-                        containerClassName={classes.pagination}
-                        activeClassName={classes.active}
-                        previousLabel={<ArrowBackIcon/>}
-                        nextLabel={<ArrowForwardIcon/>}
-                        breakLabel={"..."}
-                        breakClassName={"break-me"}
-                        pageCount={this.state.pageCount}
-                        marginPagesDisplayed={2}
-                        pageRangeDisplayed={10}
-                        onPageChange={(event)=>this.handlePageClick(event)}/>
+                    containerClassName={classes.pagination}
+                    activeClassName={classes.active}
+                    previousLabel={<ArrowBackIcon/>}
+                    nextLabel={<ArrowForwardIcon/>}
+                    breakLabel={"..."}
+                    breakClassName={"break-me"}
+                    pageCount={this.state.pageCount}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={10}
+                    onPageChange={(event)=>this.handlePageClick(event)}/>
                 </Col>
                 </Row>
             </Container>

@@ -13,6 +13,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import classes from '../Signup/Signup.module.css';
+import classes2 from './SubmitResource.module.css';
 import Cookies from 'js-cookie';
 
 class SubmitResource extends Component {
@@ -23,10 +24,13 @@ class SubmitResource extends Component {
             name:"",
             id:0
         },
+        chosenSemester:{
+            name:"",
+            num:0
+        },
+        chosenYear:0,
         resource_name:"",
         resource_file:"",
-        resource_semester:"",
-        resource_year:"",
         open_snackbar:false,
         radio_types:{
             type_0:false,//Notes
@@ -153,12 +157,27 @@ class SubmitResource extends Component {
         }
     }
 
-    handleDropdownClick = (course_id,course_name)=>{
+    handleCourseDropdown = (course_id,course_name)=>{
         this.setState({
             chosenCourse: { 
                 name:course_name,
                 id:course_id
         }
+        });
+    }
+
+    handleSemesterDropdown = (sem_num,sem_name)=>{
+        this.setState({
+            chosenSemester: { 
+                name:sem_name,
+                num:sem_num
+        }
+        });
+    }
+
+    handleYearDropdown = (year)=>{
+        this.setState({
+            chosenYear:year
         });
     }
 
@@ -168,10 +187,13 @@ class SubmitResource extends Component {
                 name:"",
                 id:0
             },
+            chosenSemester:{
+                name:"",
+                num:0
+            },
+            chosenYear:0,
             resource_name:"",
             resource_file:"",
-            resource_semester:null,
-            resource_year:null,
             open_snackbar:false,
             radio_types:{
                 type_0:false,//Notes
@@ -185,24 +207,11 @@ class SubmitResource extends Component {
     }
 
     handleSubmit = () =>{
-        let semester=null;
-        switch(this.state.resource_semester.toLowerCase())
-        {
-            case "summer":
-                semester=3;
-                break;
-            case "first":
-                semester=1;
-                break;
-            case "second":
-                semester=2;
-                break;
-        }
-
+        
         let data = {
             courseId:this.state.chosenCourse.id,
             creationYear:this.state.resource_year,
-            creationSemester:semester,
+            creationSemester:this.state.chosenSemester,
             name:this.state.resource_name,
             resource:{
                 contentBase64:this.state.resource_file.substr(28,this.state.resource_file.length)
@@ -229,9 +238,15 @@ class SubmitResource extends Component {
     }
 
     render(){
+        let semesters = [ {name:"first",num:1}, {name:"second",num:2}, {name:"summer",num:3} ];
+
+        let years = [];
+        for(let i=2000; i<2022;i++)
+            years.push(i);
+
         return(
             <>
-            <Container fluid={+true} className={classes.Container}>
+            <Container fluid={+true} className={classes2.Container}>
                 <Row>
                     <Header 
                     pageType={"Home"} 
@@ -245,38 +260,55 @@ class SubmitResource extends Component {
                             <Form.Control 
                             type="text"
                             value={this.state.resource_name}
-                            className={classes.inputs} 
+                            className={classes2.textBox} 
                             onChange={(event)=>this.handleChange("name",event)}/>
                         </Form.Group>
-                        <Form.Group>
-                            <Form.Label> Year of Creation </Form.Label>
-                            <Form.Control 
-                            type="text"
-                            value={this.state.resource_year}
-                            className={classes.inputs} 
-                            onChange={(event)=>this.handleChange("year",event)}/>
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label> Semester of Creation </Form.Label>
-                            <Form.Control 
-                            type="text"
-                            value={this.state.resource_semester}
-                            className={classes.inputs} 
-                            onChange={(event)=>this.handleChange("semester",event)}/>
-                        </Form.Group>
+
+                        <br/>
+                        <Form.Label> Year of Creation </Form.Label>
                         <DropdownList 
-                        text={this.state.chosenCourse.name !== ""?this.state.chosenCourse.name:"Choose the resource course"}
-                        className={classes.dropdownList}>
-                            {this.state.courses.map((course,index)=>{
+                        text={this.state.chosenYear !== 0?this.state.chosenYear:"Year of Creation"}
+                        dark={false}
+                        className={classes2.dropdownList}>
+                            {years.map((year,index)=>{
                             return(
                                 <Dropdown.Item
                                 key={index}
-                                onClick={()=>this.handleDropdownClick(course.id,course.name)}>{course.name}</Dropdown.Item>
+                                onClick={()=>this.handleYearDropdown(year)}>{year}</Dropdown.Item>
+                            );
+                            })}
+                        </DropdownList>
+                        
+                        <br/>
+                        <Form.Label> Semester of Creation </Form.Label>
+                        <DropdownList 
+                        text={this.state.chosenSemester.name !== ""?this.state.chosenSemester.name:"Semester of Creation"}
+                        dark={false}
+                        className={classes2.dropdownList}>
+                            {semesters.map((semester,index)=>{
+                            return(
+                                <Dropdown.Item
+                                key={index}
+                                onClick={()=>this.handleSemesterDropdown(semester.num,semester.name)}>{semester.name}</Dropdown.Item>
                             );
                             })}
                         </DropdownList>
                         </Col>
                         <Col className={classes.create_res_col_2}>
+                        <Form.Label> Relevant Course </Form.Label>
+                        <DropdownList 
+                        text={this.state.chosenCourse.name !== ""?this.state.chosenCourse.name:"Choose the resource course"}
+                        dark={false}
+                        className={classes2.dropdownList}>
+                            {this.state.courses.map((course,index)=>{
+                            return(
+                                <Dropdown.Item
+                                key={index}
+                                onClick={()=>this.handleCourseDropdown(course.id,course.name)}>{course.name}</Dropdown.Item>
+                            );
+                            })}
+                        </DropdownList>
+                        <br/>
                         <fieldset id="group2" className="mb-3">
                             <Form.Label> Type of Resource </Form.Label>
                             <br/>

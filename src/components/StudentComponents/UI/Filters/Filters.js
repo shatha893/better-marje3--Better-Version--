@@ -10,6 +10,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import classes from './Filters.module.css';
 import Card from 'react-bootstrap/Card';
+import NoResults from '../../UI/noResults/noResults';
 import Accordion from 'react-bootstrap/Accordion';
 import FiltersList from './FiltersList/FiltersList';
 import Axios from 'axios';
@@ -26,7 +27,9 @@ class Filters extends Component{
       cards:[],
       filteredCards:[],
       courses:[],
-      resourceFile:""
+      resourceFile:"",
+
+      showNoResultsSVG:false
 }
 
 filteredResources = (newIds,newTypes) =>{
@@ -62,7 +65,10 @@ filteredResources = (newIds,newTypes) =>{
                 }
             })
         });
-        this.setState({filteredCards:[...tempArr]},()=>this.recievedData());
+        if(tempArr.length == 0)
+            this.setState({filteredCards:[...tempArr],showNoResultsSVG:true},()=>this.recievedData());
+        else
+            this.setState({filteredCards:[...tempArr],showNoResultsSVG:false},()=>this.recievedData());
         
     });
 }
@@ -123,7 +129,10 @@ filteredResources = (newIds,newTypes) =>{
                     }
             })}
             );
-            this.setState({cards:[...tempArr], filteredCards:[...tempArr]},()=>this.recievedData());
+            if(tempArr.length == 0)
+                this.setState({showNoResultsSVG:true,filteredCards:[...tempArr]},()=>this.recievedData());
+            else
+                this.setState({cards:[...tempArr], filteredCards:[...tempArr],showNoResultsSVG:false},()=>this.recievedData());
         }
         catch(error){
             console.log("Error = ",error);
@@ -211,9 +220,6 @@ filteredResources = (newIds,newTypes) =>{
                     { id:4, name:"Books" }],
                 checkedValues:[...this.state.checkedTypes],
                 filterValue:(typeNum)=>this.filterType(typeNum)
-            },
-            {
-                title:"Date of Creation"
             }]
 
         return(
@@ -263,7 +269,7 @@ filteredResources = (newIds,newTypes) =>{
                         </Accordion>
                 </Col>
                 <Col>
-
+                    <NoResults isShown={this.state.showNoResultsSVG}/>
                     {this.props.children}
 
                     <Pagination

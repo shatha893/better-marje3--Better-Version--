@@ -211,14 +211,14 @@ class MainQuestion extends Component{
                      className={classes.questionContainer}
                      key={index}>
                      <Row className={classes.questionTitle}>
-                        {questionContent}
+                        {index+1}){questionContent}
                      </Row>
                      <Row>
                         {this.chooseQuestion(question)}  
-                        <PQuestion 
+                        {/* <PQuestion 
                         question={question}
                         handleAnswer={(type,id,event)=>this.handleAnswer(type,id,event)}
-                        handleLanguage={(id,event)=>this.handleLanguage(id,event)}/>
+                        handleLanguage={(id,event)=>this.handleLanguage(id,event)}/> */}
                      </Row>
                   </Container>
                   );
