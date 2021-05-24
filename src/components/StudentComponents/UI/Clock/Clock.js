@@ -5,7 +5,7 @@ class Clock extends Component{
  
    state={
       time:"",
-      seconds:2000
+      seconds:0
    }
    timer = 0; 
 
@@ -23,9 +23,13 @@ class Clock extends Component{
    }
 
    componentDidMount = ()=>{
-      let timeLeftVar = this.secondsToTime(this.state.seconds);
-      this.setState({time:timeLeftVar});
-      this.startTimer();
+      console.log(this.props.milliseconds);
+      this.setState({seconds:this.props.milliseconds/1000},()=>{
+         let timeLeftVar = this.secondsToTime(this.state.seconds);
+         this.setState({time:timeLeftVar});
+         this.startTimer();
+      })
+      
    }
 
    componentWillUnmount = () =>{

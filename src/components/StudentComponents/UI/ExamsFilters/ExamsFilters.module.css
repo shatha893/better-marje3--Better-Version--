@@ -1,0 +1,62 @@
+.filterCol{
+   margin:0 !important
+ }
+
+ .filtersTitle{
+   font-size:larger;
+   color:#591CA8 !important;
+ }
+
+ .searchIcon{
+   font-size:20px;
+ }
+
+ .formControl ::placeholder{
+   color:#8D69BA !important
+ }
+
+ .pagination {
+   /* margin-top:15px;
+   margin-left:30%; */
+   font-size:inherit;
+   display: flex;
+   list-style: none;
+   outline: none;
+   color:#591CA8;
+ }
+ .pagination > .active > a{
+   font-size:larger;
+ }
+ .pagination > li > a{
+   
+   padding: 5px 10px;
+   outline: none;
+   cursor: pointer;
+ }
+ .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus{
+  
+   outline: none ;
+ }
+ 
+ .pagination > li:first-child > a, .pagination > li:first-child > span, .pagination > li:last-child > a, .pagination > li:last-child > span{
+   border-radius: unset
+ }
+
+ .cardHeader, .card{
+  background-color: white !important;
+  border-color:white !important;
+  color:#591CA8;
+}
+
+.accordion{
+  margin-top:30px !important;
+  border:white !important; 
+  font-size:large;
+  /* margin-top:10px !important; */
+}
+
+.cardHeader 
+:hover{
+ color:#8D69BA !important;
+ cursor: pointer;
+}

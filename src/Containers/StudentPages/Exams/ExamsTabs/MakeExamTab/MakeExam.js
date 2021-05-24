@@ -56,23 +56,23 @@ class MakeExam extends Component{
     handleExistingQuestion = () =>{
         this.setState({loading:true});
         //questions data instead which is supposed to be consisting of ( Question, Question tags)
-        Axios.get("http://localhost:3000/exams").then(response=>{
-            let tempArr = [];
-            console.log(response);
-            for(let i in response.data)
-            {
-                tempArr.push({
-                    id:i,
-                    name:response.data[i].name,
-                    date:response.data[i].year
-                })
-            }
-            this.setState({
-                existingQuestions:[...tempArr],
-                loading:false
-            })
+        // Axios.get("http://localhost:3000/exams").then(response=>{
+        //     let tempArr = [];
+        //     console.log(response);
+        //     for(let i in response.data)
+        //     {
+        //         tempArr.push({
+        //             id:i,
+        //             name:response.data[i].name,
+        //             date:response.data[i].year
+        //         })
+        //     }
+        //     this.setState({
+        //         existingQuestions:[...tempArr],
+        //         loading:false
+        //     })
 
-        })
+        // })
     }
 
     render()

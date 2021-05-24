@@ -32,11 +32,6 @@ class loginModal extends Component{
   
 
   handleLogin = () =>{
-    // if(this.state.email == 3456)
-    // {
-    //   this.props.history.push('/AdminHome');
-    // }
-    // else{
     this.setState({loading:true});
     Axios.post("http://localhost:1234/User/Login",
     {
@@ -44,13 +39,19 @@ class loginModal extends Component{
           password:this.state.password
     })
     .then(result =>{
+      console.log("Result of Login -->",result);
       let cookieBody = {
         name:result.data.user.name,
         id:result.data.user.id,
         token:result.data.token
       };
       Cookies.set('user',cookieBody);
-      this.props.history.push('/Homepage');
+
+      if(result.data.user.isAdmin)
+        this.props.history.push('/AdminHome');
+      else 
+        this.props.history.push('/Homepage')
+      
       })
     .catch((error)=>{
       console.log(error);

@@ -1,7 +1,9 @@
 .subContent{
-    float:right;
+    margin-top:10px;
+    margin-bottom:0%;
     color:rgba(163, 162, 162, 0.651);
 }
+
 
 .resultsTitle{
   margin-left:60px;

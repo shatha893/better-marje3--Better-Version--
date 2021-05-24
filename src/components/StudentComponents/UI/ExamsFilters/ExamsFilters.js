@@ -8,14 +8,14 @@ import FormControl from 'react-bootstrap/FormControl';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import classes from './Filters.module.css';
+import classes from './ExamsFilters.module.css';
 import Card from 'react-bootstrap/Card';
 import NoResults from '../../UI/noResults/noResults';
 import Accordion from 'react-bootstrap/Accordion';
-import FiltersList from './FiltersList/FiltersList';
+import FiltersList from '../Filters/FiltersList/FiltersList';
 import Axios from 'axios';
 
-class Filters extends Component{
+class ExamsFilters extends Component{
    state={
       //For the pagination
       offset: 0,
@@ -23,7 +23,6 @@ class Filters extends Component{
       currentPage: 0,
       pageCount:0,
       checkedCourses:[],
-      checkedTypes:[],
       cards:[],
       filteredCards:[],
       courses:[],
@@ -32,12 +31,13 @@ class Filters extends Component{
       showNoResultsSVG:false
 }
 
-filteredResources = (newIds,newTypes) =>{
+
+
+filteredExams = (newIds) =>{
     Axios.post("http://localhost:1234/Resource/Search",{
         "courses": newIds,
         "offset": 0,
-        "count": 99999,
-        "types":newTypes
+        "count": 99999
       })
       .then((response) => {
         let tempArr = [];
@@ -58,11 +58,9 @@ filteredResources = (newIds,newTypes) =>{
             tempArr.push({
                 id:resource.id,
                 name:resource.name,
-                description:{
-                    course:resource.course.name,
-                    author:resource.volunteer.name,
-                    creationDate:`Created In ${resource.creationYear}, in ${semester} semester`
-                }
+                author:resource.volunteer.name,
+                duration:resource.duration,
+                year:resource.year
             })
         });
         if(tempArr.length == 0)
@@ -95,15 +93,16 @@ filteredResources = (newIds,newTypes) =>{
         }
     }
    
-    getResources = async() =>{
+    getExams = async() =>{
         try{
-            const result = await  Axios.post("http://localhost:1234/Resource/GetAll",{
+            const result = await  Axios.post("http://localhost:1234/Exam/GetAll",{
                 "offset": 0,
                 "count": 99999
               });
             
-            const finalResult = await Axios.post("http://localhost:1234/Resource/Get",result.data);
+            const finalResult = await Axios.post("http://localhost:1234/Exam/Get",result.data);
             let tempArr = [];
+            console.log("Exams ==>",finalResult);
             finalResult.data.map((resource,index)=>{
                 
                 let semester= "";
@@ -120,13 +119,11 @@ filteredResources = (newIds,newTypes) =>{
 
                 }
                 tempArr.push({
-                    id:resource.id,
-                    name:resource.name,
-                    description:{
-                        course:resource.course.name,
-                        author:resource.volunteer.name,
-                        creationDate:`Created In ${resource.creationYear}, in ${semester} semester`
-                    }
+                  id:resource.id,
+                  name:resource.name,
+                  author:resource.volunteer.name,
+                  duration:resource.duration,
+                  year:resource.year
             })}
             );
             if(tempArr.length == 0)
@@ -160,7 +157,7 @@ filteredResources = (newIds,newTypes) =>{
    componentDidMount(){
         this.recievedData();
         this.filtersMounting();
-        this.getResources();
+        this.getExams();
    }
 
    filterCourse = (courseId) =>{
@@ -168,7 +165,7 @@ filteredResources = (newIds,newTypes) =>{
        {
             let tempArr = [...this.state.checkedCourses];
             tempArr.push(courseId);
-            this.setState({checkedCourses:[...tempArr]},()=>this.filteredResources(tempArr,this.state.checkedTypes));
+            this.setState({checkedCourses:[...tempArr]},()=>this.filteredExams(tempArr));
        }
     else{
         let coursesExceptOne = [];
@@ -178,55 +175,81 @@ filteredResources = (newIds,newTypes) =>{
               continue;
             coursesExceptOne.push(this.state.checkedCourses[i]);
         }
-        this.setState({checkedCourses: [...coursesExceptOne]},()=>this.filteredResources(coursesExceptOne,this.state.newTypes));
+        this.setState({checkedCourses: [...coursesExceptOne]},()=>this.filteredExams(coursesExceptOne));
     }
    }
 
-   filterType = (typeNum) =>{
-    if(this.state.checkedTypes.indexOf(typeNum)==-1)
-    {
-         let tempArr = [...this.state.checkedTypes];
-         tempArr.push(typeNum);
-         this.setState({checkedTypes:[...tempArr]},()=>this.filteredResources(this.state.checkedCourses,tempArr));
-    }
- else{
-     let typesExceptOne = [];
-     for(let i in this.state.checkedTypes)
-     {
-         if(this.state.checkedTypes[i] === typeNum)
-           continue;
-         typesExceptOne.push(this.state.checkedTypes[i]);
-     }
-     this.setState({checkedTypes: [...typesExceptOne]},()=>this.filteredResources(this.state.checkedCourses,typesExceptOne));
- }
+   handleSearchEnter = (event) =>{
+      if (event.key === 'Enter') {
+         console.log('do validate');
+       }
+      Axios.post("http://localhost:1234/Resource/Search",{
+        "tags":event.target.value
+       })
+       .then((response) => {
+         let tempArr = [];
+         response.data.map((resource)=>{
+             let semester= "";
+             switch(resource.creationSemester)
+             {
+                 case 0:
+                     semester = "first";
+                     break;
+                 case 1:
+                     semester = "second";
+                     break;
+                 case 2:
+                     semester = "summer";
+ 
+             }
+             tempArr.push({
+               id:resource.id,
+               name:resource.name,
+               author:resource.volunteer.name,
+               duration:resource.duration,
+               year:resource.year
+                 
+             })
+         });
+         if(tempArr.length == 0)
+             this.setState({filteredCards:[...tempArr],showNoResultsSVG:true},()=>this.recievedData());
+         else
+             this.setState({filteredCards:[...tempArr],showNoResultsSVG:false},()=>this.recievedData());
+         
+     });
    }
-
    
-   render()
-   {
-        const accCards = [
-            {
-                title:"Courses",
-                data:[...this.state.courses],
-                checkedValues:[...this.state.checkedCourses],
-                filterValue:(courseId)=>this.filterCourse(courseId)
-            },
-            {
-                title:"Type of Resource",
-                data:[{ id:0, name:"Notes" },
-                    { id:1, name:"Pastpapers" },
-                    { id:2, name:"Quizes" },
-                    { id:3, name:"Slides" },
-                    { id:4, name:"Books" }],
-                checkedValues:[...this.state.checkedTypes],
-                filterValue:(typeNum)=>this.filterType(typeNum)
-            }]
+  
 
-        return(
-         <Container fluid={+true}>
+   render(){
+      const accCards = [
+         {
+             title:"Courses",
+             data:[...this.state.courses],
+             checkedValues:[...this.state.checkedCourses],
+             filterValue:(courseId)=>this.filterCourse(courseId)
+         }]
+      return(
+         <Container fluid={+true} className={classes.container}>
                 <Row>
                 <Col sm={3} className={classes.filterCol}>
                     <p className={classes.filtersTitle}> Refine By </p>
+                    <div>
+                        <InputGroup className="mb-3">
+                            <InputGroup.Prepend>
+                                <InputGroup.Text id="basic-addon1">
+                                    <SearchIcon className={classes.searchIcon}/>
+                                </InputGroup.Text>
+                            </InputGroup.Prepend>
+                            <FormControl
+                            className={classes.formControl}
+                            placeholder="Search by Tag"
+                            aria-label="search"
+                            aria-describedby="basic-addon1"
+                            type="text"
+                            onKeyDown={(event)=>this.handleSearchEnter(event)}/>
+                        </InputGroup>
+                    </div>
                     <Accordion 
                     className={classes.accordion}>
                          {accCards.map((card,index)=>{
@@ -275,4 +298,4 @@ filteredResources = (newIds,newTypes) =>{
    }
 }
 
-export default Filters;
+export default ExamsFilters;

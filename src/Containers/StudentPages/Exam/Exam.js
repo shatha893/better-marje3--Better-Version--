@@ -52,6 +52,7 @@ class Exam extends Component{
 
 
    render(){
+      console.log("I HATE THIS",this.props.location.state.examDuration)
       return(
          <Container fluid={+true}>
          <Row>
@@ -87,7 +88,8 @@ class Exam extends Component{
                </div>
             </Col>
             <Col>
-               <Clock/>
+               <Clock 
+               milliseconds={this.props.location.state.examDuration}/>
             </Col>
          </Row>
          <Row>

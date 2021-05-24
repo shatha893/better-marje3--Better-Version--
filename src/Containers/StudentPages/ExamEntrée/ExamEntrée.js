@@ -55,7 +55,7 @@ class ExamEntrée extends Component{
 
   
 
-   handleExamClick = () =>{
+   handleExamClick = (duration) =>{
       const queryParams = new URLSearchParams(window.location.search);
       const id = queryParams.get('id');
       
@@ -66,11 +66,33 @@ class ExamEntrée extends Component{
 
       this.props.history.push({
       pathname: '/Exam',
-      state: { questionsId: this.state.ExamQuestion }
+      state: { questionsId: this.state.ExamQuestion, examDuration:duration }
    });
    }
 
+   msConversion = (millis) =>{
+      let sec = Math.floor(millis / 1000);
+      let hrs = Math.floor(sec / 3600);
+      sec -= hrs * 3600;
+      let min = Math.floor(sec / 60);
+      sec -= min * 60;
+    
+      sec = '' + sec;
+      sec = ('00' + sec).substring(sec.length);
+    
+      if (hrs > 0) {
+        min = '' + min;
+        min = ('00' + min).substring(min.length);
+        return hrs + ":" + min + ":" + sec;
+      }
+      else {
+        return min + ":" + sec;
+      }
+    }
+
    render(){
+      let milliseconds = this.state.Exam.time;
+      let duration = this.msConversion(milliseconds);
       return(
          <Container fluid={+true} className={classes.container}>
                 <Row>
@@ -83,16 +105,15 @@ class ExamEntrée extends Component{
                 </Row>
                 <Row>
                 <p>Instructions</p>
-                </Row>
-                <Row>
                   <ul>
-                  <li>{this.state.Exam.time/60000}  minutes</li>
-                  <li>instruction #2</li>
+                  <li>The exam duration will be {duration}. </li>
+                  <li>The exam will be <b>One Way</b> so as soon as you submit your answer there's no going back.</li>
+                  <li>During the exam Press "Next" to save your answer and proceed to the next question <i>(If you didn't press "Next" your answer won't be saved!)</i></li>
                   </ul>
                 </Row>
                 <Button 
                 className={classes.button}
-                onClick={this.handleExamClick}>Start Exam</Button>
+                onClick={()=>this.handleExamClick(milliseconds)}>Start Exam</Button>
                 </div>
                 <Row>
                     <Footer> </Footer>

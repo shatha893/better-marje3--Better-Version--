@@ -3,126 +3,141 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import classes from './TakeExamTab.module.css';
 import Axios from 'axios';
 import Spinner from '../../../../../components/StudentComponents/UI/spinner/spinner';
-import Filters from '../../../../../components/StudentComponents/UI/Filters/Filters';
+import ExamsFilters from '../../../../../components/StudentComponents/UI/ExamsFilters/ExamsFilters';
 import { withRouter } from 'react-router-dom';
 
 class TakeExamTab extends Component{
     
     state={ 
-        originalData:[],
         dataPerPage:[],
         loading:false,
-        filters:[],
     }
 
     componentDidMount(){
-
         this.setState({loading:true});
-
-       fetch('http://localhost:1234/Exam/GetAll', {
-            method: 'POST',
-            headers: {
-           'Accept': 'application/json',
-           'Content-Type': 'application/json',
-           },
-           body: JSON.stringify({
-            count: '10'
-          })
-         }).then(function(res){
-            return res.json();
-         }).then(function (data) {
-            console.log(data);
-            // Store the post data to a variable
+//        fetch('http://localhost:1234/Exam/GetAll', {
+//             method: 'POST',
+//             headers: {
+//            'Accept': 'application/json',
+//            'Content-Type': 'application/json',
+//            },
+//            body: JSON.stringify({
+//             count: '10'
+//           })
+//          }).then(function(res){
+//             return res.json();
+//          }).then(function (data) {
+//             console.log(data);
+//             // Store the post data to a variable
                  
    
-            console.log(data);
+//             console.log(data);
    
         
-           var arr=data;
+//            var arr=data;
             
-            console.log(arr);
+//             console.log(arr);
    
-            // Fetch another API
-   return  fetch('http://localhost:1234/Exam/Get', {
-    method: 'POST',
-    headers: {
-   'Accept': 'application/json',
-   'Content-Type': 'application/json',
-   },
-              body: JSON.stringify(arr)
-              });
+//             // Fetch another API
+//    return  fetch('http://localhost:1234/Exam/Get', {
+//     method: 'POST',
+//     headers: {
+//    'Accept': 'application/json',
+//    'Content-Type': 'application/json',
+//    },
+//               body: JSON.stringify(arr)
+//               });
          
-         }).then(function (response) {
-            if (response.ok) {
-               return response.json();
-            } else {
-               return Promise.reject(response);
-            }
-         }).then( (userData) => {
-            console.log(userData);
+//          }).then(function (response) {
+//             if (response.ok) {
+//                return response.json();
+//             } else {
+//                return Promise.reject(response);
+//             }
+//          }).then( (userData) => {
+//             console.log(userData);
 
-            let tempArr = [];
+//             let tempArr = [];
 
-            for(let i in userData)
-            {
-               tempArr.push({
-                    id:userData[i].id,
-                    date:userData[i].year,
-                    name:userData[i].name
-                })
-            }
+//             for(let i in userData)
+//             {
+//                tempArr.push({
+//                     id:userData[i].id,
+//                     date:userData[i].year,
+//                     name:userData[i].name
+//                 })
+//             }
 
-            this.setState({
-                originalData:[...tempArr],
-                loading:false
-            })
-            console.log("Sssssssss");
+//             this.setState({
+//                 originalData:[...tempArr],
+//                 loading:false
+//             })
+//             console.log("Sssssssss");
 
-         }).catch(function (error) {
-            console.warn(error);
-         });
-
-
-      
-    }
-
-    handleListItemClick = () =>{
-        this.props.history.push("");
-    }
-
+//          }).catch(function (error) {
+//             console.warn(error);
+//          });
+}
     handleData = (newData)=>{
-        this.setState({dataPerPage:[...newData]});
+        let tempArr = [...newData];
+        this.setState({dataPerPage:[...tempArr]});
     }
+
+    msConversion = (millis) =>{
+        let sec = Math.floor(millis / 1000);
+        let hrs = Math.floor(sec / 3600);
+        sec -= hrs * 3600;
+        let min = Math.floor(sec / 60);
+        sec -= min * 60;
+      
+        sec = '' + sec;
+        sec = ('00' + sec).substring(sec.length);
+      
+        if (hrs > 0) {
+          min = '' + min;
+          min = ('00' + min).substring(min.length);
+          return hrs + ":" + min + ":" + sec;
+        }
+        else {
+          return min + ":" + sec;
+        }
+      }
 
     render(){
-        
-        const dataList = this.state.originalData.map(exam => 
+        console.log("dataPerPage  ",this.state.dataPerPage)
+        const dataList = this.state.dataPerPage.map(exam => {
+            console.log("exam.duration",exam.duration);
+            let duration = this.msConversion(exam.duration);
+            return(
             <ListGroup.Item 
             key={exam.id}
             action 
             href={"/ExamEntrée?id=" + exam.id}
             className={classes.listItem}> 
                 <p className={classes.content}> 
-                    {exam.name} 
-                    <span 
+                    {exam.name}
+                    <br/> 
+                    <p
                     className={classes.subContent}>
-                        {/* {exam.date}  */} &nbsp;
-                        Date Created: {exam.date}{/* {exam.duration}   */}
-                    </span> 
+                        Duration: {duration} &nbsp;&nbsp;
+                        Year Created: {exam.year} &nbsp;&nbsp;
+                        Made By: {exam.author}
+                    </p> 
                 </p>
             </ListGroup.Item>);
+        });
         
         return(
             <>
            
-            <Filters
-            handleData={this.handleData}
-            data={this.state.originalData == null?undefined:this.state.originalData}>    
+            <ExamsFilters
+            className={classes.container}
+            handleData={(newData)=>this.handleData(newData)}>    
                 <p className={classes.resultsTitle}> Available Exams </p>
                 <ListGroup className={classes.list}>
                     {dataList}
                 </ListGroup>
-            </Filters> 
+            </ExamsFilters> 
             </>);
     }
     

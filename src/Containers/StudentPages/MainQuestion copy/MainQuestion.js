@@ -85,7 +85,6 @@ class MainQuestion extends Component{
                "SelectedChoices" : [this.state.answers.get(question.id)]
               })
             }).then(function(res){
-               console.log("HEREEE",res)
                return res.json();
             }).then( (data) => {
                this.setState({

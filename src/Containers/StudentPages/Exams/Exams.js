@@ -13,19 +13,7 @@ class Exams extends Component{
         userName:null,
         avatar:null
     }
-    componentDidMount =()=>{
-        //SHOULD BE CHANGED TO STH ELSE !!!
-        Axios.get("http://localhost:3000/users?uniEmail="+this.props.userEmail)
-        .then(
-            response=>{
-                console.log(response);
-                this.setState({
-                userName:response.data.username,
-                avatar:response.data.profilePic});
-            }
-            )
-    }
-
+   
     render()
     {
         return(

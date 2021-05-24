@@ -198,14 +198,12 @@ class MainQuestion extends Component{
     
       return(
             <Col sm={8} className={classes.examCol}>
-               {/*____A Single question's div_____ */}
                <div>
-                  {/* Make a form for each type of question for the answers */}
                   {this.state.questions.map( (question,index)=>{
-                     let fakeQuestion = "the number of #questions is ";
-                     // let questionContent = question.content.replace("#","_______");
-                     let questionContent = fakeQuestion.replace("#","_______");
-
+                 
+                     let temp = question.content.split(".");
+                     let questionContent = temp[2];
+                     
                   return(
                      <Container 
                      className={classes.questionContainer}

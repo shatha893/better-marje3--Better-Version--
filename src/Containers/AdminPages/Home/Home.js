@@ -29,6 +29,18 @@ class Home extends Component{
            className={classes.anchor}>Go there</a>
         },
         {
+           title:'Pending Quizes',
+           link:<a 
+           href='/quizes'
+           className={classes.anchor}>Go there</a>
+        },
+        {
+         title:'Pending Slides',
+         link:<a 
+         href='/slides'
+         className={classes.anchor}>Go there</a>
+      },
+        {
            title:'Pending Exams',
            link:<a 
            href='/exams'
@@ -53,7 +65,7 @@ class Home extends Component{
                   <Card.Header><b>{option.title}</b></Card.Header>
                   <Card.Body>
                   <Card.Text className={classes.anchorParent}>
-                     You have 500 pending request to approve
+                     You have pending requests to approve
                      <br/>
                      {option.link}
                   </Card.Text>

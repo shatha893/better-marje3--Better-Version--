@@ -15,11 +15,13 @@ import Exams from './Containers/StudentPages/Exams/Exams';
 import ExamEntrée from './Containers/StudentPages/ExamEntrée/ExamEntrée';
 import Exam from './Containers/StudentPages/Exam/Exam';
 import AdminHome from './Containers/AdminPages/Home/Home';
-import Notes from './Containers/AdminPages/Notes/Notes';
-import Pastpapers from './Containers/AdminPages/Pastpapers/Pastpapers';
+import Notes from './Containers/AdminPages/PendingResource/Resources/notes';
+import Pastpapers from './Containers/AdminPages/PendingResource/Resources/pastpapers';
 import Feedback from './Containers/StudentPages/Feedback/Feedback';
 import MainQuestion from './Containers/StudentPages/MainQuestion/MainQuestion';
 import SubmitResource from './Containers/StudentPages/SubmitRersource/SubmitResource';
+import Slides from './Containers/AdminPages/PendingResource/Resources/slides';
+import Quizes from './Containers/AdminPages/PendingResource/Resources/quizes';
 import Cookies from 'js-cookie';
 
 class App extends Component {
@@ -30,6 +32,12 @@ class App extends Component {
       <Router>
       <div>
         <Switch>
+        <Route
+          path="/quizes"
+          render={()=><Quizes/>}/>
+        <Route
+          path="/slides"
+          render={()=><Slides/>}/>
         <Route
           path="/SubmitResource"
           render={()=><SubmitResource/>}/>

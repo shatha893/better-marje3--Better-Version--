@@ -8,13 +8,14 @@ import AdminFilters from '../AdminFilters/AdminFilters';
 import AdminResources from '../AdminResources/AdminResources';
 import FilterSearch from '../../../Assets/search.svg';
 
-class Pastpapers extends Component{
+class PendingResource extends Component{
     state = {
         cardsPerPage:[],
         clickedResourceId:null
     };
 
     handleData = (newData)=>{
+       
         let tempArr = [...newData];
         this.setState({cardsPerPage:[...tempArr]});
     }
@@ -41,7 +42,7 @@ class Pastpapers extends Component{
 
                     <AdminFilters
                     handleData={(newData)=>this.handleData(newData)}
-                    type={2}>
+                    type={this.props.type}>
                         <AdminResources
                         cardsInfo={this.state.cardsPerPage}
                         updateResourceId={(id)=>this.updateResourceId(id)}/>
@@ -56,4 +57,4 @@ class Pastpapers extends Component{
 
 }
 
-export default Pastpapers;
+export default PendingResource;
