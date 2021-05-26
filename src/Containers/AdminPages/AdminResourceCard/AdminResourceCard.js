@@ -6,6 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import classes from './AdminResourceCard.module.css';
 import Axios from 'axios';
+import Cookies from 'js-cookie';
 
 class AdminResourceCard extends Component{
 
@@ -15,10 +16,14 @@ class AdminResourceCard extends Component{
    }
 
    handleApprove = () =>{
+      console.log(this.props.resourceId);
+      let config = { 
+         headers: { Authorization: `${JSON.parse(Cookies.get('user')).token}` } 
+     };
       Axios.patch('http://localhost:1234/Resource/Update',{
          "id": this.props.resourceId,
          "isApproved": true
-       })
+       },config)
        .then(res=>
          {this.setState({openSnackbar:true,snackbarMessage:"Resource Approved"});
       })
@@ -29,7 +34,10 @@ class AdminResourceCard extends Component{
    }
 
    handleDelete = () =>{
-      Axios.delete('http://localhost:1234/Resource/Delete',this.props.resourceId)
+      let config = { 
+         headers: { Authorization: `${JSON.parse(Cookies.get('user')).token}` } 
+     };
+      Axios.delete('http://localhost:1234/Resource/Delete',{config,data:this.props.resourceId})
       .then(res => {
           console.log(res);
          this.setState({openSnackbar:true,snackbarMessage:"Resource Deleted"});

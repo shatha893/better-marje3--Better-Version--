@@ -26,7 +26,7 @@ const adminResources = (props)=>{
             cardsInfoCol3.push(props.cardsInfo[i]);
         }
     }
-   
+        console.log("AdminResources ----->  ",cardsInfoCol3 );
     return(
         <>
         <Row>

@@ -1,127 +1,145 @@
 import React,{ Component } from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 import classes from './Questions.module.css';
+import { withRouter } from 'react-router-dom';
 import Axios from 'axios';
 import Spinner from '../../../../../components/StudentComponents/UI/spinner/spinner';
-import Filters from '../../../../../components/StudentComponents/UI/Filters/Filters';
+import QuestionsFilters from './QuestionsFilters/QuestionsFitlers';
 
 class Questions extends Component{
     
-   state = {
-    originalData:[],
-    dataPerPage:[],
-    loading:false,
-    filters:[]
-   }
-
-  
-
-    componentDidMount(){
-
-        this.setState({loading:true});
-        //questions data instead which is supposed to be consisting of ( Question, Question tags)
-
-        fetch('http://localhost:1234/Question/GetAll', {
-            method: 'POST',
-            headers: {
-           'Accept': 'application/json',
-           'Content-Type': 'application/json',
-           },
-           body: JSON.stringify({
-            count: '30'
-          })
-         }).then(function(res){
-            return res.json();
-         }).then(function (data) {
-           
-           var arr=data;
-            
-            console.log(arr);
-   
-       return   fetch('http://localhost:1234/Question/Get', {
-                      method: 'POST',
-                        headers: {
-                         'Accept': 'application/json', 
-                         'Content-Type': 'application/json',
-                    },
-                       body: JSON.stringify(arr)
-                    });
-
-            }).then(function (response) {
-            if (response.ok) {
-               return response.json();
-            } else {
-               return Promise.reject(response);
-            }
-         }).then( (userData) => {
-            console.log(userData);
-
-            let tempArr = [];
-
-            for(let i in userData)
-            {
-                console.log(userData[i]);
-                tempArr.push({
-                    id:userData[i].id,
-                    title:userData[i].title,
-                    name:userData[i].volunteer.name
-                })
-            }
-             console.log(tempArr);
-            this.setState({
-                originalData:[...tempArr],
-                loading:false
-            })
-
-         }).catch(function (error) {
-            console.warn(error);
-         });
-
-        
-    }
-
-    handleListItemClick = () =>{
-        this.props.history.push("");
-    }
-
-    handleData = (newData)=>{
-        this.setState({dataPerPage:[...newData]});
-    }
-
-    render(){
-         
-        const dataList = this.state.dataPerPage.map(question => 
-            <ListGroup.Item 
-            key={question.id}
-            action 
-            href= {"/Question/?id=" + question.id}  
-            className={classes.listItem}> 
-                <p className={classes.content}> 
-                {question.title} 
-                    <span 
-                    className={classes.subContent}>
-                        Created By: {question.name} 
-                    </span> 
-                </p>
-            </ListGroup.Item>
-            );
-
-         console.log(dataList);
-
-        return(
-            <>
-            <Spinner loading={this.state.loading}/>
-            { this.state.loading?null:
-            <Filters
-            handleData={this.handleData}
-            data={this.state.originalData == null?undefined:this.state.originalData}>    
-                <p className={classes.resultsTitle}> Available Exams </p>
-                <ListGroup className={classes.list}>
-                    {dataList}
-                </ListGroup>
-            </Filters> }
-            </>);
-    }
+        state={ 
+            dataPerPage:[],
+            loading:false,
+        }
     
+        componentDidMount(){
+            this.setState({loading:true});
+    //        fetch('http://localhost:1234/Exam/GetAll', {
+    //             method: 'POST',
+    //             headers: {
+    //            'Accept': 'application/json',
+    //            'Content-Type': 'application/json',
+    //            },
+    //            body: JSON.stringify({
+    //             count: '10'
+    //           })
+    //          }).then(function(res){
+    //             return res.json();
+    //          }).then(function (data) {
+    //             console.log(data);
+    //             // Store the post data to a variable
+                     
+       
+    //             console.log(data);
+       
+            
+    //            var arr=data;
+                
+    //             console.log(arr);
+       
+    //             // Fetch another API
+    //    return  fetch('http://localhost:1234/Exam/Get', {
+    //     method: 'POST',
+    //     headers: {
+    //    'Accept': 'application/json',
+    //    'Content-Type': 'application/json',
+    //    },
+    //               body: JSON.stringify(arr)
+    //               });
+             
+    //          }).then(function (response) {
+    //             if (response.ok) {
+    //                return response.json();
+    //             } else {
+    //                return Promise.reject(response);
+    //             }
+    //          }).then( (userData) => {
+    //             console.log(userData);
+    
+    //             let tempArr = [];
+    
+    //             for(let i in userData)
+    //             {
+    //                tempArr.push({
+    //                     id:userData[i].id,
+    //                     date:userData[i].year,
+    //                     name:userData[i].name
+    //                 })
+    //             }
+    
+    //             this.setState({
+    //                 originalData:[...tempArr],
+    //                 loading:false
+    //             })
+    //             console.log("Sssssssss");
+    
+    //          }).catch(function (error) {
+    //             console.warn(error);
+    //          });
+    }
+        handleData = (newData)=>{
+            let tempArr = [...newData];
+            this.setState({dataPerPage:[...tempArr]});
+        }
+    
+        msConversion = (millis) =>{
+            let sec = Math.floor(millis / 1000);
+            let hrs = Math.floor(sec / 3600);
+            sec -= hrs * 3600;
+            let min = Math.floor(sec / 60);
+            sec -= min * 60;
+          
+            sec = '' + sec;
+            sec = ('00' + sec).substring(sec.length);
+          
+            if (hrs > 0) {
+              min = '' + min;
+              min = ('00' + min).substring(min.length);
+              return hrs + ":" + min + ":" + sec;
+            }
+            else {
+              return min + ":" + sec;
+            }
+          }
+    
+        render(){
+            console.log("dataPerPage  ",this.state.dataPerPage)
+            const dataList = this.state.dataPerPage.map(Question => {
+                console.log("Question.duration",Question.duration);
+                let duration = this.msConversion(Question.duration);
+                return(
+                <ListGroup.Item 
+                key={Question.id}
+                action 
+                href={"/Question?id=" + Question.id}
+                className={classes.listItem}> 
+                    <p className={classes.content}> 
+                        {Question.title}
+                        <br/> 
+                        <span
+                        className={classes.subContent}>
+                            Course: {Question.description.course} &nbsp;&nbsp;
+                            Made By: {Question.description.author}
+                        </span> 
+                    </p>
+                </ListGroup.Item>);
+            });
+            
+            return(
+                <>
+               
+                <QuestionsFilters
+                className={classes.container}
+                handleData={(newData)=>this.handleData(newData)}>    
+                    <p className={classes.resultsTitle}> Available Questions </p>
+                    <ListGroup className={classes.list}>
+                        {dataList}
+                    </ListGroup>
+                </QuestionsFilters> 
+                </>);
+        }
+        
+   
 }
 export default Questions;

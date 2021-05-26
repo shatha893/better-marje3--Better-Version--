@@ -9,7 +9,7 @@ import Button from 'react-bootstrap/Button';
 import Divider from '@material-ui/core/Divider';
 import MCQuestion from './mcQuestion/mcQuestion';
 import PQuestion from './pQuestion/pQuestion';
-import TFQuestion from './tfQuestion/tfQuestion';
+import FBQuestion from './fBQuestion/fbQuestion';
 import Clock from '../../../components/StudentComponents/UI/Clock/Clock';
 import { withRouter } from 'react-router-dom';
 import MainQuestion from '../MainQuestion/MainQuestion';

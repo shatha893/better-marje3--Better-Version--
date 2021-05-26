@@ -262,7 +262,7 @@ handleSubmit = ()=>{
         </Modal.Body>
 
         <Modal.Footer className={classes.ModalFooter}>
-            {/* An Alert to be shown as a result of successful Registration */}
+          
             <Alert 
             hide={this.state.hideSuccessAlert} 
             close={()=>this.handleCloseAlert("success")}

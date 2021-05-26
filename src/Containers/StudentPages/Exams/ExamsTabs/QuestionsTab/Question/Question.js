@@ -1,25 +1,23 @@
 import React, { Component } from 'react';
-import Header from '../../../components/header/header';
-import Footer from '../../../components/footer/footer';
-import classes from './MainQuestion.module.css';
+import Header from '../../../../../../components/header/header';
+import Footer from '../../../../../../components/footer/footer';
+import classes from './Question.module.css';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Divider from '@material-ui/core/Divider';
-import MCQuestion from '../Exam/mcQuestion/mcQuestion';
-import PQuestion from '../Exam/pQuestion/pQuestion';
+import MCQuestion from '../../../../Exam/mcQuestion/mcQuestion';
+import PQuestion from '../../../../Exam/pQuestion/pQuestion';
+import FBQuestion from '../../../../Exam/fBQuestion/fbQuestion';
 import { withRouter } from 'react-router-dom';
-import FbQuestion from '../Exam/fBQuestion/fbQuestion';
 import Cookies from 'js-cookie';
 
 
-class MainQuestion extends Component{
+class Question extends Component{
   
    state={
-       //Each question have to have a type so that we can choose the right view for it
-      questions: [],
-      answers: new Map(),
+     questionContent:null
    };
 
    chooseQuestion = (question)=>{    
@@ -38,7 +36,7 @@ class MainQuestion extends Component{
          // case 2:
          //    return <TFQuestion question={question}/>;
          case 1:
-            return <FbQuestion 
+            return <FBQuestion 
             question={question}
             handleAnswer={(type,id,event)=>this.handleAnswer(type,id,event)}/>;
 
@@ -47,34 +45,36 @@ class MainQuestion extends Component{
 
 
    componentDidMount(){
-      var arr = [];
-      this.props.question.examSubQuestions.map((ESubQuestion, index) => (
+      const queryParams = new URLSearchParams(window.location.search);
+      const id = queryParams.get('id');
+      console.log(id);
 
-         arr.push(ESubQuestion.subQuestion.id)
-     ))
+      try{
+         let idArr = [];
+         idArr.push(id);
 
-      console.log(arr);
+         const finalResult = await Axios.post("http://localhost:1234/Question/Get",idArr);
+         
+         console.log("Question",finalResult)
 
-      fetch('http://localhost:1234/SubQuestion/Get', {
-         method: 'POST',
-         headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(arr)
-      }).then(function(res){
-         return res.json();
-      }).then( (data) => {
-         console.log(data);
-         this.setState({
-            questions:data
-         });
-      })
-   
+         this.setState({questionContent:{
+            title:finalResult.title,
+            type:finalResult.subQuestions[0].type,
+            subQuestionId:finalResult.subQuestions[0].id
+         }});
+         const config = { 
+            headers: { Authorization: `${JSON.parse(Cookies.get('user')).token}` } 
+        };
+         const subqresult = await Axios.post("http://localhost:1234/SubQuestionAnswer/Create",idArr,config);
+         console.log("subquestion results:",subqresult);
+      }
+      catch(error){
+            console.log("Error = ",error);
+      } 
    }
    
    handleSubmit = () =>{
-      this.state.questions.map((question,index)=>{
+      this.state.questions.map((question)=>{
           if(question.type == 0){
             fetch('http://localhost:1234/SubQuestionAnswer/Create', {
                method: 'POST',
@@ -85,11 +85,10 @@ class MainQuestion extends Component{
               },
               body: JSON.stringify({
                  "$type":"CreateMCQSubQuestionAnswerDto",
-               "examSubQuestionId": question.id,
-               "SelectedChoices" : [this.state.answers.get(question.id)]
+                  "examSubQuestionId": question.id,
+                  "SelectedChoices" : [this.state.answers.get(question.id)]
               })
             }).then(function(res){
-               console.log("HEREEE",res)
                return res.json();
             }).then( (data) => {
                this.setState({
@@ -231,4 +230,4 @@ class MainQuestion extends Component{
    }
 }
 
-export default MainQuestion;
+export default Question;

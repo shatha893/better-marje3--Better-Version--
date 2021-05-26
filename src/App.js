@@ -22,6 +22,7 @@ import MainQuestion from './Containers/StudentPages/MainQuestion/MainQuestion';
 import SubmitResource from './Containers/StudentPages/SubmitRersource/SubmitResource';
 import Slides from './Containers/AdminPages/PendingResource/Resources/slides';
 import Quizes from './Containers/AdminPages/PendingResource/Resources/quizes';
+import Question from './Containers/StudentPages/Exams/ExamsTabs/QuestionsTab/Question/Question';
 import Cookies from 'js-cookie';
 
 class App extends Component {
@@ -32,6 +33,9 @@ class App extends Component {
       <Router>
       <div>
         <Switch>
+        <Route
+          path="/Question"
+          render={()=><Question/>}/>
         <Route
           path="/quizes"
           render={()=><Quizes/>}/>

@@ -143,13 +143,3 @@ class TakeExamTab extends Component{
     
 }
 export default withRouter(TakeExamTab);
-
-
-{/* <ListGroup.Item action className={classes.listItem}>
-        <p className={classes.content}> Calculus Exam
-        <span 
-        className={classes.subContent}>
-        created: 22/5/2021 &nbsp; Duration: 120 minutes 
-        </span>
-        </p> 
-    </ListGroup.Item> */}

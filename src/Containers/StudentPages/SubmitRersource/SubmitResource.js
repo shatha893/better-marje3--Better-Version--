@@ -30,7 +30,9 @@ class SubmitResource extends Component {
         },
         chosenYear:0,
         resource_name:"",
+        resource_extension:"",
         resource_file:"",
+        file_name:"",
         open_snackbar:false,
         radio_types:{
             type_0:false,//Notes
@@ -39,7 +41,9 @@ class SubmitResource extends Component {
             type_3:false,//Exam
             type_4:false//Quiz
         },
-        chosenType:null
+        chosenType:null,
+        hideSuccessAlert:true,
+        hideWarningAlert:true
     }
 
     componentDidMount = ()=> {
@@ -83,9 +87,11 @@ class SubmitResource extends Component {
                 break;
     
             case "file":
+                let splitFileName = event.target.value.split(".");
+                console.log("file extension --> ",splitFileName[1])
               let reader = new FileReader();
                 reader.onload = (e)=>{
-                  this.setState({resource_file: e.target.result});
+                  this.setState({resource_file: e.target.result,resource_extension:splitFileName[1]});
                 };
                 reader.readAsDataURL(event.target.files[0]); 
                 break;
@@ -210,14 +216,14 @@ class SubmitResource extends Component {
         
         let data = {
             courseId:this.state.chosenCourse.id,
-            creationYear:this.state.resource_year,
-            creationSemester:this.state.chosenSemester,
+            creationYear:this.state.chosenYear,
+            creationSemester:this.state.chosenSemester.num,
             name:this.state.resource_name,
             resource:{
-                contentBase64:this.state.resource_file.substr(28,this.state.resource_file.length)
+                contentBase64:this.state.resource_file.split(',')[1],
+                fileExtension:this.state.resource_extension
             },
-            type:this.state.chosenType,
-            volunteer:JSON.parse(Cookies.get('user')).id
+            type:this.state.chosenType
         }
         console.log("data:",data);
         const config = { 

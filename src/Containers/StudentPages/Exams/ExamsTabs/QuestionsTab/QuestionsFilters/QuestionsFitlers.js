@@ -8,15 +8,14 @@ import FormControl from 'react-bootstrap/FormControl';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import classes from 'C:/Users/Shatha Barqawi/Documents/Github Projects/better-marje3/src/components/StudentComponents/UI/Filters/Filters.module.css';
-import NoResults from '../../../components/StudentComponents/UI/noResults/noResults';
+import classes from './QuestionsFilters.module.css';
 import Card from 'react-bootstrap/Card';
+import NoResults from '../../../../../../components/StudentComponents/UI/noResults/noResults';
 import Accordion from 'react-bootstrap/Accordion';
-import FiltersList from '../../../components/StudentComponents/UI/Filters/FiltersList/FiltersList';
-import Cookies from 'js-cookie';
+import FiltersList from '../../../../../../components/StudentComponents/UI/Filters/FiltersList/FiltersList';
 import Axios from 'axios';
 
-class NotesFilters extends Component{
+class QuestionsFilters extends Component{
    state={
       //For the pagination
       offset: 0,
@@ -33,42 +32,25 @@ class NotesFilters extends Component{
       showNoResultsSVG:false
 }
 
-filteredResources = (newIds) =>{
-    let config = { 
-        headers: { Authorization: `${JSON.parse(Cookies.get('marje3'))}` } 
-    };
-    Axios.post("http://localhost:1234/Resource/Search",{
-        "courses": newIds,
-        "isApproved":false,
+filteredResources = (newIds,newTypes) =>{
+    Axios.post("http://localhost:1234/Question/Search",{
+        "coursesIds": newIds,
         "offset": 0,
-        "count": 99999,
-        "types":[this.props.type]
-      },config)
+        "count": 99999
+      })
       .then((response) => {
         let tempArr = [];
-        response.data.map((resource)=>{
-            let semester= "";
-            switch(resource.creationSemester)
-            {
-                case 0:
-                    semester = "first";
-                    break;
-                case 1:
-                    semester = "second";
-                    break;
-                case 2:
-                    semester = "summer";
-
-            }
+        response.data.map((question)=>{
+            
             tempArr.push({
-                id:resource.id,
-                name:resource.name,
+                id:question.id,
+                title:question.title,
+                type:question.subQuestions[0].type,
                 description:{
-                    course:resource.course.name,
-                    author:resource.volunteer.name,
-                    creationDate:`Created In ${resource.creationYear}, in ${semester} semester`
+                    course:question.course.name,
+                    author:question.volunteer.name
                 }
-            })
+            });
         });
         if(tempArr.length == 0)
             this.setState({filteredCards:[...tempArr],showNoResultsSVG:true},()=>this.recievedData());
@@ -101,49 +83,30 @@ filteredResources = (newIds) =>{
     }
    
     getResources = async() =>{
-        let config = { 
-            headers: { Authorization: `${JSON.parse(Cookies.get('user')).token}` } 
-        };
         try{
-            const result = await  Axios.post("http://localhost:1234/Resource/GetAll",{
+            const result = await  Axios.post("http://localhost:1234/Question/GetAll",{
                 "offset": 0,
                 "count": 99999
-              },config);
+              });
             
-            const finalResult = await Axios.post("http://localhost:1234/Resource/Get",result.data,config);
+            const finalResult = await Axios.post("http://localhost:1234/Question/Get",result.data);
             let tempArr = [];
-            console.log("Final Results: ",finalResult);
-            finalResult.data.map((resource)=>{
-                
-                if(resource.type === this.props.type)
-                {
-                    let semester= "";
-                    switch(resource.creationSemester)
-                    {
-                        case 0:
-                            semester = "first";
-                            break;
-                        case 1:
-                            semester = "second";
-                            break;
-                        case 2:
-                            semester = "summer";
-
+            console.log("QuestionsFilters (Final Result)   ")
+            finalResult.data.map((question,index)=>{
+                tempArr.push({
+                    id:question.id,
+                    title:question.title,
+                    type:question.subQuestions[0].type,
+                    description:{
+                        course:question.course.name,
+                        author:question.volunteer.name
                     }
-                    tempArr.push({
-                        id:resource.id,
-                        name:resource.name,
-                        description:{
-                            course:resource.course.name,
-                            author:resource.volunteer.name,
-                            creationDate:`Created In ${resource.creationYear}, in ${semester} semester`
-                        }
-                })
-            }});
+            })}
+            );
             if(tempArr.length == 0)
-                this.setState({showNoResultsSVG:true});
+                this.setState({showNoResultsSVG:true,filteredCards:[...tempArr]},()=>this.recievedData());
             else
-                this.setState({cards:[...tempArr], filteredCards:[...tempArr]},()=>this.recievedData());
+                this.setState({cards:[...tempArr], filteredCards:[...tempArr],showNoResultsSVG:false},()=>this.recievedData());
         }
         catch(error){
             console.log("Error = ",error);
@@ -179,7 +142,7 @@ filteredResources = (newIds) =>{
        {
             let tempArr = [...this.state.checkedCourses];
             tempArr.push(courseId);
-            this.setState({checkedCourses:[...tempArr]},()=>this.filteredResources(tempArr));
+            this.setState({checkedCourses:[...tempArr]},()=>this.filteredResources(tempArr,this.state.checkedTypes));
        }
     else{
         let coursesExceptOne = [];
@@ -221,14 +184,13 @@ filteredResources = (newIds) =>{
                 data:[...this.state.courses],
                 checkedValues:[...this.state.checkedCourses],
                 filterValue:(courseId)=>this.filterCourse(courseId)
-            }];
+            }]
 
-            return(
-            <Container fluid={+true}>
+        return(
+         <Container fluid={+true}>
                 <Row>
                 <Col sm={3} className={classes.filterCol}>
                     <p className={classes.filtersTitle}> Refine By </p>
-                   
                     <Accordion 
                     className={classes.accordion}>
                          {accCards.map((card,index)=>{
@@ -257,19 +219,19 @@ filteredResources = (newIds) =>{
                 </Col>
                 <Col>
                     <NoResults isShown={this.state.showNoResultsSVG}/>
-                    {this.props.children} 
+                    {this.props.children}
 
                     <Pagination
-                    containerClassName={classes.pagination}
-                    activeClassName={classes.active}
-                    previousLabel={<ArrowBackIcon/>}
-                    nextLabel={<ArrowForwardIcon/>}
-                    breakLabel={"..."}
-                    breakClassName={"break-me"}
-                    pageCount={this.state.pageCount}
-                    marginPagesDisplayed={2}
-                    pageRangeDisplayed={10}
-                    onPageChange={(event)=>this.handlePageClick(event)}/>
+                        containerClassName={classes.pagination}
+                        activeClassName={classes.active}
+                        previousLabel={<ArrowBackIcon/>}
+                        nextLabel={<ArrowForwardIcon/>}
+                        breakLabel={"..."}
+                        breakClassName={"break-me"}
+                        pageCount={this.state.pageCount}
+                        marginPagesDisplayed={2}
+                        pageRangeDisplayed={10}
+                        onPageChange={(event)=>this.handlePageClick(event)}/>
                 </Col>
                 </Row>
             </Container>
@@ -277,4 +239,4 @@ filteredResources = (newIds) =>{
    }
 }
 
-export default NotesFilters;
+export default QuestionsFilters;
