@@ -104,9 +104,8 @@ class TakeExamTab extends Component{
       }
 
     render(){
-        console.log("dataPerPage  ",this.state.dataPerPage)
         const dataList = this.state.dataPerPage.map(exam => {
-            console.log("exam.duration",exam.duration);
+
             let duration = this.msConversion(exam.duration);
             return(
             <ListGroup.Item 
@@ -117,12 +116,12 @@ class TakeExamTab extends Component{
                 <p className={classes.content}> 
                     {exam.name}
                     <br/> 
-                    <p
+                    <span
                     className={classes.subContent}>
                         Duration: {duration} &nbsp;&nbsp;
                         Year Created: {exam.year} &nbsp;&nbsp;
                         Made By: {exam.author}
-                    </p> 
+                    </span> 
                 </p>
             </ListGroup.Item>);
         });

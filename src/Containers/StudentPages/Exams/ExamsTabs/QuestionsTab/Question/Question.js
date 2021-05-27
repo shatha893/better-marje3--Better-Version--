@@ -11,6 +11,7 @@ import MCQuestion from '../../../../Exam/mcQuestion/mcQuestion';
 import PQuestion from '../../../../Exam/pQuestion/pQuestion';
 import FBQuestion from '../../../../Exam/fBQuestion/fbQuestion';
 import { withRouter } from 'react-router-dom';
+import Axios from 'axios';
 import Cookies from 'js-cookie';
 
 
@@ -20,31 +21,28 @@ class Question extends Component{
      questionContent:null
    };
 
-   chooseQuestion = (question)=>{    
-      console.log(question.type);
+   chooseQuestion = ()=>{    
+      console.log(this.state.questionContent.subQuestion.type);
       //1 --->FIB   
-      switch(question.type){   
+      switch(1){   
          case 0:
             return <MCQuestion 
-            question={question}
+            // question={}
             handleAnswer={(type,id,event)=>this.handleAnswer(type,id,event)}/>;
          case 3:
             return <PQuestion 
-            question={question}
+            // question={}
             handleAnswer={(type,id,event)=>this.handleAnswer(type,id,event)}
             handleLanguage={(type,id,event)=>this.handleLanguage(type,id,event)}/>;
-         // case 2:
-         //    return <TFQuestion question={question}/>;
          case 1:
             return <FBQuestion 
-            question={question}
+            // question={}
             handleAnswer={(type,id,event)=>this.handleAnswer(type,id,event)}/>;
 
       }
    }
 
-
-   componentDidMount(){
+   getQuestion = async() =>{
       const queryParams = new URLSearchParams(window.location.search);
       const id = queryParams.get('id');
       console.log(id);
@@ -57,20 +55,36 @@ class Question extends Component{
          
          console.log("Question",finalResult)
 
-         this.setState({questionContent:{
-            title:finalResult.title,
-            type:finalResult.subQuestions[0].type,
-            subQuestionId:finalResult.subQuestions[0].id
-         }});
+         idArr.pop(); 
+         idArr.push(finalResult.data[0].subQuestions[0].id);
          const config = { 
             headers: { Authorization: `${JSON.parse(Cookies.get('user')).token}` } 
         };
-         const subqresult = await Axios.post("http://localhost:1234/SubQuestionAnswer/Create",idArr,config);
+         const subqresult = await Axios.post("http://localhost:1234/SubQuestion/Get",idArr,config);
          console.log("subquestion results:",subqresult);
+
+         let tempArray = [];
+         subqresult.data[0].tags.map(tag=>{
+            tempArray.push(tag.name); });
+
+         this.setState({questionContent:{
+            title:finalResult.data[0].title,
+            content:finalResult.data[0].content,
+            type:finalResult.data[0].subQuestions[0].type,
+            subQuestion:{
+               id:subqresult.data[0].id,
+               type:subqresult.data[0].type,
+               tags:[...tempArray]
+            }
+         }});
       }
       catch(error){
             console.log("Error = ",error);
       } 
+   }
+
+   componentDidMount(){
+      this.getQuestion();
    }
    
    handleSubmit = () =>{
@@ -191,41 +205,34 @@ class Question extends Component{
       }, console.log(this.state.answers));
     }
     
-   render(){
-      console.log("Map (answers)--->",this.state.answers);
-    
+   render(){ 
+      console.log("questioncontent-->",this.state.questionContent);
+      let questionContent = this.state.questionContent;  
+      if(questionContent !== null && questionContent !== undefined)  
+      {
+         questionContent = questionContent.content;
+      }
+
       return(
-            <Col sm={8} className={classes.examCol}>
-               <div>
-                  {this.state.questions.map( (question,index)=>{
-                 
-                     let temp = question.content.split(".");
-                     let questionContent = temp[2];
-                     
-                  return(
-                     <Container 
-                     className={classes.questionContainer}
-                     key={index}>
-                     <Row className={classes.questionTitle}>
-                        {index+1}){questionContent}
-                     </Row>
-                     <Row>
-                        {this.chooseQuestion(question)}  
-                     </Row>
-                  </Container>
-                  );
-   })}
-                   <Button 
-                   className={this.props.lastQuestion?classes.hideButton:classes.submitButton}
-                   onClick={this.handleSubmit}>
-                      Next
-                   </Button>
-                   <Button 
-                   className={!this.props.lastQuestion?classes.hideButton:classes.submitButton}>
-                      Submit Answers
-                   </Button>
-               </div>
-            </Col>       
+      <Col sm={8} className={classes.examCol}>
+      <div>
+      <Container 
+      className={classes.questionContainer}>
+
+      <Row className={classes.questionTitle}>
+         {questionContent}
+      </Row>
+      <Row>
+         {this.state.questionContent===null?null:this.chooseQuestion()}  
+      </Row>
+      </Container>
+
+      <Button 
+      className={!this.props.lastQuestion?classes.hideButton:classes.submitButton}>
+      Submit Answer
+      </Button>
+      </div>
+      </Col>       
       );
    }
 }

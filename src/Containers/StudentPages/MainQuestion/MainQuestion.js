@@ -23,8 +23,6 @@ class MainQuestion extends Component{
    };
 
    chooseQuestion = (question)=>{    
-      console.log(question.type);
-      //1 --->FIB   
       switch(question.type){   
          case 0:
             return <MCQuestion 
@@ -53,8 +51,6 @@ class MainQuestion extends Component{
          arr.push(ESubQuestion.subQuestion.id)
      ))
 
-      console.log(arr);
-
       fetch('http://localhost:1234/SubQuestion/Get', {
          method: 'POST',
          headers: {
@@ -65,7 +61,6 @@ class MainQuestion extends Component{
       }).then(function(res){
          return res.json();
       }).then( (data) => {
-         console.log(data);
          this.setState({
             questions:data
          });
@@ -89,7 +84,6 @@ class MainQuestion extends Component{
                "SelectedChoices" : [this.state.answers.get(question.id)]
               })
             }).then(function(res){
-               console.log("HEREEE",res)
                return res.json();
             }).then( (data) => {
                this.setState({
@@ -168,7 +162,7 @@ class MainQuestion extends Component{
     
      this.setState({
         answers:tempMap
-     }, console.log(this.state.answers));
+     });
     }
 
     handleAnswer = (type,id,event)=>{
@@ -189,11 +183,10 @@ class MainQuestion extends Component{
          tempMap.set(id,event);
       this.setState({
          answers:tempMap
-      }, console.log(this.state.answers));
+      });
     }
     
    render(){
-      console.log("Map (answers)--->",this.state.answers);
     
       return(
             <Col sm={8} className={classes.examCol}>

@@ -102,7 +102,7 @@ filteredExams = (newIds) =>{
             
             const finalResult = await Axios.post("http://localhost:1234/Exam/Get",result.data);
             let tempArr = [];
-            console.log("Exams ==>",finalResult);
+            
             finalResult.data.map((resource,index)=>{
                 
                 let semester= "";

@@ -5,11 +5,7 @@ import classes from './Exam.module.css';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
-import Button from 'react-bootstrap/Button';
 import Divider from '@material-ui/core/Divider';
-import MCQuestion from './mcQuestion/mcQuestion';
-import PQuestion from './pQuestion/pQuestion';
-import FBQuestion from './fBQuestion/fbQuestion';
 import Clock from '../../../components/StudentComponents/UI/Clock/Clock';
 import { withRouter } from 'react-router-dom';
 import MainQuestion from '../MainQuestion/MainQuestion';
@@ -32,8 +28,6 @@ class Exam extends Component{
    }
 
    nextQuestion = ()=>{
-      
-      console.log("length",this.props.location.state.questionsId.length);
       if(this.state.index < this.props.location.state.questionsId.length-1){
          {
             let temp = this.state.index;
@@ -43,16 +37,8 @@ class Exam extends Component{
          }
       }
    }
-//SelectedChoices
-
-   submitAnwser = ()=>{
-      
-
-   }
-
 
    render(){
-      console.log("I HATE THIS",this.props.location.state.examDuration)
       return(
          <Container fluid={+true}>
          <Row>
