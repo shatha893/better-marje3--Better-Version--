@@ -10,13 +10,12 @@ import Axios from 'axios';
 const userInfoContent = (props) =>{
 
     //Data will be sorted as this in the array:
-    //name, email,major,mobileNo,studyPlan, password
+    //name, email,major,studyPlan, password
     let newData={
       username:props.userInfo === null?null:props.userInfo.name,
       profilePic:null,
       email:null,
       major:null,
-      studyPlan:null,
       password:null
     };
 
@@ -43,7 +42,6 @@ const userInfoContent = (props) =>{
               newData.profilePic = e.target.result;
             };
             reader.readAsDataURL(event.target.files[0]); 
-            console.log("ProfilePic --> ",newData.profilePic);
             break;
           default:
             newData.password =event.target.value;
@@ -51,17 +49,16 @@ const userInfoContent = (props) =>{
        }
     }
 
-    console.log("props.userInfo.profilePic",props.userInfo === null?"":props.userInfo.profilePic);
+    console.log("props.userInfo.profilePic",props.profilePic === null?"":props.profilePic);
     return(
       
       <div className={classes.UserInfo}>
       {props.userInfo === null?null:
       <form className={classes.root} noValidate autoComplete="off">
-        <img 
-        // src={"http://localhost:1234/User/GetProfilePicture?userId="+JSON.parse(Cookies.get('user')).id==null
-        // ?noPic
-        // :"http://localhost:1234/User/GetProfilePicture?userId="+JSON.parse(Cookies.get('user')).id} 
-        src={"http://localhost:1234/User/GetProfilePicture?userId="+JSON.parse(Cookies.get('user')).id}
+        <img
+        src={props.profilePic !== undefined
+          ?"http://localhost:1234/User/GetProfilePicture?userId="+JSON.parse(Cookies.get('user')).id
+          :noPic}
         className={props.type=="edit"
           ?classes.hideImage
           :classes.ProfilePic}/>
@@ -84,7 +81,7 @@ const userInfoContent = (props) =>{
         <TextField 
         id="email-input" 
         placeholder={props.userInfo.email} 
-        disabled={props.disable} 
+        disabled
         className={classes.TextField}
         onChange={(event)=>handleChange("email",event)}/>
 
@@ -97,21 +94,13 @@ const userInfoContent = (props) =>{
         className={classes.TextField}
         onChange={(event)=>handleChange("major",event)}/>
 
-        <br/><br/>
-        <span>STUDY PLAN</span>
-        <TextField 
-        id="plan-input" 
-        placeholder={props.userInfo.studyPlan} 
-        disabled={props.disable} 
-        className={classes.TextField}
-        onChange={(event)=>handleChange("studyPlan",event)}/>
-
+      
         <br/><br/>
         <span>PASSWORD</span>
         <TextField 
         id="password-input" 
         type="password" 
-        placeholder={"something"} 
+        placeholder={"•••••••••••"} 
         disabled={props.disable} 
         className={classes.TextField}
         onChange={(event)=>handleChange("password",event)}/>

@@ -12,8 +12,9 @@ const question = (props) =>{
       id="question-form" 
       className={classes.form}
       hasValidation>
+          
           <Form.Group controlId="questionInput">
-              <Form.Label> Question </Form.Label>
+              <Form.Label> Question Content</Form.Label>
               <Form.Control 
               as="textarea" 
               rows={3}

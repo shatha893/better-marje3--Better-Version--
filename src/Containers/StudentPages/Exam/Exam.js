@@ -17,11 +17,7 @@ class Exam extends Component{
       index:0
   };
 
-   componentDidMount(){
-   console.log()
-     
-   }
-
+   
 
    handleSubmit = () =>{
       this.props.history.push("/Feedback");

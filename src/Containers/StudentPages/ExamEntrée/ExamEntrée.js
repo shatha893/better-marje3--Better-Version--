@@ -7,6 +7,8 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import { withRouter } from 'react-router-dom';
+import Axios from 'axios';
+import Cookies from 'js-cookie';
 
 class ExamEntrée extends Component{
    state={
@@ -58,12 +60,12 @@ class ExamEntrée extends Component{
    handleExamClick = (duration) =>{
       const queryParams = new URLSearchParams(window.location.search);
       const id = queryParams.get('id');
-      
-           console.log("AAAA");
-           const t = '26:637570408376541626';
 
-    
-
+      const config = { 
+         headers: { Authorization: `${JSON.parse(Cookies.get('user')).token}` } 
+     };
+      Axios.get("http://localhost:1234/ExamAttempt/Create?examId="+id,config)
+     
       this.props.history.push({
       pathname: '/Exam',
       state: { questionsId: this.state.ExamQuestion, examDuration:duration }

@@ -8,42 +8,60 @@ import Cookies from 'js-cookie';
 class Editpage extends Component {
 
     state={
-        username:"",
-        profilePic:"",
-        email:"",
-        major:"",
-        mobileNum:"",
-        studyPlan:"",
-        password:""
+        userInfo:{
+            id:0,
+            name:"",
+            major:"",
+            password:""
+        }
+       
     }
 
-    
-    handleSaveClick= async(newData)=>{
-        console.log("newData -->",newData,"---",newData.profilePic.substr(23,newData.profilePic.length));
+    componentDidMount = ()=>{
         const config = { 
             headers: { Authorization: `${JSON.parse(Cookies.get('user')).token}` } 
         };
-        const res = await Axios.patch("http://localhost:1234/User/Update",{
+        Axios.get("http://localhost:1234/User/GetLoggedIn",config).then(res=>{
+            let responseObj = {
+                id:res.data.id,
+                name:res.data.name,
+                major:res.data.studyPlan.major.name
+            }
+        this.setState({userInfo:{...responseObj}});
+        })
+    }
+    
+    handleSaveClick= async(newData)=>{
+        let picbase64 = null;
+        if(newData.profilePic !== null)
+       {
+           let tempPicSplitted = newData.profilePic.split(',');
+           picbase64 = tempPicSplitted[1];
+    }
+        const config = { 
+            headers: { Authorization: `${JSON.parse(Cookies.get('user')).token}` } 
+        };
+        console.log("....",newData);
+        Axios.patch("http://localhost:1234/User/Update",{
             "id": JSON.parse(Cookies.get('user')).id,
             "isAdmin": false,
             "password":newData.password,
-            "profilePictureJpgBase64": newData.profilePic.substr(23,newData.profilePic.length),
-            "studyPlanId": null,
+            "profilePictureJpgBase64": picbase64,
             "name": newData.username
-          }, config);
-          console.log(res);
-        this.props.history.push("/Homepage/Infopage");
+          }, config)
+          .then(res =>{
+              console.log("res",res);
+            this.props.history.push("/Homepage/Infopage") })
+          .catch(error =>this.props.history.push("/Homepage/Infopage"));
+        
     }
 
     render(){
-
-        
-        const userInfo = {...this.state};
         return(
             <Profile>
                 <ProfileUserInfo 
                 type="edit"
-                userInfo={userInfo} 
+                userInfo={this.state.userInfo} 
                 disable={false} 
                 buttonText={"SAVE"}
                 handleClicking={(newData)=>this.handleSaveClick(newData)}/>

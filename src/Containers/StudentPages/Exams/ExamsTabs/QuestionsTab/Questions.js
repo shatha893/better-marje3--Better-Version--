@@ -83,31 +83,9 @@ class Questions extends Component{
             this.setState({dataPerPage:[...tempArr]});
         }
     
-        msConversion = (millis) =>{
-            let sec = Math.floor(millis / 1000);
-            let hrs = Math.floor(sec / 3600);
-            sec -= hrs * 3600;
-            let min = Math.floor(sec / 60);
-            sec -= min * 60;
-          
-            sec = '' + sec;
-            sec = ('00' + sec).substring(sec.length);
-          
-            if (hrs > 0) {
-              min = '' + min;
-              min = ('00' + min).substring(min.length);
-              return hrs + ":" + min + ":" + sec;
-            }
-            else {
-              return min + ":" + sec;
-            }
-          }
-    
         render(){
             console.log("dataPerPage  ",this.state.dataPerPage)
             const dataList = this.state.dataPerPage.map(Question => {
-                console.log("Question.duration",Question.duration);
-                let duration = this.msConversion(Question.duration);
                 return(
                 <ListGroup.Item 
                 key={Question.id}

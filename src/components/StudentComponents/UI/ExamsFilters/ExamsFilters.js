@@ -235,7 +235,7 @@ filteredExams = (newIds) =>{
                 <Col sm={3} className={classes.filterCol}>
                     <p className={classes.filtersTitle}> Refine By </p>
                     <div>
-                        <InputGroup className="mb-3">
+                        {/* <InputGroup className="mb-3">
                             <InputGroup.Prepend>
                                 <InputGroup.Text id="basic-addon1">
                                     <SearchIcon className={classes.searchIcon}/>
@@ -248,7 +248,7 @@ filteredExams = (newIds) =>{
                             aria-describedby="basic-addon1"
                             type="text"
                             onKeyDown={(event)=>this.handleSearchEnter(event)}/>
-                        </InputGroup>
+                        </InputGroup> */}
                     </div>
                     <Accordion 
                     className={classes.accordion}>

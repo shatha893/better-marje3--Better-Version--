@@ -18,28 +18,84 @@ import Cookies from 'js-cookie';
 class Question extends Component{
   
    state={
-     questionContent:null
+     questionContent:null,
+     questionAnswer:{
+      $type:"",
+      examSubQuestionId: null,
+      SelectedChoices: []
+     }
    };
 
-   chooseQuestion = ()=>{    
-      console.log(this.state.questionContent.subQuestion.type);
-      //1 --->FIB   
-      switch(1){   
+   chooseQuestion =(type)=>{ 
+
+      switch(type){   
          case 0:
-            return <MCQuestion 
-            // question={}
-            handleAnswer={(type,id,event)=>this.handleAnswer(type,id,event)}/>;
+            return   <MCQuestion 
+                     question={this.state.questionContent}
+                     handleMCQchange={(qId,chosenChoiceId)=>this.handleMCQchange(qId,chosenChoiceId)}/>;
          case 3:
-            return <PQuestion 
-            // question={}
-            handleAnswer={(type,id,event)=>this.handleAnswer(type,id,event)}
-            handleLanguage={(type,id,event)=>this.handleLanguage(type,id,event)}/>;
+            return   <PQuestion 
+                     question={this.state.questionContent}
+                     handlePchange={(event,sqId)=>this.handlePchange(event,sqId)}
+                     // handlePchange={}
+                     // handleAnswer={(type,id,event)=>this.handleAnswer(type,id,event)} 
+                     />;
          case 1:
-            return <FBQuestion 
-            // question={}
-            handleAnswer={(type,id,event)=>this.handleAnswer(type,id,event)}/>;
+            return   <FBQuestion 
+                     question={this.state.questionContent}
+                     handleFBchange={(qId,event)=>this.handleFBchange(qId,event)} />;
 
       }
+   }
+
+   handleMCQchange = (qId,chosenChoiceId)=>{
+      let tempArr = [...this.state.questionAnswer.SelectedChoices];
+      if(tempArr.length === 0){
+         tempArr.push(chosenChoiceId);
+         this.setState({questionAnswer:{
+            $type:"CreateMCQSubQuestionAnswerDto",
+            examSubQuestionId: qId,
+            SelectedChoices: [...tempArr]
+         }});
+      }
+      else{
+         //Since they're radio buttons there should be only one id so
+         //we don't have to worry about poping the wrong element.
+         tempArr.pop();
+         tempArr.push(chosenChoiceId);
+         this.setState({questionAnswer:{
+            $type:"CreateMCQSubQuestionAnswerDto",
+            examSubQuestionId: qId,
+            SelectedChoices: [...tempArr]
+         }});
+      }
+     
+   }
+
+   handleFBchange = (qId,event) =>{
+      this.setState({questionAnswer:{
+         $type:"CreateBlankSubQuestionAnswerDto",
+         examSubQuestionId: qId,
+         Answer: event.target.value
+      }});
+   }
+
+   HandlePchange =(event,sqId)=>{
+      let temp = event.target.value.split('.');
+      let fExtension = temp[1];
+
+      let reader = new FileReader();
+
+      reader.onload = (e)=>{
+      this.setState({questionAnswer:{
+         $type: "CreateProgrammingSubQuestionAnswerDto",
+         examSubQuestionId: sqId,
+         Answer : e.target.result,
+         ProgrammingLanguage:fExtension,
+         FileExtension:fExtension
+      }});
+   };
+   reader.readAsDataURL(event.target.files[0]); 
    }
 
    getQuestion = async() =>{
@@ -51,7 +107,7 @@ class Question extends Component{
          let idArr = [];
          idArr.push(id);
 
-         const finalResult = await Axios.post("http://localhost:1234/Question/Get",idArr);
+         const finalResult = await Axios.post("http://localhost:1234/ExamQuestion/Get",idArr);
          
          console.log("Question",finalResult)
 
@@ -60,8 +116,7 @@ class Question extends Component{
          const config = { 
             headers: { Authorization: `${JSON.parse(Cookies.get('user')).token}` } 
         };
-         const subqresult = await Axios.post("http://localhost:1234/SubQuestion/Get",idArr,config);
-         console.log("subquestion results:",subqresult);
+         const subqresult = await Axios.post("http://localhost:1234/subQuestion/Get",idArr,config);
 
          let tempArray = [];
          subqresult.data[0].tags.map(tag=>{
@@ -72,11 +127,12 @@ class Question extends Component{
             content:finalResult.data[0].content,
             type:finalResult.data[0].subQuestions[0].type,
             subQuestion:{
-               id:subqresult.data[0].id,
+               id:finalResult.data[0].examSubQuestions[0].id,
                type:subqresult.data[0].type,
-               tags:[...tempArray]
+               tags:[...tempArray],
+               choices:subqresult.data[0].type === 0?[...subqresult.data[0].choices]:null
             }
-         }});
+         }},()=>{console.log("questionContent",this.state.questionContent)});
       }
       catch(error){
             console.log("Error = ",error);
@@ -88,125 +144,18 @@ class Question extends Component{
    }
    
    handleSubmit = () =>{
-      this.state.questions.map((question)=>{
-          if(question.type == 0){
-            fetch('http://localhost:1234/SubQuestionAnswer/Create', {
-               method: 'POST',
-               headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-              'Authorization': `${JSON.parse(Cookies.get('user')).token}`
-              },
-              body: JSON.stringify({
-                 "$type":"CreateMCQSubQuestionAnswerDto",
-                  "examSubQuestionId": question.id,
-                  "SelectedChoices" : [this.state.answers.get(question.id)]
-              })
-            }).then(function(res){
-               return res.json();
-            }).then( (data) => {
-               this.setState({
-                  questions:data
-               });
-            })
-          }
-          else if(question.type === 1)
-          {//SubQuestionAnswer/Create
-            fetch('http://localhost:1234/SubQuestionAnswer/Create', {
-               method: 'POST',
-               headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-              'Authorization': `${JSON.parse(Cookies.get('user')).token}`
-              },
-              body: JSON.stringify({
-               "$type": "CreateBlankSubQuestionAnswerDto",
-               "examSubQuestionId": question.id,
-               "Answer" : this.state.answers.get(question.id)
-              })
-            }).then(function(res){
-               
-               return res.json();
-            }).then( (data) => {
-               this.setState({
-                  questions:data
-               });
-            })
-            .catch(error=>{
-               console.log(error);
-            }
-            )
-          }
-          else if(question.type == 2)
-          {
-             fetch('http://localhost:1234/SubQuestionAnswer/Create', {
-               method: 'POST',
-               headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-              'Authorization': `${JSON.parse(Cookies.get('user')).token}`
-              },
-              body: JSON.stringify({
-               "$type": "CreateProgrammingSubQuestionAnswerDto",
-               "examSubQuestionId": question.id,
-               "Answer" : this.state.answers.get(question.id).substr(28,this.state.answers.get(question.id).length),
-               "ProgrammingLanguage":this.state.answers.get(question.id+"L"),
-               "FileExtension":this.state.answers.get(question.id+"L")
-              })
-            }).then(function(res){
-               
-               return res.json();
-            }).then( (data) => {
-               this.setState({
-                  questions:data
-               });
-            })
-            .catch(error=>{
-               console.log(error);
-            }
-            )
-          }
-      })
-      this.props.nextQuestion();
-   }
 
-   // handleButtonClick() {
-   //    this.forceUpdate();
-   //  }
-    handleLanguage = (id,lang) =>{
-      let tempMap = new Map();
-      for(let [key, value] of this.state.answers)
-        tempMap.set(key,value);
-      tempMap.set(id+"L",lang);
-    
-     this.setState({
-        answers:tempMap
-     }, console.log(this.state.answers));
-    }
+      const config = { 
+         headers: { Authorization: `${JSON.parse(Cookies.get('user')).token}` } 
+      };
 
-    handleAnswer = (type,id,event)=>{
-       let tempMap = new Map();
-       for(let [key, value] of this.state.answers)
-         tempMap.set(key,value);
-      if(type === 1)
-         tempMap.set(id,event.target.value);
-      else if(type == 2)
-      {
-         let reader = new FileReader();
-         reader.onload = (e)=>{
-           tempMap.set(id,e.target.result);
-         };
-         reader.readAsDataURL(event.target.files[0]); 
-      }
-      else
-         tempMap.set(id,event);
-      this.setState({
-         answers:tempMap
-      }, console.log(this.state.answers));
-    }
-    
+      Axios.post("http://localhost:1234/SubQuestionAnswer/Create",this.state.questionAnswer,config)
+      .then(response=>{console.log("create subCRAP",response)})
+      .catch(error=>console.log(error.message));
+ }
+
    render(){ 
-      console.log("questioncontent-->",this.state.questionContent);
+
       let questionContent = this.state.questionContent;  
       if(questionContent !== null && questionContent !== undefined)  
       {
@@ -214,25 +163,41 @@ class Question extends Component{
       }
 
       return(
-      <Col sm={8} className={classes.examCol}>
-      <div>
-      <Container 
-      className={classes.questionContainer}>
+         <Container fluid={+true}>
+            <Row>  <Header pageType={"Home"} />  </Row>
+            <Row className={classes.content}>
+            <Col></Col>
+            <Col sm={8} className={classes.examCol}>
+            {/* <div> */}
+               <Container 
+               className={classes.questionContainer}>
 
-      <Row className={classes.questionTitle}>
-         {questionContent}
-      </Row>
-      <Row>
-         {this.state.questionContent===null?null:this.chooseQuestion()}  
-      </Row>
-      </Container>
+               <Row className={classes.questionTitle}>
+                  {this.state.questionContent===null?null:this.state.questionContent.title}
+               </Row>
+               <Divider/>
+               <Row className={classes.questionBody}> {questionContent} </Row>
+               <Row>
+                  {this.state.questionContent===null?null:this.chooseQuestion(this.state.questionContent.subQuestion.type)}  
+               </Row>
+               <Row>
 
-      <Button 
-      className={!this.props.lastQuestion?classes.hideButton:classes.submitButton}>
-      Submit Answer
-      </Button>
-      </div>
-      </Col>       
+                  <Button 
+                  className={classes.submitButton}
+                  onClick={()=>this.handleSubmit()}>
+                  Submit Answer
+                  </Button>
+               </Row>
+               </Container>
+            {/* </div> */}
+            </Col> 
+            <Col></Col>
+            </Row>
+            <Row>
+             <Footer> </Footer>
+            </Row>
+         </Container>
+            
       );
    }
 }

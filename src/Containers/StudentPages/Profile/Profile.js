@@ -85,7 +85,7 @@ class Profile extends Component {
                 "count": 9999,
                 "metadata": true
               });
-              console.log(result);
+              console.log("NOT APPROVED ",result);
             let tempArr = [];
             result.data.map((exam)=>{
                 tempArr.push({

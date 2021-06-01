@@ -5,42 +5,44 @@ import classes from './mcQuestion.module.css';
 
 
 const mcQuestion=(props)=>{
-   
-  
+   console.log("qqqqqqq ",props.question===undefined?"":props.question.subQuestion.choices[0].id);
    return(
-      <fieldset id={`group ${props.question.id}`} className={classes.formGroup} >
+      <>
+      {props.question === null?null:
+      <fieldset id={`group 9`} className={classes.formGroup} >
                <br/>
                <Form.Label>
                   <Form.Check
                   type="radio"
-                  label={props.question.choices[0].content}
+                  label={props.question.subQuestion.choices[0].content}
                   name="formHorizontalRadios"
-                  id={props.question.choices[1].content}
-                  key={`group ${props.question.id}`}
-                  onChange={()=>props.handleAnswer(0,props.question.id,0)}/>
+                  id={1}
+                  key={`group 9`}
+                  onChange={()=>props.handleMCQchange(props.question.subQuestion.id,props.question.subQuestion.choices[0].id)}/>
                </Form.Label>
                <br/>
                <Form.Label>
                   <Form.Check
                   type="radio"
-                  label={props.question.choices[1].content}
+                  label={props.question.subQuestion.choices[1].content}
                   name="formHorizontalRadios"
-                  id={props.question.choices[1].content}
-                  key={`group ${props.question.id}`}
-                  onChange={()=>props.handleAnswer(0,props.question.id,1)}/>
+                  id={2}
+                  key={`group 9`}
+                  onChange={()=>props.handleMCQchange(props.question.subQuestion.id,props.question.subQuestion.choices[1].id)}/>
                </Form.Label>
                <br/>
-               <Form.Label>
+               {/* <Form.Label>
                   <Form.Check
                   type="radio"
-                  label={props.question.choices[2].content}
+                  label={props.question.subQuestion.choices[2].content}
                   name="formHorizontalRadios"
-                  id={props.question.choices[1].content}
-                  key={`group ${props.question.id}`}
+                  id={props.question.subQuestion.choices[1].content}
+                  key={`group 9`}
                   onChange={()=>props.handleAnswer(0,props.question.id,2)}/>
-               </Form.Label>
+               </Form.Label> */}
          </fieldset>
-      );
+   }
+   </>);
 }
 
 export default mcQuestion;

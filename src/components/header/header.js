@@ -12,6 +12,7 @@ import Logo from '../logo/logo';
 import noPic from '../../Assets/no_pic_try2.png';
 import { withRouter } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import Axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,10 +23,15 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+// let profilePic = "";
 
-const ButtonAppBar=(props)=> {
+// const getpp = async()=>{
+// profilePic = await Axios.get(`http://localhost:1234/User/GetProfilePicture?userId=${JSON.parse(Cookies.get('user')).id}`);
+// }
+
+const ButtonAppBar= (props)=> {
+  // getpp();
   const classes = useStyles();
-
   //The content I want to manipulate depending on the pageType
   let menuIcon = null;
   let loginSignupButtons = null;
@@ -40,7 +46,6 @@ const ButtonAppBar=(props)=> {
   const handleLogoutBtn=()=>{
     props.history.push("/");
   }
-
   //Depending on pageType specific content will be shown on the header
   const pageConfigs = (pageType,userType="student")=>{
     if(userType == "Admin") isAdmin = true;
@@ -89,10 +94,10 @@ const ButtonAppBar=(props)=> {
        loginSignupButtons= null;
        logoutButton=null;
        userProfile = <>
-                        <Image 
+                        {/* <Image 
                         src={`http://localhost:1234/User/GetProfilePicture?userId=${JSON.parse(Cookies.get('user')).id}`} 
                         roundedCircle 
-                        className={cssClasses.profilePic}/>
+                        className={cssClasses.profilePic}/> */}
                         <Button className={cssClasses.profile} onClick={openProfile}>{JSON.parse(Cookies.get('user')).name}</Button>
                      </>
           

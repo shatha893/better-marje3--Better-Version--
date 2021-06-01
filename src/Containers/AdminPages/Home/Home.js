@@ -43,13 +43,13 @@ class Home extends Component{
         {
            title:'Pending Exams',
            link:<a 
-           href='/exams'
+           href='/Exams'
            className={classes.anchor}>Go there</a>
         }]
         return(
             <Container fluid={+true} >
                 <Row>
-                   {/* USER TYPE IS TEMPORARY UNTIL WE DO PROPER AUTHENTICATION */}
+                   
                     <Header pageType={"AdminHome"} userType={"Admin"}/> 
                 </Row>
                
@@ -84,6 +84,7 @@ class Home extends Component{
                   src={busy} 
                   alt="no results"
                   className={classes.img}/>
+                
                 </Col>
                 </Row>
                 <Row>

@@ -77,9 +77,7 @@ class Feedback extends Component{
              <Header pageType={"Home"} /> 
          </Row>
          <Row className={classes.content}>
-            <Col>
-
-            </Col>
+            <Col> </Col>
             <Col sm={8} className={classes.examCol}>
                <div>
                   {this.state.questions.map( (question,index)=>(

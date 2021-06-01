@@ -14,7 +14,7 @@ const fibQuestion=(props)=>{
          className={classes.formLabel}> Answer </Form.Label>
          <Form.Control 
          type="text"
-         onChange={(event)=>props.handleAnswer(1,props.question.id,event)}/>
+         onChange={(event)=>props.handleFBchange(props.question.subQuestion.id,event)}/>
       </Col>
       </Form.Group>);
 }

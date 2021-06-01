@@ -74,7 +74,7 @@ class Home extends Component{
                     pageType={"Home"}
                     avatar={this.state.avatar}/> 
                 </Row>
-                    {pageContent}
+                {pageContent}
                 <Row>
                     <Footer/>
                 </Row>

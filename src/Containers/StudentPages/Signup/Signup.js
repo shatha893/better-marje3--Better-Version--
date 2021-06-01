@@ -32,16 +32,11 @@ class SignupModal extends Component{
         label:"Password",
         type:"password",
         controlId:"formBasicPassword",
-        tooltipText:"Password must be at least 6 characters and has "+
-        "numbers, special symbols, capital letters and small letters"
+        tooltipText:"Password must be at least 8 characters and has "+
+        "at least one of these special symbols !@#$%^&*|\\+_.,"
       },
-      studyPlan:{
-        value:"",
-        label:"Study Plan",
-        type:"text",
-        controlId:"formBasicStudyPlan",
-        tooltipText:"Input the year that represents your study plan. E.g 2020"
-      },
+      studyPlanValues:[],
+      chosenStudyPlan:{},
       majorValues:[],
       chosenMajor:"",
       
@@ -51,20 +46,42 @@ class SignupModal extends Component{
   }
 
   componentDidMount = ()=>{
-    Axios.post("http://localhost:1234/Major/GetAll",{
-      offset:0,
-      count:99999
-    })
-    .then(response=>{
-      return Axios.post("http://localhost:1234/Major/Get",response.data);
-    })
-      .then(response =>{
-        console.log(response);
-        this.setState({majorValues:response.data});
-    })
-    .catch(function (error) {
-     console.log(error);
+   this.getMajors();
+   this.getStudyPlans();
+}
+
+getMajors = async() =>{
+  let majorsIds = await Axios.post("http://localhost:1234/Major/GetAll",{
+    offset:0,
+    count:99999
+  });
+  let majorsData = await Axios.post("http://localhost:1234/Major/Get",majorsIds.data);
+  this.setState({majorValues:majorsData.data});
+}
+
+getStudyPlans = () =>{
+  Axios.post("http://localhost:1234/StudyPlan/GetAll",{
+    offset:0,
+    count:99999
   })
+  .then(response=>{
+    return Axios.post("http://localhost:1234/StudyPlan/Get",response.data);
+  })
+    .then(response =>{
+      console.log("study plans (get request) ",response);
+      let tempArr = [];
+      response.data.map(studyPlan =>{
+        tempArr.push({
+          id:studyPlan.id,
+          year:studyPlan.year,
+          major:studyPlan.major.name
+        });
+      });
+      this.setState({studyPlanValues:[...tempArr]});
+  })
+  .catch(function (error) {
+   console.log(error);
+})
 }
 
    //Function to handle the change in the input "Form Control" value
@@ -118,15 +135,18 @@ class SignupModal extends Component{
 }
 //make drop down list
 handleSubmit = ()=>{
+    let tempArr = this.state.profilePic.split(',');
+    let tempPP = tempArr[1];
     let data = {
       name:this.state.username.value,
       email:this.state.uniEmail.value,
-      // major:this.state.chosenMajor,
+      major:this.state.chosenMajor,
       password:this.state.password.value,
-      profilePictureJpgBase64:this.state.profilePic.substr(23,this.state.profilePic.length),
-      studyPlanId:this.state.studyPlan.value 
+      profilePictureJpgBase64:this.state.profilePic == "" || this.state.profilePic == undefined
+      ?null:tempPP,
+      studyPlanId:this.state.chosenStudyPlan.id
     };
-
+    
      Axios.post("http://localhost:1234/User/Create",data)
       .then(response =>{
         console.log(response);
@@ -145,10 +165,16 @@ handleSubmit = ()=>{
   }
 
   handleMajorClick = (majorName) =>{
-    this.setState({chosenMajor:majorName},
-      ()=>{
-        
-      });
+    this.setState({chosenMajor:majorName});
+  }
+
+  handleStudyPlanClick = (studyPlanObj) =>{
+    console.log("I'M REALLY REALLY TIRED", studyPlanObj);
+    this.setState({chosenStudyPlan:{
+      id:studyPlanObj.id,
+      year:studyPlanObj.year,
+      major:studyPlanObj.major.name
+    }});
   }
 
   render(){
@@ -164,6 +190,7 @@ handleSubmit = ()=>{
       })
 
     }
+    console.log("STH I'M TIRED",this.state.studyPlanValues);
     return (
       <>
         <Modal 
@@ -196,6 +223,7 @@ handleSubmit = ()=>{
                         <Form.Label> {formGroup.content.label} </Form.Label>
                           <Form.Control 
                           type="text" 
+                          required
                           className={classes.inputs} 
                           onChange={(event)=>this.handleChange(formGroup.content.controlId,event)}/>
                       </Form.Group>))
@@ -230,6 +258,7 @@ handleSubmit = ()=>{
                       <Form.Label>{this.state.password.label}</Form.Label>
                       <MyTooltip tooltipText={this.state.password.tooltipText}>
                         <Form.Control 
+                        required
                         type={this.state.password.type} 
                         className={classes.inputs}
                         onChange={(event)=>this.handleChange(this.state.password.controlId,event)}/>
@@ -237,8 +266,19 @@ handleSubmit = ()=>{
                     </Form.Group>
     
                     {/* Study Plan Input */}
-                    <Form.Group 
-                    controlId={this.state.studyPlan.controlId} 
+                    <DropdownList
+                    text={this.state.chosenStudyPlan.year !== 0 && this.state.chosenStudyPlan.year !== undefined?this.state.chosenStudyPlan.year:"Choose your StudyPlan"}
+                    dark>
+                      {this.state.studyPlanValues === undefined?null:this.state.studyPlanValues.map((studyPlan,index)=>{
+                        return(
+                            <Dropdown.Item
+                            key={index}
+                            onClick={()=>this.handleStudyPlanClick(studyPlan)}>{studyPlan.major} <b>/</b> {studyPlan.year}</Dropdown.Item>
+                        );
+                      })}
+                    </DropdownList>
+                    {/* <Form.Group 
+                    // controlId={this.state.studyPlan.controlId} 
                     className={classes.Titles}>
                         <Form.Label> {this.state.studyPlan.label} </Form.Label>
                         <MyTooltip tooltipText={this.state.studyPlan.tooltipText}>
@@ -247,7 +287,7 @@ handleSubmit = ()=>{
                           className={classes.inputs} 
                           onChange={(event)=>this.handleChange(this.state.studyPlan.controlId,event)}/>
                         </MyTooltip>
-                    </Form.Group>
+                    </Form.Group> */}
   
                     {/* Profile picture */}
                     <Form.Group>
@@ -275,7 +315,7 @@ handleSubmit = ()=>{
             close={()=>this.handleCloseAlert("warning")}
             variant={"warning"}
             title={"Something is wrong"}
-            textContent={"Please Check the you provided everything correctly"}/>
+            textContent={"Please Check the you provided everything correctly and according to the tooltips provided on some text boxes"}/>
 
             {/* Modal Submit Button */}
             <Button 

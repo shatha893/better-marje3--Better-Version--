@@ -10,6 +10,8 @@ import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
 import FB from '../../../Assets/FiB_2.svg';
 import Question from '../question/question';
+import DropdownList from '../UI/DropdownList/DropdownList';
+import Dropdown from 'react-bootstrap/Dropdown';
 
 //___I've only written the proper states for the true false questions!!!___
 class MakeQuestion extends Component{
@@ -21,32 +23,39 @@ class MakeQuestion extends Component{
         selectedOption:"",
         weight:0,
         type:"True False",
-        tags:[]
+        tags:[],
+        id:0
+
      },
       MCClicked:false,
       MCformData:{
         body:"",
         selectedOption:"",
         weight:0,
-        type:"Multiple Choice",
-        tags:[]
+        type:0,
+        tags:[],
+        choices:new Map()
+
      },
       PClicked:false,
       PformData:{
         body:"",
         ansFile:null,
         weight:0,
-        type:"Programming",
-        tags:[]
+        type:3,
+        tags:[],
+        id:0,
+        answer:"",
+        language:"",
+
      },
       FiBClicked:false,
       FiBformData:{
         body:"",
         answer:"",
         weight:0,
-        type:"FillInBlank",
-        tags:[]
-     },
+        type:1
+     }
     }
 
     handleQuestionType = (val) =>{
@@ -78,7 +87,7 @@ class MakeQuestion extends Component{
                     FiBClicked:false
                 });
                 break;
-            case "FiB":
+            case "FB":
                 this.setState({
                     TFClicked:false,
                     MCClicked:false,
@@ -91,23 +100,23 @@ class MakeQuestion extends Component{
         
     }
 
-    handleQuestionTF = (type,event) =>{
+    handleQuestionFB = (type,event) =>{
         switch(type){
             case "weight":
                   if(event.target.value<0) 
                   {
                     this.setState( prevState =>{
                         return{
-                            TFformData:{
-                                ...prevState.TFformData,
+                            FiBformData:{
+                                ...prevState.FiBformData,
                                 weight:-1
                               }}
                         }); 
                   }
                   this.setState( prevState =>{
                     return{
-                        TFformData:{
-                            ...prevState.TFformData,
+                        FiBformData:{
+                            ...prevState.FiBformData,
                             weight:event.target.value
                           }}
                     }); 
@@ -116,24 +125,12 @@ class MakeQuestion extends Component{
             case "body":
                   this.setState(prevState =>{
                     return{
-                        TFformData:{
-                            ...prevState.TFformData,
+                        FiBformData:{
+                            ...prevState.FiBformData,
                             body:event.target.value
                           }}
                     });
                   break;
-
-            default:
-              this.setState(
-                prevState =>{
-                    return{
-                        MCformData:{
-                            ...prevState.TFformData,
-                            selectedOption: type
-                          }}
-                    }); 
-              break;
-
         }
   }
 
@@ -145,8 +142,8 @@ class MakeQuestion extends Component{
               {
                 this.setState( prevState =>{
                     return{
-                        TFformData:{
-                            ...prevState.TFformData,
+                        MCformData:{
+                            ...prevState.MCformData,
                             weight:-1
                           }}
                     }); 
@@ -154,8 +151,8 @@ class MakeQuestion extends Component{
               else{
               this.setState( prevState =>{
                 return{
-                    TFformData:{
-                        ...prevState.TFformData,
+                    MCformData:{
+                        ...prevState.MCformData,
                         weight:event.target.value
                       }}
                 }); 
@@ -165,25 +162,17 @@ class MakeQuestion extends Component{
           case "body":
               this.setState(prevState =>{
                 return{
-                    TFformData:{
-                        ...prevState.TFformData,
+                    MCformData:{
+                        ...prevState.MCformData,
                         body:event.target.value
                       }}
                 });
               break;
-        default:
-          this.setState(
-            prevState =>{
-                return{
-                    MCformData:{
-                        ...prevState.TFformData,
-                        selectedOption: type
-                      }}
-                }); 
-          break;
+       
 
     }
   }
+
 
    generateTags = (event) =>{
         this.setState(prevState =>{
@@ -195,20 +184,54 @@ class MakeQuestion extends Component{
             });
     }
 
-    handleSave = (questionType) =>{
+    PQ = (event)=>{
+        let tempMap = new Map();
+        let reader = new FileReader();
+        reader.onload = (e)=>{
+          tempMap.set(this.state.id,e.target.result);
+        };
+        reader.readAsDataURL(event.target.files[0]); 
+         this.props.handleChange(this.state.PformData);
+                this.setState(prevState =>{
+                    return{
+                        PformData:{
+                            ...prevState.PformData,
+                            tags:[],
+                            answers:tempMap
+
+                          }}
+                    });
+    }
+
+    handleLanguage = (id,lang) =>{
+       
+        this.props.handleChange(this.state.PformData);
+       this.setState(prevState =>{
+           return{
+            PformData:{
+                   ...prevState.PformData,
+                   tags:[],
+                   language:lang
+
+                 }}
+           });
+      }
+
+    handleChange = (questionType ) =>{
         switch(questionType){
             case "TF":
-                this.props.handleSave(this.state.TFformData);
+                this.props.handleChange(this.state.TFformData);
                 this.setState(prevState =>{
                     return{
                         TFformData:{
                             ...prevState.TFformData,
-                            tags:[]
+                            tags:[],
+
                           }}
                     });
                 break;
             case "MC":
-                this.props.handleSave(this.state.MCformData);
+                this.props.handleChange(this.state.MCformData);
                 this.setState(prevState =>{
                     return{
                         MCformData:{
@@ -218,7 +241,7 @@ class MakeQuestion extends Component{
                     });
                 break;
             case "P":
-                this.props.handleSave(this.state.PformData);
+                this.props.handleChange(this.state.PformData);
                 this.setState(prevState =>{
                     return{
                         PformData:{
@@ -228,7 +251,7 @@ class MakeQuestion extends Component{
                     });
                 break;
             case "FiB":
-                this.props.handleSave(this.state.FiBformData);
+                this.props.handleChange(this.state.FiBformData);
                 this.setState(prevState =>{
                     return{
                         FiBformData:{
@@ -243,45 +266,108 @@ class MakeQuestion extends Component{
     }
 
 
+    MCQ = (id , body) =>{
+        let tempMap = new Map();
+        for(let [key, value] of this.state. MCformData.choices)
+          tempMap.set(key,value);
+         tempMap.set(id,body.target.value);
+
+        this.props.handleChange(this.state.MCformData);
+        this.setState(prevState =>{
+            return{
+                MCformData:{
+                    ...prevState.MCformData,
+                    tags:[],
+                    choices:tempMap
+                  }}
+            });
+    }
+
+    FIB = (event) =>{
+        this.props.handleChange(this.state.FiBformData);
+        this.setState(prevState =>{
+            return{
+                FiBformData:{
+                    ...prevState.FiBformData,
+                    tags:[],
+                    answer:event.target.value
+
+                  }}
+            });
+    }
+
+    handleChange = (content , questionType ) =>{
+        switch(questionType){
+            case "TF":
+                this.props.handleChange(this.state.TFformData);
+                this.setState(prevState =>{
+                    return{
+                        TFformData:{
+                            ...prevState.TFformData,
+                            tags:[],
+                            body:content
+
+                          }}
+                    });
+                break;
+            case "MC":
+                this.props.handleChange(this.state.MCformData);
+                this.setState(prevState =>{
+                    return{
+                        MCformData:{
+                            ...prevState.MCformData,
+                            tags:[],
+                            body:content
+
+                          }}
+                    });
+                break;
+            case "P":
+                this.props.handleChange(this.state.PformData);
+                this.setState(prevState =>{
+                    return{
+                        PformData:{
+                            ...prevState.PformData,
+                            tags:[],
+                            body:content
+
+                          }}
+                    });
+                break;
+            case "FiB":
+                this.props.handleChange(this.state.FiBformData);
+                this.setState(prevState =>{
+                    return{
+                        FiBformData:{
+                            ...prevState.FiBformData,
+                            tags:[],
+                            body:content
+                          }}
+                    });
+                break;
+
+        }
+        document.getElementById("question-form").reset();
+    }
+
+    handleSelected = (event)=>{
+        this.props.handleChange(this.state.MCformData);
+        this.setState(prevState =>{
+            return{
+                MCformData:{
+                    ...prevState.MCformData,
+                    tags:[],
+                    selectedOption:event
+                  }}
+            });
+    }
 
     render(){
+ 
+        let languages = ["cpp","java","csharp","c","py"];
 
         const optionsArr = [
-            {
-                key:0,
-                hasValidWeight:this.state.TFformData.weight>=0?true:false,
-                clicked:this.state.TFClicked,
-                onClick:()=>this.handleQuestionType("TF"),
-                imgSrc:TF,
-                spanText:"True False",
-                handleQuestion:this.handleQuestionTF,
-                questionInput:<>
-                              <fieldset className={classes.formGroup}>
-                                <span> Answers </span>
-                                <Form.Text id="rightAnsSen" muted>
-                                    Please choose the right answer
-                                </Form.Text>
-                                <Form.Group as={Row} >
-                                <Col>
-                                    <Form.Check
-                                    type="radio"
-                                    label="True"
-                                    name="formHorizontalRadios"
-                                    id="trueRadio"
-                                    className={classes.radioBtn}
-                                    onChange={(event)=>this.handleQuestionTF("radioTrue",event)}/>
-                                    <Form.Check
-                                    type="radio"
-                                    label="False"
-                                    name="formHorizontalRadios"
-                                    id="falseRadio"
-                                    className={classes.radioBtn}
-                                    onChange={(event)=>this.handleQuestionTF("radioFalse",event)}/>
-                                </Col>
-                                </Form.Group>
-                              </fieldset>
-                              </>
-            },
+           
             {
                 key:1,
                 hasValidWeight:this.state.MCformData.weight>=0?true:false,
@@ -309,12 +395,12 @@ class MakeQuestion extends Component{
                                             label="This answer option is correct"
                                             name="formHorizontalRadios"
                                             id="choiceA"
-                                            onChange={(event)=>this.handleChange("choiceA",event)}/>
+                                            onChange={()=>this.handleSelected("A")}/>
                                         </Form.Label>
                                         <Form.Control 
                                         as="textarea" 
                                         rows={3}
-                                        onChange={(event)=>this.handleChange("body",event)}/>
+                                        onChange={(event)=>this.MCQ("A",event)}/>
                                     </Form.Group>
 
                                     <br/>
@@ -328,12 +414,12 @@ class MakeQuestion extends Component{
                                             name="formHorizontalRadios"
                                             id="choiceB"
                                             
-                                            onChange={(event)=>this.handleChange("choiceB",event)}/>
+                                            onChange={()=>this.handleSelected("B")}/>
                                         </Form.Label>
                                         <Form.Control 
                                         as="textarea" 
                                         rows={3}
-                                        onChange={(event)=>this.handleChange("body",event)}/>
+                                        onChange={(event)=>this.MCQ("B",event)}/>
                                     </Form.Group>
 
                                     <br/>
@@ -346,31 +432,13 @@ class MakeQuestion extends Component{
                                             label="This answer option is correct"
                                             name="formHorizontalRadios"
                                             id="choiceC"
-                                            onChange={(event)=>this.handleChange("choiceC",event)}/>
+                                            onChange={()=>this.handleSelected("C")}/>
 
                                         </Form.Label>
                                         <Form.Control 
                                         as="textarea" 
                                         rows={3}
-                                        onChange={(event)=>this.handleChange("body",event)}/>
-                                    </Form.Group>
-
-                                    <br/>
-                                    <Form.Group controlId="exampleForm.ControlInput1">
-                                        <span className={classes.checkOp}>(D)</span>
-                                        <Form.Label
-                                        className={classes.checkbox}>
-                                            <Form.Check
-                                            type="radio"
-                                            label="This answer option is correct"
-                                            name="formHorizontalRadios"
-                                            id="choiceD"
-                                            onChange={(event)=>this.handleChange("choiceD",event)}/>
-                                        </Form.Label>
-                                        <Form.Control 
-                                        as="textarea" 
-                                        rows={3}
-                                        onChange={(event)=>this.handleChange("body",event)}/>
+                                        onChange={(event)=>this.MCQ("C",event)}/>
                                     </Form.Group>
 
                                 </Col>
@@ -388,20 +456,31 @@ class MakeQuestion extends Component{
                 handleQuestion:this.handleQuestionP,
                 questionInput:<>
                               <Form.Group>
+                              <DropdownList 
+                      className={classes.dropdownList}>
+                     {languages.map((course,index)=>{
+                  return(
+                     <Dropdown.Item
+                     key={index}
+                     onClick={()=>this.props.handleLanguage(this.props.question.id,course)}>{course}</Dropdown.Item>
+                  );
+                  })}
+            </DropdownList>
                                 <Form.File  
                                 label="Answer Code"
-                                onChange={(event)=>this.handleChange("",event)}/>
+                                onChange={(event)=>this.PQ(event)}/>
                               </Form.Group>
                               </>
             },
             {
                 key:3,
                 hasValidWeight:this.state.FiBformData.weight>=0?true:false,
-                clicked:this.state.FBClicked,
+                clicked:this.state.FiBClicked,
                 onClick:()=>this.handleQuestionType("FB"),
                 imgSrc:FB,
                 spanText:" Fill in Blank",
                 type:"FiB",
+                handleQuestion: this.handleQuestionFB,
                 questionInput:<>
                                 <fieldset className={classes.formGroup}>
                                 <Form.Group as={Row} >
@@ -411,7 +490,7 @@ class MakeQuestion extends Component{
                                     </Form.Label>
                                     <Form.Control 
                                     type="text" 
-                                    onChange={()=>this.handleChange()}/>
+                                    onChange={(event)=>this.FIB(event)}/>
                                 </Col>
                                 </Form.Group>
                               </fieldset>
@@ -453,11 +532,13 @@ class MakeQuestion extends Component{
             {optionsArr.map(option =>{
                 return(
                     <Question 
+                    key={option.key}
                     hide={option.clicked}
                     handleQuestion={option.handleQuestion}
                     tags={this.state.TFformData.tags}
                     generateTags={this.generateTags}
-                    handleSave={this.handleSave}
+                    handleChange={(obj)=>this.handleChange(obj)}
+                    handleSave={()=>this.props.handleSave()}
                     hasValidWeight={option.hasValidWeight}>
                         {option.questionInput}
                     </Question>);

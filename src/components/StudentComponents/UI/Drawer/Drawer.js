@@ -10,6 +10,8 @@ import DateRangeIcon from '@material-ui/icons/DateRange';
 import ComputerIcon from '@material-ui/icons/Computer';
 import DrawerItem from './drawerItem/drawerItem';
 import { withRouter } from 'react-router-dom';
+import Axios from 'axios';
+import Cookies from 'js-cookie';
 
 class LocalDrawer extends Component{
 
@@ -38,7 +40,7 @@ class LocalDrawer extends Component{
   }
 
   handleProfileBtn =()=>{
-    this.props.history.push("/Profile");
+    this.props.history.push("/Homepage/Infopage");
     this.setState(
       {
         disableExams:false,
@@ -61,9 +63,9 @@ handleExamsBtn =()=>{
 }
 
 handleLogoutBtn=()=>{
-  this.props.history.push("/");
+    this.props.history.push("/");
 }
-
+  
 render(){
   return (
     <div>
