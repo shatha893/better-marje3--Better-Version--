@@ -6,8 +6,21 @@
  margin-left:60px;
 }
 
+.duration{
+   margin-left:60px;
+   font-size:larger;
+ color:#591CA8 !important;
+
+}
+
+.durationTextBox{
+   width:300px !important;
+}
+
+
 .resultsTitle{
  font-size:larger;
+
  color:#591CA8 !important;
 }
 
@@ -21,8 +34,8 @@
    background-color: #f9f4fe !important;
 }
 
-.list 
+/* .list 
 :hover{
    background-color: #f3eafc !important;
-}
+} */
 

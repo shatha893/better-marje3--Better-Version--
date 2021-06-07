@@ -44,6 +44,7 @@ const ButtonAppBar= (props)=> {
   }
   
   const handleLogoutBtn=()=>{
+    Cookies.remove('user');
     props.history.push("/");
   }
   //Depending on pageType specific content will be shown on the header

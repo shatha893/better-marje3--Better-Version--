@@ -205,7 +205,7 @@ class SubmitResource extends Component {
                 type_0:false,//Notes
                 type_1:false,//Slides
                 type_2:false,//Book
-                type_3:false,//Exam
+                type_3:false, //Exam
                 type_4:false//Quiz
             },
             chosenType:null
@@ -329,7 +329,7 @@ class SubmitResource extends Component {
                             onChange={(event)=>this.handleChange("type_0",event)}/>
                             <Form.Check
                             type="radio"
-                            label="Slides"
+                            label="Exam"
                             value={this.state.radio_types.type_1}
                             name="formHorizontalRadios"
                             id="type_1"
@@ -356,7 +356,7 @@ class SubmitResource extends Component {
                             onChange={(event)=>this.handleChange("type_3",event)}/>
                             <Form.Check
                             type="radio"
-                            label="Exam"
+                            label="Slides"
                             value={this.state.radio_types.type_4}
                             name="formHorizontalRadios"
                             id="type_4"

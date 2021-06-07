@@ -8,10 +8,12 @@ import classes from './Home.module.css';
 import Card from 'react-bootstrap/Card';
 import busy from '../../../Assets/busy_purple.svg';
 import { withRouter } from 'react-router-dom';
-import Divider from '@material-ui/core/Divider';
 
 class Home extends Component{
 
+   handleOpenExams = () =>{
+      this.props.history.push('/MainExams');
+   }
    
     render()
     {
@@ -38,14 +40,15 @@ class Home extends Component{
          title:'Pending Slides',
          link:<a 
          href='/slides'
-         className={classes.anchor}>Go there</a>
-      },
-        {
-           title:'Pending Exams',
-           link:<a 
-           href='/Exams'
-           className={classes.anchor}>Go there</a>
-        }]
+         className={classes.anchor}>Go there</a>}
+      // ,
+      //   {
+      //      title:'Pending Exams',
+      //      link:<a 
+      //      href='/Exams'
+      //      className={classes.anchor}>Go there</a>
+      //   }
+   ]
         return(
             <Container fluid={+true} >
                 <Row>
@@ -54,6 +57,7 @@ class Home extends Component{
                 </Row>
                
                 <Row>
+
                <Col className={classes.containerofAllCards}>
                  {homeOptions.map((option, idx) => (
                     <div className={classes.container}>
@@ -78,16 +82,17 @@ class Home extends Component{
                 <Col>
                   <br/>
                   <br/>
+                  
                   <br/>
                   <p className={classes.text}>Resources & Exams to Approve</p>
                   <img 
                   src={busy} 
                   alt="no results"
                   className={classes.img}/>
-                
                 </Col>
                 </Row>
                 <Row>
+
                     <Footer/>
                 </Row>
             </Container>

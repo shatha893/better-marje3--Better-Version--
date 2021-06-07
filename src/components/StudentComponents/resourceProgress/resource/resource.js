@@ -6,7 +6,9 @@ const resource = (props)=>{
     return(
         <div className={classes.Container}>
             <span>{props.resourceName}</span>
-            <button className={classes.RemoveBtn}>REMOVE</button>
+            <button 
+            className={classes.RemoveBtn}
+            onClick={()=>props.handleRemoveResource(props.Id)}>REMOVE</button>
         </div>
     );
 

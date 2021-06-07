@@ -48,8 +48,6 @@ const userInfoContent = (props) =>{
             break;
        }
     }
-
-    console.log("props.userInfo.profilePic",props.profilePic === null?"":props.profilePic);
     return(
       
       <div className={classes.UserInfo}>

@@ -24,6 +24,9 @@ class PendingResource extends Component{
         this.setState({clickedResourceId:id});
     }
 
+    refreshAfterChange = () =>{
+        window.location.reload(false);
+    }
 
    render(){
       return(
@@ -44,6 +47,7 @@ class PendingResource extends Component{
                     handleData={(newData)=>this.handleData(newData)}
                     type={this.props.type}>
                         <AdminResources
+                        refreshAfterChange={this.refreshAfterChange}
                         cardsInfo={this.state.cardsPerPage}
                         updateResourceId={(id)=>this.updateResourceId(id)}/>
                     </AdminFilters>

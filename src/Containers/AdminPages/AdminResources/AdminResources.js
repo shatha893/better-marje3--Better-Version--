@@ -36,7 +36,8 @@ const adminResources = (props)=>{
                 className={classes.LocalCard} 
                 title={cardInfo.name} 
                 description={cardInfo.description}
-                resourceId={cardInfo.id}/> ))   }
+                resourceId={cardInfo.id}
+                refreshAfterChange={props.refreshAfterChange}/> ))   }
         </Row>
 
         <Row>   
@@ -47,7 +48,8 @@ const adminResources = (props)=>{
                     title={cardInfo.name} 
                     description={cardInfo.description}
                     downloadLink={cardInfo.file}
-                    resourceId={cardInfo.id}/> ))   }
+                    resourceId={cardInfo.id}
+                    refreshAfterChange={props.refreshAfterChange}/> ))   }
         </Row>
         <Row>
             {cardsInfoCol3.map( (cardInfo,index) =>(
@@ -58,7 +60,8 @@ const adminResources = (props)=>{
                 description={cardInfo.description}
                 downloadLink={cardInfo.file}
                 pageType={props.pageType}
-                resourceId={cardInfo.id}/> ))   }
+                resourceId={cardInfo.id}
+                refreshAfterChange={props.refreshAfterChange}/> ))   }
         </Row>
         </>);
 }

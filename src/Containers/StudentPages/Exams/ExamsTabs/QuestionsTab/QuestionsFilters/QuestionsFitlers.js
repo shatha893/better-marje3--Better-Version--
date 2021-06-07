@@ -13,6 +13,7 @@ import Card from 'react-bootstrap/Card';
 import NoResults from '../../../../../../components/StudentComponents/UI/noResults/noResults';
 import Accordion from 'react-bootstrap/Accordion';
 import FiltersList from '../../../../../../components/StudentComponents/UI/Filters/FiltersList/FiltersList';
+
 import Axios from 'axios';
 
 class QuestionsFilters extends Component{
@@ -46,10 +47,7 @@ filteredResources = (newIds,newTypes) =>{
                 id:question.id,
                 title:question.title,
                 type:question.subQuestions[0].type,
-                description:{
-                    course:question.course.name,
-                    author:question.volunteer.name
-                }
+                subQuestion:question.subQuestion[0]
             });
         });
         if(tempArr.length == 0)
@@ -90,19 +88,18 @@ filteredResources = (newIds,newTypes) =>{
               });
             
             const finalResult = await Axios.post("http://localhost:1234/Question/Get",result.data);
-            let tempArr = [];
-            console.log("QuestionsFilters (Final Result)   ")
+            let tempArr2 = [];
+            console.log("QuestionsFilters (Final Result)   ",finalResult);
             finalResult.data.map((question,index)=>{
-                tempArr.push({
+                tempArr2.push({
                     id:question.id,
                     title:question.title,
                     type:question.subQuestions[0].type,
-                    description:{
-                        course:question.course.name,
-                        author:question.volunteer.name
-                    }
+                    subQuestion:question.subQuestions[0],
+                    courseId:question.course.id
             })}
             );
+            let tempArr = tempArr2.filter(item=> item.courseId === 6);
             if(tempArr.length == 0)
                 this.setState({showNoResultsSVG:true,filteredCards:[...tempArr]},()=>this.recievedData());
             else
@@ -191,6 +188,7 @@ filteredResources = (newIds,newTypes) =>{
                 <Row>
                 <Col sm={3} className={classes.filterCol}>
                     <p className={classes.filtersTitle}> Refine By </p>
+                   
                     <Accordion 
                     className={classes.accordion}>
                          {accCards.map((card,index)=>{

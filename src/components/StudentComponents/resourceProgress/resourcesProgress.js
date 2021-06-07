@@ -14,6 +14,8 @@ const resourcesProgress = (props) =>{
                     return(
                         <Resource 
                         key={pendingResource.id}
+                        Id={pendingResource.id}
+                        handleRemoveResource={(key)=>props.handleRemoveResource(key)}
                         resourceName={pendingResource.name} 
                         className={classes.SingleResource}/>
                     );
@@ -27,6 +29,7 @@ const resourcesProgress = (props) =>{
                     return(
                         <Resource 
                         key={uploadedResource.id}
+                        handleRemoveResource={(key)=>props.handleRemoveResource(key)}
                         resourceName={uploadedResource.name} 
                         className={classes.SingleResource}/>
                     );

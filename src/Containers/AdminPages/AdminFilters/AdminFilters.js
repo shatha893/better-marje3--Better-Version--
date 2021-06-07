@@ -33,7 +33,10 @@ class NotesFilters extends Component{
       showNoResultsSVG:false
 }
 
+
 filteredResources = (newIds) =>{
+    let tempArr = [];
+    tempArr.push(this.props.type);
     let config = { 
         headers: { Authorization: `${JSON.parse(Cookies.get('marje3'))}` } 
     };
@@ -42,7 +45,7 @@ filteredResources = (newIds) =>{
         "isApproved":false,
         "offset": 0,
         "count": 99999,
-        "types":[this.props.type]
+        "types":tempArr
       },config)
       .then((response) => {
         let tempArr = [];
@@ -90,7 +93,8 @@ filteredResources = (newIds) =>{
                 tempArr.push({
                     id:course.id,
                     name:course.name,
-                    checked:false
+                    checked:false,
+                    
                 })
             });
            this.setState({courses:[...tempArr]})
@@ -101,22 +105,28 @@ filteredResources = (newIds) =>{
     }
    
     getResources = async() =>{
+        let types = [];
+        types.push(this.props.type);
+
         let config = { 
             headers: { Authorization: `${JSON.parse(Cookies.get('user')).token}` } 
         };
         try{
-            const result = await  Axios.post("http://localhost:1234/Resource/GetAll",{
-                "offset": 0,
-                "count": 99999
-              },config);
-            
-            const finalResult = await Axios.post("http://localhost:1234/Resource/Get",result.data,config);
+           
+            const finalResult = await Axios.post("http://localhost:1234/Resource/Search",{
+                isApproved:false,
+                offset:0,
+                count:99999,
+                types:types
+            },config);
+
             let tempArr = [];
             console.log("Final Results: ",finalResult);
-            finalResult.data.map((resource)=>{
-                
-                if(resource.type === this.props.type)
-                {
+            // let resources = finalResult.data.filter(resource => resource.isApproved === false);
+            let resources = finalResult.data;
+            resources.map((resource)=>{
+                   if(resource.type === this.props.type)
+                    {
                     let semester= "";
                     switch(resource.creationSemester)
                     {
@@ -148,6 +158,7 @@ filteredResources = (newIds) =>{
         catch(error){
             console.log("Error = ",error);
         } 
+    
     }
 
   recievedData =()=>{
@@ -212,6 +223,7 @@ filteredResources = (newIds) =>{
  }
    }
 
+   
    
    render()
    {

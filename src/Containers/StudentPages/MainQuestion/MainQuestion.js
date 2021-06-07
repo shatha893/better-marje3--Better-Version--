@@ -22,6 +22,7 @@ class MainQuestion extends Component{
    };
 
    chooseQuestion = ()=>{
+      console.log("jklsadfji",this.state.questionContent)
       if(this.state.questionContent.subQuestion === null ||this.state.questionContent.subQuestion === undefined) return;
       switch(this.state.questionContent.subQuestion.type){   
          case 0:
@@ -48,7 +49,6 @@ class MainQuestion extends Component{
    componentDidMount(){
       var arr = [];
       arr.push(this.props.question.examSubQuestions[0].id);
-      console.log(arr);
 
       fetch('http://localhost:1234/SubQuestion/Get', {
          method: 'POST',
@@ -57,17 +57,16 @@ class MainQuestion extends Component{
         'Content-Type': 'application/json',
         },
         body: JSON.stringify(arr)
-      }).then(function(res){
+      }).then((res)=>{
          return res.json();
       }).then( (data) => {
-         console.log(data);
-         
+         console.log("jjfjf",data);
          this.setState({questionContent:{subQuestion:{
                id:data[0].id,
                type:data[0].type,
                choices:data[0].type === 0?[...data[0].choices]:null
          }}
-         },()=>{console.log("questionContent",this.state.questionContent)});
+         });
       })
    
    }
@@ -177,10 +176,6 @@ class MainQuestion extends Component{
    //    }, console.log(this.state.answers));
    //  }
    handleSubmit = () =>{
-      const config = { 
-         headers: { Authorization: `${JSON.parse(Cookies.get('user')).token}` } 
-     };
- 
          fetch('http://localhost:1234//ExamAttempt/GradeCurrent', {
             method: 'GET',
             headers: {
@@ -189,7 +184,8 @@ class MainQuestion extends Component{
            'Authorization': `${JSON.parse(Cookies.get('user')).token}`
            }}).then((res)=>{
             return res.json();
-         }).then((data)=>{
+         })
+         .then((data)=>{
             this.setState({examFeedback:data});
             return fetch('http://localhost:1234/ExamAttempt/FinishCurrent', {
                method: 'POST',
@@ -197,11 +193,8 @@ class MainQuestion extends Component{
               'Accept': 'application/json',
               'Content-Type': 'application/json',
               'Authorization': `${JSON.parse(Cookies.get('user')).token}`
-              }}).then( (userData) => {
-            console.log(userData);            
-         }).catch(function (error) {
-            console.warn(error);
-         });
+              }}) 
+         .catch(function (error) {  console.log(error); });
       })
       
    } 

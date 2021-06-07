@@ -25,7 +25,8 @@ class AdminResourceCard extends Component{
          "isApproved": true
        },config)
        .then(res=>
-         {this.setState({openSnackbar:true,snackbarMessage:"Resource Approved"});
+         {  console.log("result",res);
+            this.setState({openSnackbar:true,snackbarMessage:"Resource Approved"},()=>this.props.refreshAfterChange());
       })
       .catch(error=>{
          console.log(error);
@@ -37,14 +38,32 @@ class AdminResourceCard extends Component{
       let config = { 
          headers: { Authorization: `${JSON.parse(Cookies.get('user')).token}` } 
      };
-      Axios.delete('http://localhost:1234/Resource/Delete',{config,data:this.props.resourceId})
-      .then(res => {
-          console.log(res);
-         this.setState({openSnackbar:true,snackbarMessage:"Resource Deleted"});
-       })
-      .catch(error=>{
-         console.log(error);
-         this.setState({openSnackbar:true,snackbarMessage:"Something Went Wrong :("});
+     
+     let tempArr = [];
+     tempArr.push(this.props.resourceId);
+     console.log("resourceId",tempArr);
+      // Axios.delete('http://localhost:1234/Resource/Delete',tempArr,config)
+      // .then(res => {
+          
+      //    this.setState({openSnackbar:true,snackbarMessage:"Resource Deleted"});
+      //  })
+      // .catch(error=>{
+      //    console.log(error);
+      //    this.setState({openSnackbar:true,snackbarMessage:"Something Went Wrong :("});
+      // })
+
+      fetch('http://localhost:1234/Resource/Delete', {
+         method: 'DELETE',
+         headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization':`${JSON.parse(Cookies.get('user')).token}`
+        },
+        body: JSON.stringify(tempArr)
+      }).then( () => {
+         this.setState({openSnackbar:true,snackbarMessage:"Resource Deleted"},
+         ()=>this.props.refreshAfterChange());
+         
       })
    }
 

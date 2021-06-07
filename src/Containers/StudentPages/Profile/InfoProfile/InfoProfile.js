@@ -13,17 +13,12 @@ class Infopage extends Component {
 
     getUserData = async() =>{
         try{
-        // const idArray = [];
-        // console.log(JSON.parse(Cookies.get('user')).id)
-        // idArray.push(JSON.parse(Cookies.get('user')).id)
-    
         const config = { 
             headers: { Authorization: `${JSON.parse(Cookies.get('user')).token}` } 
         };
         const res = await Axios.get("http://localhost:1234/User/GetLoggedIn",config);
-        console.log(res);
         const profilePic = await Axios.get("http://localhost:1234/User/GetProfilePicture?userId="+JSON.parse(Cookies.get('user')).id);
-        console.log("pp",profilePic);
+      
         let responseObj = {
                 id:res.data.id,
                 name:res.data.name,

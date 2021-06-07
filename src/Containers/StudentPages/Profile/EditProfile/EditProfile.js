@@ -41,16 +41,15 @@ class Editpage extends Component {
         const config = { 
             headers: { Authorization: `${JSON.parse(Cookies.get('user')).token}` } 
         };
-        console.log("....",newData);
+        
         Axios.patch("http://localhost:1234/User/Update",{
             "id": JSON.parse(Cookies.get('user')).id,
-            "isAdmin": false,
             "password":newData.password,
+            //"marjor" send studyPlanId
             "profilePictureJpgBase64": picbase64,
             "name": newData.username
           }, config)
           .then(res =>{
-              console.log("res",res);
             this.props.history.push("/Homepage/Infopage") })
           .catch(error =>this.props.history.push("/Homepage/Infopage"));
         

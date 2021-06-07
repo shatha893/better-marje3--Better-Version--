@@ -5,116 +5,136 @@ import { withRouter } from 'react-router-dom';
 import Axios from 'axios';
 import Spinner from '../../../../../components/StudentComponents/UI/spinner/spinner';
 import QuestionsFilters from './QuestionsFilters/QuestionsFitlers';
+import CheckboxList from '../../../../../components/StudentComponents/UI/CheckboxList/CheckboxList';
+import Form from 'react-bootstrap/Form';
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import Cookies from 'js-cookie';
 
 class Questions extends Component{
     
         state={ 
             dataPerPage:[],
-            loading:false,
+            examTitle:"",
+            openSnackbar:false,
+            snackbarMessage:"",
+            isValidDuration:true,
+            duration:0
+        }
+
+        handleCloseSnackbar = () =>{
+            this.setState({openSnackbar:false});
         }
     
-        componentDidMount(){
-            this.setState({loading:true});
-    //        fetch('http://localhost:1234/Exam/GetAll', {
-    //             method: 'POST',
-    //             headers: {
-    //            'Accept': 'application/json',
-    //            'Content-Type': 'application/json',
-    //            },
-    //            body: JSON.stringify({
-    //             count: '10'
-    //           })
-    //          }).then(function(res){
-    //             return res.json();
-    //          }).then(function (data) {
-    //             console.log(data);
-    //             // Store the post data to a variable
-                     
-       
-    //             console.log(data);
-       
-            
-    //            var arr=data;
+        handleExamTitle = (event) =>{
+            this.setState({examTitle:event.target.value});
+        }
+
+        handleDuration = (event) =>{
+           let isValid = this.handleDurationValidity(event.target.value);
+           this.setState({isValidDuration:isValid, duration:event.target.value});
+        }
+
+        handleDurationValidity = (value) =>{
+            if(value<=0) return false;
+            else return true;
+        }
+
+        handleSave = async(Ids,objects) =>{
+            console.log("objects",Ids);
+            try{
+                const config = { 
+                    headers: { Authorization: `${JSON.parse(Cookies.get('user')).token}` } 
+                };
+                const result = await  Axios.post("http://localhost:1234/Exam/Create",{
+                    "year": 1990,
+                    "type": 1,
+                    "semester": 0,
+                    "name": this.state.examTitle,
+                    "duration": this.state.duration*60000,
+                    "courseId": 6
+                  },config);
+                  console.log("result1",result.data) ;
+                  let count = 0;
+                    objects.map(async(object)=>{
+                        console.log(object);
+                        let result2 = await Axios.post("http://localhost:1234/ExamQuestion/Create",{
+                            // "examId": result.data.id,
+                            "examId": result.data.id,
+                            "questionId": object.id,
+                            // "questionId":6,
+                            "order": 0
+                    },config);
+                    console.log("result2",result2.data) ;
+                    let result3 = await Axios.post("http://localhost:1234/ExamSubQuestion/Create",{
+                        "examQuestionId": result2.data.id,
+                        "subQuestionId": object.subQuestion.id,
+                        "weight": 1,
+                        "order": 0
+                    },config);
+                    console.log("result3",result3.data) ;
+                    count++;
                 
-    //             console.log(arr);
-       
-    //             // Fetch another API
-    //    return  fetch('http://localhost:1234/Exam/Get', {
-    //     method: 'POST',
-    //     headers: {
-    //    'Accept': 'application/json',
-    //    'Content-Type': 'application/json',
-    //    },
-    //               body: JSON.stringify(arr)
-    //               });
-             
-    //          }).then(function (response) {
-    //             if (response.ok) {
-    //                return response.json();
-    //             } else {
-    //                return Promise.reject(response);
-    //             }
-    //          }).then( (userData) => {
-    //             console.log(userData);
-    
-    //             let tempArr = [];
-    
-    //             for(let i in userData)
-    //             {
-    //                tempArr.push({
-    //                     id:userData[i].id,
-    //                     date:userData[i].year,
-    //                     name:userData[i].name
-    //                 })
-    //             }
-    
-    //             this.setState({
-    //                 originalData:[...tempArr],
-    //                 loading:false
-    //             })
-    //             console.log("Sssssssss");
-    
-    //          }).catch(function (error) {
-    //             console.warn(error);
-    //          });
-    }
-        handleData = (newData)=>{
-            let tempArr = [...newData];
-            this.setState({dataPerPage:[...tempArr]});
+                    })
+                   
+                this.setState({openSnackbar:true,snackbarMessage:"Exam Created"});
+            }
+            catch(error){
+                console.log("Error = ",error);
+                this.setState({openSnackbar:true,snackbarMessage:"Exam wasn't created. something is wrong"});
+            }
         }
     
         render(){
-            console.log("dataPerPage  ",this.state.dataPerPage)
-            const dataList = this.state.dataPerPage.map(Question => {
-                return(
-                <ListGroup.Item 
-                key={Question.id}
-                action 
-                href={"/Question?id=" + Question.id}
-                className={classes.listItem}> 
-                    <p className={classes.content}> 
-                        {Question.title}
-                        <br/> 
-                        <span
-                        className={classes.subContent}>
-                            Course: {Question.description.course} &nbsp;&nbsp;
-                            Made By: {Question.description.author}
-                        </span> 
-                    </p>
-                </ListGroup.Item>);
-            });
-            
+        
             return(
                 <>
-               
-                <QuestionsFilters
-                className={classes.container}
-                handleData={(newData)=>this.handleData(newData)}>    
-                    <p className={classes.resultsTitle}> Available Questions </p>
-                    <ListGroup className={classes.list}>
-                        {dataList}
-                    </ListGroup>
-                </QuestionsFilters> 
+                <br/>
+                 <Form.Label className={classes.resultsTitle}>
+                    Exam Title
+                </Form.Label>
+                <br/>
+                <Form.Control 
+                type="text" 
+                onChange={(event)=>this.handleExamTitle(event)}/>
+                <br/><br/>
+                <Form.Label className={classes.duration}>
+                    Exam Duration
+                </Form.Label>
+                <br/>
+                <Form.Control 
+                min="0"
+                isInvalid={!this.state.isValidDuration}
+                className={classes.durationTextBox}
+                type="number" 
+                onChange={(event)=>this.handleDuration(event)}/>
+                 <Form.Control.Feedback type="invalid">
+                     Please provide a valid duration.
+                  </Form.Control.Feedback>
+                <br/><br/><br/>
+                <p className={classes.resultsTitle}> Choose Questions for your exam </p>
+                <br/>
+                <CheckboxList 
+                itemList={this.state.dataPerPage}
+                handleSubmitExam={(checkedQuestions,objs)=>this.handleSave(checkedQuestions,objs)}/>
+                 {/*_____SnackBar when saving a question_____ */}
+             <Snackbar
+             anchorOrigin={{
+             vertical: 'bottom',
+             horizontal: 'left',
+             }}
+             open={this.state.openSnackbar}
+             autoHideDuration={1000}
+             onClose={this.handleCloseSnackbar}
+             message={this.state.snackbarMessage}
+             action={
+             <React.Fragment>
+                 <IconButton size="small" aria-label="close" color="inherit" onClick={this.handleClose}>
+                     <CloseIcon fontSize="small" />
+                 </IconButton>
+             </React.Fragment>}/>
+             {/*_____________________________________________*/}
                 </>);
         }
         

@@ -15,33 +15,62 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import QuestionModal from '../QuestionModal/QuestionModal';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
+import QuestionsFilters from '../../../../Containers/StudentPages/Exams/ExamsTabs/QuestionsTab/QuestionsFilters/QuestionsFitlers';
+import Axios from 'axios';
 
 class CheckboxList extends Component{
 
    state={
       checked:[],
+      checkedQuestions:[],
       dataPerPage:[],
       loading:false,
       filters:[],
       showModal:false,
-      modalContent:null
+      modalContent:null,
+      totalWeight:0
    }
 
    handleToggle = (value) =>{
-    const currentIndex = this.state.checked.indexOf(value);
-    const newChecked = [...this.state.checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
+    const currentIndex = this.state.checked.indexOf(value.id);
+    let newChecked = [...this.state.checked];
+    let newCheckedObjs = [...this.state.checkedQuestions]
+    Axios.post("http://localhost:1234/Question/Get",[value.id])
+    .then(result=>{
+      if (currentIndex === -1) {
+     
+      console.log("result",result);
+      newChecked.push(value.id);
+      newCheckedObjs.push(value);
+      // let temp = this.state.totalWeight + result.data.examSubQuestions[0].weight;
+      this.setState({checked:[...newChecked],checkedQuestions:[...newCheckedObjs] });
+      console.log("newCheckedObjs",newCheckedObjs);
+   } else 
+    {
+    let questionsExceptOne = [];
+    let objs = [];
+    for(let i in this.state.checked)
+    {
+        if(this.state.checked[i] === value.id)
+          continue;
+        questionsExceptOne.push(this.state.checked[i]);
+        
     }
-
-    this.setState({checked:[...newChecked]});
+    this.state.checkedQuestions.map((obj)=>{
+        if(value.id !== obj.id) 
+          objs.push(obj);
+    });
+    let temp = this.state.totalWeight===0?0:this.state.totalWeight - result.data[0].examSubQuestions[0].weight;
+    console.log("objs",objs);
+    this.setState({ totalWeight:temp,checked:[...questionsExceptOne],checkedQuestions:[...objs] });
+ 
+  }
+})
   };
 
   handleData = (newData)=>{
-    this.setState({dataPerPage:[...newData]});
+    let tempArr = [...newData];
+    this.setState({dataPerPage:[...tempArr]});
 }
 
   handleSave = ()=>{
@@ -56,15 +85,20 @@ class CheckboxList extends Component{
   }
 
   handleViewQuestion = (item)=>{
-    //dataPerPage[index].name ... etc
-    this.setState({
-      showModal:true,
-      modalContent:<>
-          <p>{item.name}</p>
-          <p>Answer: TRUE</p>
-          <p>Points: 100</p>
-      </>
-    });
+    let tempArr = [];
+    tempArr.push(item.id);
+    Axios.post("http://localhost:1234/Question/Get",tempArr)
+    .then(result=>{
+      console.log("result",result);
+      this.setState({
+        showModal:true,
+        modalContent:<>
+            <p>{item.title}</p>
+            <p>{result.data[0].content}</p>
+        </>
+      });
+    })
+    
 
   }
 
@@ -74,6 +108,8 @@ class CheckboxList extends Component{
 
   render()
   {
+
+    console.log("checkedQuestions",this.state.checkedQuestions);
     const dataPerPage = this.state.dataPerPage == null
       ?null
       :this.state.dataPerPage.map((item,index) => {
@@ -89,14 +125,14 @@ class CheckboxList extends Component{
             <ListItemIcon>
               <Checkbox
                 edge="start"
-                checked={this.state.checked.indexOf(item) !== -1}
+                checked={this.state.checked.indexOf(item.id) !== -1}
                 tabIndex={-1}
                 disableRipple
                 inputProps={{ 'aria-labelledby': index }}
               />
             </ListItemIcon>
             {/* In the text of the list item the question body should be there */}
-            <ListItemText id={index} primary={item.name} />
+            <ListItemText id={index} primary={item.title} />
             <ListItemSecondaryAction>
               <IconButton edge="end" aria-label="comments">
                 <VisibilityIcon 
@@ -108,7 +144,7 @@ class CheckboxList extends Component{
       });
 
   return (<>
-      <InputGroup className="mb-3">
+      {/* <InputGroup className="mb-3">
       <InputGroup.Prepend>
         <Button variant="outline-secondary" className={classes.addButton}>Add</Button>
       </InputGroup.Prepend>
@@ -116,18 +152,27 @@ class CheckboxList extends Component{
       className={classes.formControl}
       aria-describedby="basic-addon1"
       placeholder="Add x number of random questions"/>
-    </InputGroup>
-    <Filters
-    handleData = {(arr)=>this.handleData(arr)}
-    data={this.props.itemList}> 
+    </InputGroup> */}
+    
+    <QuestionsFilters
+    handleData = {(arr)=>this.handleData(arr)}> 
+     <p className={classes.paragraph}>
+                {this.state.checked.length} &nbsp; 
+                Questions  
+                <span 
+                className={classes.totalWeight}>
+                    ({this.state.totalWeight}) 
+                    Total Points
+                </span>
+                </p>
       <List className={classes.root}>
         {dataPerPage}
       </List>
-    </Filters>
+    </QuestionsFilters>
     <Button 
     className={classes.button}
-    onClick={()=>this.handleSave()}>
-      Save
+    onClick={()=>this.props.handleSubmitExam(this.state.checked,this.state.checkedQuestions)}>
+      Submit Exam
     </Button>
     <QuestionModal
     show={this.state.showModal}

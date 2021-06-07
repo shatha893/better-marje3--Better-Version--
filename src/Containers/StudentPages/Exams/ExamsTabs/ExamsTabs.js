@@ -59,8 +59,8 @@ class ExamsTabs extends Component{
             aria-label="simple tabs example"
             centered>
                 <Tab label="take exam" {...a11yProps(0)} onClick={()=>this.handleChange(0)}/>
-                <Tab label="make exam" {...a11yProps(1)} onClick={()=>this.handleChange(1)}/>
-                <Tab label="questions" {...a11yProps(2)} onClick={()=>this.handleChange(2)}/>
+                <Tab label="make question" {...a11yProps(1)} onClick={()=>this.handleChange(1)}/>
+                <Tab label="make exam" {...a11yProps(2)} onClick={()=>this.handleChange(2)}/>
             </Tabs>
             </AppBar>
             <TabPanel value={this.state.value} index={0} > 
